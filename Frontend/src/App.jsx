@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home.jsx';
+import Login from './pages/Login.jsx';
+import Profile from './pages/Profile.jsx';
+import AboutUs from "./pages/About-Us";
+import ContactUs from "./pages/Contact-Us";
+import Customiseorderpolicy from "./pages/Customise-order-policy";
 
 function App() {
-  const [furniture, setFurniture] = useState([]);
-
-  useEffect(() => {
-    fetchFurniture();
-  }, []);
-
-  const fetchFurniture = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/furniture');
-      setFurniture(response.data);
-    } catch (error) {
-      console.error('Error fetching furniture:', error);
-    }
-  };
-
   return (
-    <div className="App">
-      <h1>Furniture Shop</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/About-us" element={<AboutUs />} />
+        <Route path="/Contact-us" element={<ContactUs />} />
+        <Route path="/Customise-order-policy" element={<Customiseorderpolicy />} />
+      </Routes>
+    </Router>
   );
 }
-
 export default App;
