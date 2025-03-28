@@ -74,6 +74,15 @@ body {
     flex-direction: column;
   }
 
+  .product-card button{
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
   .navbar.search {
     margin-top: 1rem;
   }
@@ -86,21 +95,31 @@ body {
     margin-top: 1rem;
   }
 
-  .icons-container {
-    display: flex;
-    gap: 24px;
-  }
-  
   .icon {
-    width: 24px;
-    height: 24px;
+    width: 18px; /* Reduce the size */
+    height: 18px;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
   }
-  
+
   .icon:hover {
     transform: scale(1.1);
   }
+
+  .icons-container {
+    display: flex;
+    gap: 16px; /* Reduce spacing if needed */
+}
+
+.icon-wrapper {
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    padding: 6px; /* Adjust padding for a smaller circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
   img {
     width: 80%;
