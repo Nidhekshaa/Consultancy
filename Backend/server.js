@@ -31,7 +31,7 @@ userSchema.methods.comparePassword = function (password) {
 
 const User = mongoose.model('User', userSchema);
 
-// Connect to MongoDB
+// MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -39,96 +39,129 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('✅ MongoDB connected'))
 .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// 🛠 Route: Register & Auto Login
+// User Registration
 app.post('/auth/register', async (req, res) => {
   const { email, password } = req.body;
   try {
-    // Check if the user already exists
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: 'User already exists' });
-    }
+    if (existingUser) return res.status(400).json({ error: 'User already exists' });
 
-    // Create new user
     const newUser = new User({ email, password });
     await newUser.save();
-
-    // Generate JWT token
     const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(201).json({ message: 'User registered & logged in', token });
   } catch (error) {
-    console.error('❌ Error during signup:', error);
+    console.error('❌ Signup error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// 🛠 Route: Login
+// User Login
 app.post('/auth/login', async (req, res) => {
   const { email, password } = req.body;
+
   try {
-    // Find the user by email
+      const user = await User.findOne({ email });
+      if (!user) {
+          return res.status(400).json({ error: "Invalid credentials" });
+      }
+
+      // 🔹 Compare the entered password with the stored hashed password
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+          return res.status(400).json({ error: "Invalid credentials" });
+      }
+
+      // Generate JWT token
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      res.json({ message: "Login successful", token });
+  } catch (error) {
+      console.error("❌ Error during login:", error);
+      res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+// 🛠 Route: Forgot Password
+app.post('/auth/forgot-password', async (req, res) => {
+  const { email, newPassword, confirmPassword } = req.body;
+
+  try {
+    // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+      return res.status(400).json({ error: 'User not found' });
     }
 
-    // Compare passwords
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+    // Check if passwords match
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ error: 'Passwords do not match' });
     }
 
-    // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // Hash new password & update in database
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
 
-    res.json({ message: 'Login successful', token });
+    res.json({ message: 'Password reset successful' });
   } catch (error) {
-    console.error('❌ Error during login:', error);
+    console.error('❌ Error resetting password:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// 🛠 Route: Fetch User Data (Protected)
+
+// Get User Data
 app.get('/auth/user', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({ error: 'Access denied. No token provided' });
-  }
+  if (!token) return res.status(401).json({ error: 'Access denied. No token provided' });
 
   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ error: 'Invalid or expired token' });
-    }
+    if (err) return res.status(401).json({ error: 'Invalid or expired token' });
     const user = await User.findById(decoded.userId).select('-password');
     res.json({ user });
   });
 });
 
+// Product Model
+const productSchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+  description: String
+});
+const Product = mongoose.model('Product', productSchema);
+
 // Get Products
-app.get("/products", async (req, res) => {
+app.get('/products', async (req, res) => {
   const products = await Product.find();
   res.json(products);
 });
 
+// Cart Model
+const cartSchema = new mongoose.Schema({
+  userId: mongoose.Schema.Types.ObjectId,
+  products: [{ productId: mongoose.Schema.Types.ObjectId, quantity: Number }]
+});
+const Cart = mongoose.model('Cart', cartSchema);
+
 // Add to Cart
 app.post("/cart", async (req, res) => {
   const { userId, productId, quantity } = req.body;
+
   let cart = await Cart.findOne({ userId });
   if (!cart) {
-    cart = new Cart({ userId, products: [] });
+      cart = new Cart({ userId, products: [] });
   }
+
+  // Add the product to the cart
   cart.products.push({ productId, quantity });
   await cart.save();
+
   res.json({ message: "Product added to cart" });
 });
 
-// Get Cart Items
-app.get("/cart/:userId", async (req, res) => {
-  const cart = await Cart.findOne({ userId: req.params.userId }).populate("products.productId");
-  res.json(cart);
-});
 
 // Start Server
 const PORT = process.env.PORT || 5000;

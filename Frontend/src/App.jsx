@@ -7,14 +7,12 @@ import Profile from './pages/Profile.jsx';
 import AboutUs from "./pages/About-Us";
 import ContactUs from "./pages/Contact-Us";
 import Customiseorderpolicy from "./pages/Customise-order-policy";
-<<<<<<< HEAD
-// import CartPage from "./pages/CartPage.jsx";
+import CartPage from "./pages/CartPage.jsx";
 // import PaymentPage from "./pages/PaymentPage.jsx";
-=======
 import LivingRoom from "./pages/Living-Room.jsx"
 import Bedroom from "./pages/Bedroom.jsx"
 import Cabinetry from "./pages/Cabinetry.jsx"
->>>>>>> 4d8229115c3bbb678f130dbecf8af79a1d3bfe02
+import Forgotpassword from "./pages/ForgotPassword.jsx";
 
 function App() {
   return (
@@ -22,14 +20,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-<<<<<<< HEAD
         <Route path="/register" element={<Register />} />
-=======
         <Route path="/Living-Room" element={<LivingRoom />} />
         <Route path="/Bedroom" element={<Bedroom />} />
         <Route path="/Cabinetry" element={<Cabinetry />} />
->>>>>>> 4d8229115c3bbb678f130dbecf8af79a1d3bfe02
         <Route path="/profile" element={<Profile />} />
+        <Route path="/forgot-password" element={<Forgotpassword />} />
+        <Route path="/cart" element={<CartPage />} />
+        {/* <Route path="/payment" element={<PaymentPage />} /> */}
         <Route path="/About-us" element={<AboutUs />} />
         <Route path="/Contact-us" element={<ContactUs />} />
         <Route path="/Customise-order-policy" element={<Customiseorderpolicy />} />

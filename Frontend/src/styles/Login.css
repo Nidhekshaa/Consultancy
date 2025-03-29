@@ -43,7 +43,35 @@
     border: 1px solid #2563eb;
     outline: none;
   }
-  
+
+  .forgot-password {
+    display: block; /* Ensures it takes full width */
+    text-align: right; /* Aligns the text to the right */
+    color: #2563eb;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+    font-weight: 500;
+}
+
+.forgot-password:hover, 
+.forgot-password:focus {
+    color: #1e40af;
+    text-decoration: underline;
+}
+
+/* If you need it to always be at the right within a form */
+.form-container {
+    position: relative;
+}
+
+.forgot-password.absolute {
+    position: absolute;
+    right: 100px;
+    bottom: -25px; /* Adjust this based on your design */
+}
+
   .login-button {
     width: 100%;
     background-color: #2563eb;

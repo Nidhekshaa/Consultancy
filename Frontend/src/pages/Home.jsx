@@ -1,8 +1,39 @@
-import React from "react";
+import { useState } from "react";
 import "../styles/Styles.css";
 import { Search, User, ShoppingBag } from "lucide-react";
+import {  useNavigate , } from "react-router-dom";
+
+const addToCart = async (productId) => {
+  const userId = localStorage.getItem("userId"); // Get userId from storage
+  if (!userId) {
+    alert("Please log in first!");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:5000/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, productId, quantity: 1 }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      alert("Added to cart!");
+    } else {
+      alert(data.error || "Error adding to cart");
+    }
+  } catch (error) {
+    console.error("❌ Error adding to cart:", error);
+  }
+};
+
 
 function Home() {
+  const navigate = useNavigate(); // Initialize navigation
+  const [activeLink, setActiveLink] = useState("");
   return (
     <div className="App">
       <header className="header">
@@ -12,15 +43,17 @@ function Home() {
         <nav className="navbar">
         <Search className="icon" onclick="" />
           <div className="icons-container">
-            <User className="icon" onclick="" />
+            <User className="icon" onClick={() => navigate("/register")} /> 
             <ShoppingBag className="icon" onclick="" />
           </div>
-          <a href="/Living-Room">Living Room</a>
-          <a href="/Bedroom">Bedroom</a>
-          <a href="/Cabinetry">Cabinetry</a>
-          <a href="/Dining-&-Kitchen">Dining & Kitchen</a>
-          <a href="/Seating">Seating</a>
-          <a href="/Home-Essentials">Home Essentials</a>
+          <nav className="navbar">
+            <a href="/Living-Room" className={activeLink === "Living-Room" ? "active-link" : ""} onClick={() => setActiveLink("Living-Room")}>Living Room</a>
+            <a href="/Bedroom" className={activeLink === "Bedroom" ? "active-link" : ""} onClick={() => setActiveLink("Bedroom")}>Bedroom</a>
+            <a href="/Cabinetry" className={activeLink === "Cabinetry" ? "active-link" : ""} onClick={() => setActiveLink("Cabinetry")}>Cabinetry</a>
+            <a href="/Dining-&-Kitchen" className={activeLink === "Dining-&-Kitchen" ? "active-link" : ""} onClick={() => setActiveLink("Dining-&-Kitchen")}>Dining & Kitchen</a>
+            <a href="/Seating" className={activeLink === "Seating" ? "active-link" : ""} onClick={() => setActiveLink("Seating")}>Seating</a>
+            <a href="/Home-Essentials" className={activeLink === "Home-Essentials" ? "active-link" : ""} onClick={() => setActiveLink("Home-Essentials")}>Home Essentials</a>
+          </nav>
         </nav>
       </div>
     </header>
@@ -30,55 +63,63 @@ function Home() {
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5UMF7HZHBfBs7FIlF8m5HtwGa1dA2F50XSw&s" alt="product" />
           <h3>Wooden Chair</h3>
           <p>Price: $100</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
+
         </div>
         <div className="product-card">
           <img src="https://isteam.wsimg.com/ip/78ee0992-3610-4fd7-8605-557f65187a4a/ols/4363_original/:/rs=w:600,h:600" alt="product" />
           <h3>Unique Wooden Chair</h3>
           <p>Price: $17,999</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
+
         </div>
         <div className="product-card">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTIxkNlbYQ9Xcbt1M_GWBZIo2dLiU2QgUV4w&s" alt="product" />
           <h3>Classic Wooden Sofa</h3>
           <p>Price: $100</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
+
         </div>
         <div className="product-card">
           <img src="https://media.karousell.com/media/photos/products/2024/7/24/unique_wooden_chair_1721784888_084dc3bc_progressive.jpg" alt="product" />
           <h3>Modern Wooden Bench</h3>
           <p>Price: $100</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
+
         </div>
         <div className="product-card">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb57zEhWPJxjduyMV-pj2-Qnr51WqNVKAzoA&s" alt="product" />
           <h3>Handcrafted Wooden Cabinet</h3>
           <p>Price: $100</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
+
         </div>
         <div className="product-card">
           <img src="https://ganpatiarts.com/cdn/shop/products/11_796dec09-5bfd-465e-aecc-b269b34f852e.jpg?v=1710313410&width=2316" alt="product" />
           <h3>Luxury Wooden Bed</h3>
           <p>Price: $40,00</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
+
         </div>
         <div className="product-card">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaHou9rNcThFEzBkkUu0Pf8P3e_SqYlDp1GQ&s" alt="product" />
           <h3>Luxury Wooden Bed</h3>
           <p>Price: $100</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
+
         </div>
         <div className="product-card">
           <img src="https://m.media-amazon.com/images/I/81R-44Es6HL.jpg" alt="product" />
           <h3>Elegant Wooden temple</h3>
           <p>Price: $100</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
+
         </div>
         <div className="product-card">
           <img src="https://www.godrejinterio.com/imagestore/B2C/56101509SD00639/56101509SD00639_A2_500x500.jpg" alt="product" />
           <h3>Godrej Wooden Wardrobe</h3>
           <p>Price: $100</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
       </div>
     </body>

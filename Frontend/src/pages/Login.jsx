@@ -13,28 +13,34 @@ const Login = () => {
     setError("");
 
     if (!email || !password) {
-      setError("Both fields are required");
-      return;
+        setError("Both fields are required");
+        return;
     }
+
+    console.log("🔹 Sending login request with:", { email, password });
 
     try {
-      const response = await fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+        const response = await fetch("http://localhost:5000/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
+        const data = await response.json();
+        console.log("🔹 Response from server:", data);
 
-      localStorage.setItem("token", data.token);
-      navigate("/profile");
+        if (!response.ok) {
+            throw new Error(data.error || "Login failed");
+        }
+
+        localStorage.setItem("token", data.token);
+        navigate("/profile");
     } catch (err) {
-      setError(err.message);
+        console.error("❌ Login error:", err.message);
+        setError(err.message);
     }
-  };
+};
+
 
   return (
     <div className="login-container">
@@ -55,6 +61,9 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <div className="form-container">
+          <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
+        </div>
         <button className="login-button">Login</button>
         <p className="login-link">
         Don't have an Account? <a href="/register">Register</a>
