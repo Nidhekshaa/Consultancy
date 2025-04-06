@@ -1,0 +1,93 @@
+/* Register Page Styles */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    padding: 20px;
+    width: 100%;
+    
+}
+
+/* Form Styling */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 380px;
+    margin:0 400px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Heading */
+.register-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #1e3a8a;
+}
+
+/* Input Fields */
+.register-input {
+    width: 90%;
+    padding: 12px;
+    background: white;
+    color: black;
+    margin-bottom: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Input Focus Effect */
+.register-input:focus {
+    border: 1px solid #2563eb;
+    box-shadow: 0 0 6px rgba(37, 99, 235, 0.5);
+    outline: none;
+}
+
+/* Register Button */
+.register-button {
+    width: 100%;
+    background-color: #2563eb;
+    color: white;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Button Hover and Active Effects */
+.register-button:hover {
+    background-color: #1e40af;
+    transform: scale(1.03);
+}
+
+.register-button:active {
+    transform: scale(0.98);
+}
+
+/* Success & Error Messages */
+.success-message {
+    color: green;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    text-align: center;
+}

@@ -27,57 +27,57 @@ function DiningAndKitchen() {
     <body>
       <div className="container">
         <div className="product-card">
-          <img src="https://images.pexels.com/photos/447592/pexels-photo-447592.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Dining Set</h3>
+          <img src="https://img.freepik.com/free-photo/restaurant-table-with-wooden-chairs-placed-hall-decorated-classical-style_140725-8460.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+          <h3>Wood Dining</h3>
           <p>Price: ₹10,000</p>
           <button onclick="">Add to Cart</button>
         </div>
         <div className="product-card">
-          <img src="https://images.pexels.com/photos/17219549/pexels-photo-17219549/free-photo-of-a-dining-room-in-modern-design.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Dining Set</h3>
+          <img src="https://img.freepik.com/free-photo/room-interior-design_23-2148899463.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+          <h3>Modern Dining</h3>
+          <p>Price: ₹10,000</p>
+          <button onclick="">Add to Cart</button>
+        </div>
+        <div className="product-card">
+          <img src="https://img.freepik.com/premium-photo/dining-set-table-chairs_933597-117.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+          <h3>Kitchen Storage with Dining</h3>
           <p>Price: ₹20,000</p>
           <button onclick="">Add to Cart</button>
         </div>
         <div className="product-card">
-          <img src="https://images.pexels.com/photos/7303672/pexels-photo-7303672.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Storage Unit</h3>
-          <p>Price: ₹20,000</p>
+          <img src="https://img.freepik.com/free-vector/modern-luxury-kitchen-dark-brown-cabinets-with-built-microwave-oven-realistic-side-view-image-vec_1284-15165.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+          <h3>Kitchen Unit</h3>
+          <p>Price:  ₹25,000</p>
           <button onclick="">Add to Cart</button>
         </div>
         <div className="product-card">
-          <img src="https://img.freepik.com/premium-photo/minsk-belarus-august-2020-interior-modern-luxure-guest-room-studio-apartments-with-sofa-tv_97694-10830.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid" alt="product" />
-          <h3>Hall set</h3>
-          <p>Price:  ₹35,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/11262212/pexels-photo-11262212.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
+          <img src="https://img.freepik.com/premium-photo/table-chairs-front-modern-red-kitchen-furniture-with-kitchenware-interior-extreme-closeup-3d-rendering_476612-12956.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
           <h3>Table Set</h3>
-          <p>Price: ₹30,000</p>
+          <p>Price: ₹8,000</p>
           <button onclick="">Add to Cart</button>
         </div>
         <div className="product-card">
-          <img src="https://images.pexels.com/photos/10507487/pexels-photo-10507487.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Wall Shelf</h3>
-          <p>Price: ₹15,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/4050318/pexels-photo-4050318.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Chest Set</h3>
+          <img src="https://img.freepik.com/premium-photo/photo-farmhouse-dining-room-furniture_933496-45976.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+          <h3>Wood Shelf</h3>
           <p>Price: ₹25,000</p>
           <button onclick="">Add to Cart</button>
         </div>
         <div className="product-card">
-          <img src="https://images.pexels.com/photos/7563521/pexels-photo-7563521.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Working Table</h3>
-          <p>Price: ₹30,000</p>
+          <img src="https://img.freepik.com/premium-photo/dining-room-table-with-chairs-table-with-chairs-window-background_1239820-18948.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+          <h3>Dining Set</h3>
+          <p>Price: ₹12,000</p>
           <button onclick="">Add to Cart</button>
         </div>
         <div className="product-card">
-          <img src="https://images.pexels.com/photos/7486484/pexels-photo-7486484.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Storage Unit</h3>
-          <p>Price:  ₹35,000</p>
+          <img src="https://img.freepik.com/free-photo/kitchen-interior-design-with-wooden-table_23-2148848661.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+          <h3>Kitchen Table</h3>
+          <p>Price: ₹15,000</p>
+          <button onclick="">Add to Cart</button>
+        </div>
+        <div className="product-card">
+          <img src="https://img.freepik.com/free-photo/interior-design-house-modern-wooden-table-chair_657883-324.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+          <h3>Wood Cabinet</h3>
+          <p>Price:  ₹18,000</p>
           <button onclick="">Add to Cart</button>
         </div>
       </div>

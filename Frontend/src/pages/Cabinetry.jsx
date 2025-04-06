@@ -1,8 +1,40 @@
-import React from "react";
 import "../styles/Styles.css";
 import { Search, User, ShoppingBag } from "lucide-react";
+import {  useNavigate  } from "react-router-dom";
+import { useEffect , useState } from "react";
 
 function Cabinetry() {
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error("Error fetching products:", error));
+  }, []);
+
+  const addToCart = async (productId) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login first!");
+      
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, productId, quantity: 1 }),
+      });
+
+      if (response.ok) alert("Added to cart!");
+      else alert("Error adding to cart");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <div className="App">
       <header className="header">
@@ -10,78 +42,80 @@ function Cabinetry() {
         <h2>Timber Mart</h2>
         <p>Making Your Home Into What You Want.</p>
         <nav className="navbar">
-        <Search className="icon" onclick="" />
-          <div className="icons-container">
-            <User className="icon" onclick="" />
+        {/* <Search className="icon" onclick="" /> */}
+          
+          <nav className="navbar">
+          <a href="/" class="nav-link">Home</a>
+            <a href="/Living-Room" class="nav-link">Living Room</a>
+            <a href="/Bedroom" class="nav-link">Bedroom</a>
+            <a href="/Cabinetry"class="nav-link active">Cabinetry</a>
+            <a href="/Dining-&-Kitchen" class="nav-link">Dining & Kitchen</a>
+            <a href="/Seating" class="nav-link">Seating</a>
+            <a href="/Home-Essentials" class="nav-link">Home Essentials</a>
+            <div className="icons-container">
+            <User className="icon" onClick={() => navigate("/register")} /> 
             <ShoppingBag className="icon" onclick="" />
           </div>
-          <a href="/Living-Room">Living Room</a>
-          <a href="/Bedroom">Bedroom</a>
-          <a href="/Cabinetry">Cabinetry</a>
-          <a href="/Dining-&-Kitchen">Dining & Kitchen</a>
-          <a href="/Seating">Seating</a>
-          <a href="/Home-Essentials">Home Essentials</a>
-        </nav>
+          </nav>
+          </nav>
       </div>
     </header>
-    <body>
       <div className="container">
         <div className="product-card">
           <img src="https://images.pexels.com/photos/7601371/pexels-photo-7601371.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Kitchen</h3>
           <p>Price: ₹90000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://images.pexels.com/photos/6585750/pexels-photo-6585750.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Closet</h3>
           <p>Price: ₹80000 </p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://images.pexels.com/photos/19608773/pexels-photo-19608773/free-photo-of-interior-design-of-kitchen.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Cabinetry</h3>
           <p>Price: ₹1,00,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://media.istockphoto.com/id/157443190/photo/modern-kitchen-with-hardwood-cabinetry.jpg?s=1024x1024&w=is&k=20&c=-DbElmT_Mq6fdo8G05HxJWZIq3jIU2keNBMNDYj6Jf4=" alt="product" />
           <h3>Kitchen</h3>
           <p>Price: ₹60,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://images.pexels.com/photos/7303768/pexels-photo-7303768.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Pantry</h3>
           <p>Price: ₹40,000 </p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://img.freepik.com/premium-photo/home-improvement-kitchen-remodel-view-installed_73110-916.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid" alt="product" />
           <h3>Storage</h3>
           <p>Price:  ₹25,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://img.freepik.com/free-photo/mid-century-interior-design_23-2151902072.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid" alt="product" />
           <h3>Modular Kitchen</h3>
           <p>Price: ₹70,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://img.freepik.com/premium-photo/kitchen_632261-19643.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid" alt="product" />
           <h3>Classic Cabinets</h3>
           <p>Price: ₹77,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://img.freepik.com/free-photo/render-3d-contemporary-kitchen_1048-18252.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid" alt="product" />
           <h3>Modern Wall Unit</h3>
           <p>Price: ₹90,000 </p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
       </div>
-    </body>
       <footer className="footer">
       <div className="footer-content">
         <div className="footer-section">
