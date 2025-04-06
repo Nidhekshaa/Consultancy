@@ -1,45 +1,32 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/forgotpassword.css";
+import "../styles/Forgotpassword.css";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setSuccess("");    
-    
-    if (!email || !newPassword || !confirmPassword) {
-      setError("All fields are required");
-      return;
-    }
+    setSuccess("");
 
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
+    if (!email) {
+      setError("Email is required");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:5000/auth/forgot-password", {
+      const response =await fetch("http://localhost:5000/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, newPassword, confirmPassword }),
+        body: JSON.stringify({ email }),
       });
 
       const data = await response.json();
-      console.log("🔹 Sending login request with:", { email, newPassword });
-      if (!response.ok) {
-          throw new Error(data.error || "Failed to reset password");
-      }
-
-      alert("Password reset successful! Redirecting to login...");
-      navigate("/login");
+      console.log("🔹 Sending forgot-password request with:", { email });
+      
     } catch (err) {
       setError(err.message);
     }
@@ -48,35 +35,28 @@ const ForgotPassword = () => {
   return (
     <div className="forgot-password-container">
       <form onSubmit={handleSubmit} className="forgot-password-form">
-        <h2>Forgot Password</h2>
+        <h2 className="forgot-password-title">Forgot Password</h2>
+        
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
+
         <input
           type="email"
+          className="forgot-password-input"
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <input
-          type="password"
-          placeholder="Enter New Password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Submit</button>
+
+        <button type="submit" className="forgot-password-button">
+          Submit
+        </button>
+        <p className="forgot-password-link"><a href="/login">Login</a>
+        </p> 
       </form>
     </div>
   );
 };
-
 
 export default ForgotPassword;

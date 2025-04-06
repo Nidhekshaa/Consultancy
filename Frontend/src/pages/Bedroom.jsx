@@ -1,8 +1,40 @@
-import React from "react";
 import "../styles/Styles.css";
 import { Search, User, ShoppingBag } from "lucide-react";
+import {  useNavigate  } from "react-router-dom";
+import { useEffect , useState } from "react";
 
 function Bedroom() {
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error("Error fetching products:", error));
+  }, []);
+
+  const addToCart = async (productId) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login first!");
+      
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, productId, quantity: 1 }),
+      });
+
+      if (response.ok) alert("Added to cart!");
+      else alert("Error adding to cart");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <div className="App">
       <header className="header">
@@ -10,79 +42,80 @@ function Bedroom() {
         <h2>Timber Mart</h2>
         <p>Making Your Home Into What You Want.</p>
         <nav className="navbar">
-        <Search className="icon" onclick="" />
-          <div className="icons-container">
-            <User className="icon" onclick="" />
+        {/* <Search className="icon" onclick="" /> */}
+          
+          <nav className="navbar">
+          <a href="/" class="nav-link">Home</a>
+            <a href="/Living-Room" class="nav-link">Living Room</a>
+            <a href="/Bedroom" class="nav-link active">Bedroom</a>
+            <a href="/Cabinetry"class="nav-link">Cabinetry</a>
+            <a href="/Dining-&-Kitchen" class="nav-link">Dining & Kitchen</a>
+            <a href="/Seating" class="nav-link">Seating</a>
+            <a href="/Home-Essentials" class="nav-link">Home Essentials</a>
+            <div className="icons-container">
+            <User className="icon" onClick={() => navigate("/register")} /> 
             <ShoppingBag className="icon" onclick="" />
           </div>
-          <a href="/">Home</a>
-          <a href="/Living-Room">Living Room</a>
-          <a href="/Bedroom">Bedroom</a>
-          <a href="/Cabinetry">Cabinetry</a>
-          <a href="/Dining-&-Kitchen">Dining & Kitchen</a>
-          <a href="/Seating">Seating</a>
-          <a href="/Home-Essentials">Home Essentials</a>
-        </nav>
+          </nav>
+          </nav>
       </div>
     </header>
-    <body>
       <div className="container">
         <div className="product-card">
           <img src="https://images.pexels.com/photos/7045993/pexels-photo-7045993.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Modern Bedroom Set</h3>
           <p>Price: ₹1,00,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://img.freepik.com/premium-photo/elegant-wooden-bed-design-stylish-room-setting-modern-furniture-interior-decor_947814-218494.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid" alt="product" />
           <h3>Teak Bed</h3>
           <p>Price: ₹2,00,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://images.pexels.com/photos/6956623/pexels-photo-6956623.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Platform Bed</h3>
           <p>Price: ₹80,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://images.pexels.com/photos/6487943/pexels-photo-6487943.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Platform Bed</h3>
           <p>Price: ₹75,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://images.pexels.com/photos/8141958/pexels-photo-8141958.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Wooden Bed</h3>
           <p>Price: ₹90000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://images.pexels.com/photos/4989090/pexels-photo-4989090.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Low Bed</h3>
           <p>Price: ₹40000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://images.pexels.com/photos/7587481/pexels-photo-7587481.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Carved Bed</h3>
           <p>Price: ₹1,50,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://img.freepik.com/premium-photo/png-bed-furniture-bedroom-pillow_53876-751638.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid" alt="product" />
           <h3>Oak Bed</h3>
           <p>Price: ₹70,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         <div className="product-card">
           <img src="https://images.pexels.com/photos/7061422/pexels-photo-7061422.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
           <h3>Panel Bed</h3>
           <p>Price: ₹70,000</p>
-          <button onclick="">Add to Cart</button>
+          <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
       </div>
-    </body>
       <footer className="footer">
       <div className="footer-content">
         <div className="footer-section">

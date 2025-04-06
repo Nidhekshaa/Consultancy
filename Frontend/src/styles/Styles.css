@@ -1,27 +1,31 @@
 /* General Styles */
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
   background-color: #ffffff;
   color: #333;
   position: relative;
   display: flex;
   flex-direction: column;
-  width:100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 /* Header Styling */
 .header {
-  background-color: #ffffff;
-  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.9); /* semi-transparent */
+  backdrop-filter: blur(10px); /* subtle blur behind header */
+  padding: 1rem 2rem;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
-  padding: 2rem;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  margin-top: 2rem;
 }
 
 .header-content {
@@ -47,9 +51,10 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 1.2rem;
-  padding: 0.5rem 0;
-
+  padding: 0.3rem 0; /* reduced padding for tighter layout */
+  margin-bottom: 0.3rem; /* slight spacing below navbar */
 }
+
 
 .navbar a {
   color: #333;
@@ -63,11 +68,27 @@ body {
   color: #6200ea;
 }
 
-.active-link {
+.nav-link {
+  position: relative;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #6200ea;
+}
+
+.nav-link.active {
   font-weight: bold;
-  color: #ff6600;
-  border-bottom: 3px solid #ff6600;
-  padding-bottom: 4px;
+  color: #6200ea;
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #6200ea;;
+  border-radius: 2px;
 }
 
 /* Icons */
@@ -89,6 +110,7 @@ body {
   color: #6200ea;
 }
 
+/* Hero Section */
 .hero-container {
   position: relative;
   width: 100%;
@@ -99,7 +121,7 @@ body {
 .hero-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the image covers the full section */
+  object-fit: cover;
 }
 
 .hero-text {
@@ -129,7 +151,7 @@ body {
 
 .hero-button:hover {
   background: #4500c8;
-  color:#ffffff;
+  color: #ffffff;
 }
 
 /* Product Container */
@@ -291,6 +313,7 @@ body {
     width: 90%;
   }
 }
+
 /* Dark Mode Styles */
 body.dark-mode {
   background-color: #121212;

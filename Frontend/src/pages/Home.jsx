@@ -1,14 +1,24 @@
-
 import "../styles/Styles.css";
 import { Search, User, ShoppingBag } from "lucide-react";
 import {  useNavigate  } from "react-router-dom";
 import { useEffect , useState } from "react";
 
-
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [activeLink, setActiveLink] = useState("");
+
+  const handleUserClick = () => {
+    const token = localStorage.getItem("token"); // or however you're tracking auth
+
+    if (token) {
+      navigate("/profile"); // user is logged in
+    } else {
+      navigate("/register"); // user not logged in
+    }
+  };
+  const handlenavigate = () => {
+    navigate("/cart"); // user not logged in
+  };
   useEffect(() => {
     fetch("http://localhost:5000/products")
       .then((res) => res.json())
@@ -19,7 +29,7 @@ const Home = () => {
   const addToCart = async (productId) => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      alert("Please login first!");
+      alert("Please login first!");    
       navigate("/login");
       return;
     }
@@ -37,7 +47,6 @@ const Home = () => {
       console.error("Error:", error);
     }
   };
-
   
   return (
     <div className="App">
@@ -46,24 +55,26 @@ const Home = () => {
         <h2>Timber Mart</h2>
         <p>Making Your Home Into What You Want.</p>
         <nav className="navbar">
-        <Search className="icon" onclick="" />
-          <div className="icons-container">
-            <User className="icon" onClick={() => navigate("/register")} /> 
-            <ShoppingBag className="icon" onclick="" />
-          </div>
+        {/* <Search className="icon" onclick="" /> */}
+          
           <nav className="navbar">
-            <a href="/" className={activeLink === "Home" ? "active-link" : ""} onClick={() => setActiveLink("Home")}>Home</a>
-            <a href="/Living-Room" className={activeLink === "Living-Room" ? "active-link" : ""} onClick={() => setActiveLink("Living-Room")}>Living Room</a>
-            <a href="/Bedroom" className={activeLink === "Bedroom" ? "active-link" : ""} onClick={() => setActiveLink("Bedroom")}>Bedroom</a>
-            <a href="/Cabinetry" className={activeLink === "Cabinetry" ? "active-link" : ""} onClick={() => setActiveLink("Cabinetry")}>Cabinetry</a>
-            <a href="/Dining-&-Kitchen" className={activeLink === "Dining-&-Kitchen" ? "active-link" : ""} onClick={() => setActiveLink("Dining-&-Kitchen")}>Dining & Kitchen</a>
-            <a href="/Seating" className={activeLink === "Seating" ? "active-link" : ""} onClick={() => setActiveLink("Seating")}>Seating</a>
-            <a href="/Home-Essentials" className={activeLink === "Home-Essentials" ? "active-link" : ""} onClick={() => setActiveLink("Home-Essentials")}>Home Essentials</a>
+          <a href="/" class="nav-link active">Home</a>
+            <a href="/Living-Room" class="nav-link">Living Room</a>
+            <a href="/Bedroom" class="nav-link">Bedroom</a>
+            <a href="/Cabinetry"class="nav-link">Cabinetry</a>
+            <a href="/Dining-&-Kitchen" class="nav-link">Dining & Kitchen</a>
+            <a href="/Seating" class="nav-link">Seating</a>
+            <a href="/Home-Essentials" class="nav-link">Home Essentials</a>
+            <div className="icons-container">
+              <User className="icon" onClick={handleUserClick} />
+              <ShoppingBag className="icon" onClick={handlenavigate} /> {/* ✅ fixed here */}
+            </div>
           </nav>
         </nav>
       </div>
     </header>
-    <body>
+
+    <div className="container">
     <div className="hero-container">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQK2wLL1n7-sQriOI8ErpmmKvHUUS8ph_ngA&s" alt="Handcrafted Luxury" className="hero-image" />
   <div className="hero-text">
@@ -71,9 +82,7 @@ const Home = () => {
     <p>TIMELESS PIECES THAT COMPLEMENT DAILY ROUTINES AND LAST GENERATIONS.</p>
     <a href="/shop" className="hero-button">Shop All</a>
   </div>
-</div>
-
-      <div className="container">
+  </div>
         <div className="product-card">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5UMF7HZHBfBs7FIlF8m5HtwGa1dA2F50XSw&s" alt="product" />
           <h3>Wooden Chair</h3>
@@ -137,7 +146,6 @@ const Home = () => {
           <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
       </div>
-    </body>
       <footer className="footer">
       <div className="footer-content">
         <div className="footer-section">
