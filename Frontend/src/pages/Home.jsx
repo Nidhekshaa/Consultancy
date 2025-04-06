@@ -1,39 +1,44 @@
-import { useState } from "react";
+
 import "../styles/Styles.css";
 import { Search, User, ShoppingBag } from "lucide-react";
-import {  useNavigate , } from "react-router-dom";
-
-const addToCart = async (productId) => {
-  const userId = localStorage.getItem("userId"); // Get userId from storage
-  if (!userId) {
-    alert("Please log in first!");
-    return;
-  }
-
-  try {
-    const response = await fetch("http://localhost:5000/cart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId, productId, quantity: 1 }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      alert("Added to cart!");
-    } else {
-      alert(data.error || "Error adding to cart");
-    }
-  } catch (error) {
-    console.error("❌ Error adding to cart:", error);
-  }
-};
+import {  useNavigate  } from "react-router-dom";
+import { useEffect , useState } from "react";
 
 
-function Home() {
-  const navigate = useNavigate(); // Initialize navigation
+const Home = () => {
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
   const [activeLink, setActiveLink] = useState("");
+  useEffect(() => {
+    fetch("http://localhost:5000/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error("Error fetching products:", error));
+  }, []);
+
+  const addToCart = async (productId) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login first!");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, productId, quantity: 1 }),
+      });
+
+      if (response.ok) alert("Added to cart!");
+      else alert("Error adding to cart");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  
   return (
     <div className="App">
       <header className="header">
@@ -47,6 +52,7 @@ function Home() {
             <ShoppingBag className="icon" onclick="" />
           </div>
           <nav className="navbar">
+            <a href="/" className={activeLink === "Home" ? "active-link" : ""} onClick={() => setActiveLink("Home")}>Home</a>
             <a href="/Living-Room" className={activeLink === "Living-Room" ? "active-link" : ""} onClick={() => setActiveLink("Living-Room")}>Living Room</a>
             <a href="/Bedroom" className={activeLink === "Bedroom" ? "active-link" : ""} onClick={() => setActiveLink("Bedroom")}>Bedroom</a>
             <a href="/Cabinetry" className={activeLink === "Cabinetry" ? "active-link" : ""} onClick={() => setActiveLink("Cabinetry")}>Cabinetry</a>
@@ -58,6 +64,15 @@ function Home() {
       </div>
     </header>
     <body>
+    <div className="hero-container">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQK2wLL1n7-sQriOI8ErpmmKvHUUS8ph_ngA&s" alt="Handcrafted Luxury" className="hero-image" />
+  <div className="hero-text">
+    <h1>HANDCRAFTED LUXURY</h1>
+    <p>TIMELESS PIECES THAT COMPLEMENT DAILY ROUTINES AND LAST GENERATIONS.</p>
+    <a href="/shop" className="hero-button">Shop All</a>
+  </div>
+</div>
+
       <div className="container">
         <div className="product-card">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5UMF7HZHBfBs7FIlF8m5HtwGa1dA2F50XSw&s" alt="product" />

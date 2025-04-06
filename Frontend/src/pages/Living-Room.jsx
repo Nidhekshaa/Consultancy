@@ -15,6 +15,7 @@ function LivingRoom() {
             <User className="icon" onclick="" />
             <ShoppingBag className="icon" onclick="" />
           </div>
+          <a href="/">Home</a>
           <a href="/Living-Room">Living Room</a>
           <a href="/Bedroom">Bedroom</a>
           <a href="/Cabinetry">Cabinetry</a>

@@ -9,6 +9,7 @@ function ContactUs() {
         <h2>Timber Mart</h2>
         <p>Making Your Home Into What You Want.</p>
         <nav className="navbar">
+          <a href="/">Home</a>
           <a href="/Living-Room">Living Room</a>
           <a href="/Bedroom">Bedroom</a>
           <a href="/Cabinetry">Cabinetry</a>
