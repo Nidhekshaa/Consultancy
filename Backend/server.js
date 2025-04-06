@@ -6,6 +6,8 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const nodemailer = require("nodemailer");
 const crypto = require('crypto');
+const recoveryRoutes = require('./recovery');
+
 require('dotenv').config();
 
 const app = express();
@@ -41,6 +43,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('✅ MongoDB connected'))
 .catch((err) => console.error('❌ MongoDB connection error:', err));
 
+app.use('/', recoveryRoutes);
 // User Registration
 app.post('/auth/register', async (req, res) => {
   const { email, password } = req.body;
@@ -90,6 +93,7 @@ userSchema.add({
   resetPasswordExpires: Date,
 });
 
+app.use('/', recoveryRoutes);
 app.post('/auth/forgot-password', async (req, res) => {
   const { email } = req.body;
 

@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import axios from "axios";
+import { RecoveryContext } from "../App1";
 import "../styles/Forgotpassword.css";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+  const { setEmail, setPage, email, setOTP } = useContext(RecoveryContext);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -12,31 +13,28 @@ const ForgotPassword = () => {
     setError("");
     setSuccess("");
 
-    if (!email) {
-      setError("Email is required");
+    if (email) {
+      const OTP = Math.floor(Math.random() * 9000 + 1000);
+      console.log(OTP);
+      setOTP(OTP);
+
+      axios
+        .post("http://localhost:5000/send_recovery_email", {
+          OTP,
+          recipient_email: email,
+        })
+        .then(() => setPage("otp"))
+        .catch(console.log);
       return;
     }
-
-    try {
-      const response =await fetch("http://localhost:5000/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-      console.log("🔹 Sending forgot-password request with:", { email });
-      
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+    return alert("Please enter your email");
+  }
 
   return (
     <div className="forgot-password-container">
       <form onSubmit={handleSubmit} className="forgot-password-form">
-        <h2 className="forgot-password-title">Forgot Password</h2>
-        
+        <h2 className="forgot-password-title">Forgot Password</h2>        
+
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
 
@@ -52,8 +50,10 @@ const ForgotPassword = () => {
         <button type="submit" className="forgot-password-button">
           Submit
         </button>
-        <p className="forgot-password-link"><a href="/login">Login</a>
-        </p> 
+
+        <p className="forgot-password-link">
+          <a href="/login">Login</a>
+        </p>
       </form>
     </div>
   );

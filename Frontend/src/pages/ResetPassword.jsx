@@ -1,47 +1,64 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import '../styles/ResetPassword.css';
-const ResetPassword = () => {
-  const { token } = useParams();
-  const [password, setPassword] = useState('');
-  const [msg, setMsg] = useState('');
-  const navigate = useNavigate();
+import React, { useContext } from "react";
+import "../styles/ResetPassword.css";
+import { RecoveryContext } from "../App1";
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+export default function ResetPassword() {
 
-    const res = await fetch(`http://localhost:5000/auth/reset-password/${token}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      alert("Password reset successful!");
-      navigate('/login');
-    } else {
-      setMsg(data.error);
-    }
-  };
+const { setPage } = useContext(RecoveryContext);
+  function changePassword() {
+    setPage("recovered");
+    alert("Password changed successfully!");
+  }
 
   return (
-    <div className="reset-password-container">
-      <form onSubmit={handleSubmit}>
-        <h2>Reset Password</h2>
-        {msg && <p className="error-message">{msg}</p>}
-        <input
-          type="password"
-          placeholder="New password"
-          className="reset-password-input"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button className="reset-password-button" type="submit">Reset Password</button>
-      </form>
+    <div className="reset-container">
+      <section className="reset-section">
+        <div className="reset-wrapper">
+          <div className="reset-card">
+            <h2 className="reset-title">Change Password</h2>
+            <form className="reset-form">
+              <div>
+                <label htmlFor="password" className="reset-label">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
+                  className="reset-input"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="confirm-password" className="reset-label">
+                  Confirm password
+                </label>
+                <input
+                  type="password"
+                  name="confirm-password"
+                  id="confirm-password"
+                  placeholder="••••••••"
+                  className="reset-input"
+                  required
+                />
+              </div>
+              <div className="reset-checkbox-wrapper">
+                <input
+                  id="newsletter"
+                  aria-describedby="newsletter"
+                  type="checkbox"
+                  className="reset-checkbox"
+                  required
+                />
+              </div>
+            </form>
+            <button onClick={changePassword} className="reset-button">
+              Reset password
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
   );
-};
-
-export default ResetPassword;
+}

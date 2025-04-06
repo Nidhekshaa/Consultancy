@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
-import Forgotpassword from "./pages/ForgotPassword.jsx";
-// import ResetPassword from "./pages/ResetPassword.jsx";
 import CartPage from './pages/CartPage.jsx';
 
 import LivingRoom from "./pages/Living-Room.jsx"
@@ -18,7 +16,6 @@ import Profile from './pages/Profile.jsx';
 import AboutUs from "./pages/About-Us";
 import ContactUs from "./pages/Contact-Us";
 import Customiseorderpolicy from "./pages/Customise-order-policy";
-import ResetPassword from "./pages/ResetPassword.jsx";
 // import PaymentPage from "./pages/PaymentPage.jsx";
 
 function App() {
@@ -28,8 +25,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<Forgotpassword />} />
-        {/* <Route path="/reset-password" element={<ResetPassword />} /> */}
         <Route path="/cart" element={<CartPage />} />
         {/* Product Pages */}
         <Route path="/Living-Room" element={<LivingRoom />} />
