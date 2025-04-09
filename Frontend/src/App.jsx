@@ -17,6 +17,7 @@ import AboutUs from "./pages/About-Us";
 import ContactUs from "./pages/Contact-Us";
 import Customiseorderpolicy from "./pages/Customise-order-policy";
 // import PaymentPage from "./pages/PaymentPage.jsx";
+import App1 from "./App1.jsx";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/forgot-password" element={<App1 />} />
         {/* Product Pages */}
         <Route path="/Living-Room" element={<LivingRoom />} />
         <Route path="/Bedroom" element={<Bedroom />} />

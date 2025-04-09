@@ -3,8 +3,8 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 
 const router = express.Router();
-
 router.post("/send_recovery_email", async (req, res) => {
+  console.log("Incoming request body:", req.body);
   const { OTP, recipient_email } = req.body;
 
   if (!OTP || !recipient_email) {
@@ -13,12 +13,14 @@ router.post("/send_recovery_email", async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // Use STARTTLS instead of SSL
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-    });
+    });    
 
     const mailOptions = {
       from: process.env.EMAIL_USER,

@@ -6,7 +6,7 @@ export default function ResetPassword() {
 
 const { setPage } = useContext(RecoveryContext);
   function changePassword() {
-    setPage("recovered");
+    setPage("login");
     alert("Password changed successfully!");
   }
 
@@ -44,13 +44,17 @@ const { setPage } = useContext(RecoveryContext);
                 />
               </div>
               <div className="reset-checkbox-wrapper">
+                
                 <input
                   id="newsletter"
                   aria-describedby="newsletter"
                   type="checkbox"
                   className="reset-checkbox"
-                  required
+                  required 
                 />
+                <label className="remember">
+                  Remember me
+                </label>
               </div>
             </form>
             <button onClick={changePassword} className="reset-button">

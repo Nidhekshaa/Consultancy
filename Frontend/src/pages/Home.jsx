@@ -28,6 +28,7 @@ const Home = () => {
 
   const addToCart = async (productId) => {
     const userId = localStorage.getItem("userId");
+    console.log("userId ",userId);
     if (!userId) {
       alert("Please login first!");    
       navigate("/login");
@@ -54,7 +55,6 @@ const Home = () => {
       <div className="header-content">
         <h2>Timber Mart</h2>
         <p>Making Your Home Into What You Want.</p>
-        <nav className="navbar">
         {/* <Search className="icon" onclick="" /> */}
           
           <nav className="navbar">
@@ -70,7 +70,7 @@ const Home = () => {
               <ShoppingBag className="icon" onClick={handlenavigate} /> {/* ✅ fixed here */}
             </div>
           </nav>
-        </nav>
+        
       </div>
     </header>
 

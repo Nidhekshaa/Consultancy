@@ -15,7 +15,7 @@ body {
 /* Header Styling */
 .header {
   background-color: rgba(255, 255, 255, 0.9); /* semi-transparent */
-  backdrop-filter: blur(10px); /* subtle blur behind header */
+  /* backdrop-filter: blur(10px); subtle blur behind header */
   padding: 1rem 2rem;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

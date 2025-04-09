@@ -34,6 +34,7 @@ const Login = () => {
         }
 
         localStorage.setItem("token", data.token);
+        alert("Login successful!");
         navigate("/profile");
     } catch (err) {
         console.error("❌ Login error:", err.message);

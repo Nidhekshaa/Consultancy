@@ -1,166 +1,118 @@
-import React from "react";
-import { useState } from "react";
-import { useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { RecoveryContext } from "../App1";
+import axios from "axios";
+import "../styles/OTPInput.css";
 
-export default function () {
+export default function OTPInput() {
   const { email, otp, setPage } = useContext(RecoveryContext);
-  const [timerCount, setTimer] = React.useState(60);
-  const [OTPinput, setOTPinput] = useState([0, 0, 0, 0]);
+  const [timerCount, setTimer] = useState(60);
+  const [OTPinput, setOTPinput] = useState(["", "", "", ""]);
   const [disable, setDisable] = useState(true);
+  const inputRefs = useRef([]);
 
   function resendOTP() {
     if (disable) return;
+
     axios
       .post("http://localhost:5000/send_recovery_email", {
         OTP: otp,
         recipient_email: email,
       })
-      .then(() => setDisable(true))
-      .then(() => alert("A new OTP has succesfully been sent to your email."))
-      .then(() => setTimer(60))
+      .then(() => {
+        setDisable(true);
+        alert("A new OTP has successfully been sent to your email.");
+        setTimer(60);
+      })
       .catch(console.log);
   }
 
-  function verfiyOTP() {
+  function verifyOTP() {
     if (parseInt(OTPinput.join("")) === otp) {
       setPage("resetpassword");
-      return;
+    } else {
+      alert("The code you have entered is not correct, try again or re-send the link");
     }
-    alert(
-      "The code you have entered is not correct, try again or re-send the link"
-    );
-    return;
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     let interval = setInterval(() => {
       setTimer((lastTimerCount) => {
-        lastTimerCount <= 1 && clearInterval(interval);
-        if (lastTimerCount <= 1) setDisable(false);
-        if (lastTimerCount <= 0) return lastTimerCount;
-        return lastTimerCount - 1;
+        if (lastTimerCount <= 1) {
+          clearInterval(interval);
+          setDisable(false);
+        }
+        return lastTimerCount > 0 ? lastTimerCount - 1 : lastTimerCount;
       });
-    }, 1000); //each count lasts for a second
-    //cleanup the interval on complete
+    }, 1000);
+
     return () => clearInterval(interval);
   }, [disable]);
 
   return (
-    <div className="flex justify-center items-center w-screen h-screen bg-gray-50">
-      <div className="bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
-        <div className="mx-auto flex w-full max-w-md flex-col space-y-16">
-          <div className="flex flex-col items-center justify-center text-center space-y-2">
-            <div className="font-semibold text-3xl">
+    <div className="otp-container">
+      <div className="card-box">
+        <div className="inner-layout">
+          <div className="otp-title">
+            <div className="title-text">
               <p>Email Verification</p>
             </div>
-            <div className="flex flex-row text-sm font-medium text-gray-400">
+            <div className="subtitle-text">
               <p>We have sent a code to your email {email}</p>
             </div>
           </div>
 
-          <div>
-            <form>
-              <div className="flex flex-col space-y-16">
-                <div className="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
-                  <div className="w-16 h-16 ">
+          <form>
+            <div className="form-layout">
+              <div className="form-input-container">
+                {OTPinput.map((val, index) => (
+                  <div className="input-wrapper" key={index}>
                     <input
                       maxLength="1"
-                      className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                      className="otp-input-box"
                       type="text"
-                      name=""
-                      id=""
-                      onChange={(e) =>
-                        setOTPinput([
-                          e.target.value,
-                          OTPinput[1],
-                          OTPinput[2],
-                          OTPinput[3],
-                        ])
-                      }
-                    ></input>
+                      ref={(el) => (inputRefs.current[index] = el)}
+                      value={OTPinput[index]}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (!/^[0-9]?$/.test(value)) return;
+
+                        const newOTP = [...OTPinput];
+                        newOTP[index] = value;
+                        setOTPinput(newOTP);
+
+                        if (value && index < inputRefs.current.length - 1) {
+                          inputRefs.current[index + 1].focus();
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace" && !OTPinput[index] && index > 0) {
+                          inputRefs.current[index - 1].focus();
+                        }
+                      }}
+                    />
                   </div>
-                  <div className="w-16 h-16 ">
-                    <input
-                      maxLength="1"
-                      className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                      type="text"
-                      name=""
-                      id=""
-                      onChange={(e) =>
-                        setOTPinput([
-                          OTPinput[0],
-                          e.target.value,
-                          OTPinput[2],
-                          OTPinput[3],
-                        ])
-                      }
-                    ></input>
-                  </div>
-                  <div className="w-16 h-16 ">
-                    <input
-                      maxLength="1"
-                      className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                      type="text"
-                      name=""
-                      id=""
-                      onChange={(e) =>
-                        setOTPinput([
-                          OTPinput[0],
-                          OTPinput[1],
-                          e.target.value,
-                          OTPinput[3],
-                        ])
-                      }
-                    ></input>
-                  </div>
-                  <div className="w-16 h-16 ">
-                    <input
-                      maxLength="1"
-                      className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                      type="text"
-                      name=""
-                      id=""
-                      onChange={(e) =>
-                        setOTPinput([
-                          OTPinput[0],
-                          OTPinput[1],
-                          OTPinput[2],
-                          e.target.value,
-                        ])
-                      }
-                    ></input>
-                  </div>
+                ))}
+              </div>
+
+              <div className="verify-actions">
+                <div>
+                  <a onClick={verifyOTP} className="verify-button">
+                    Verify Account
+                  </a>
                 </div>
 
-                <div className="flex flex-col space-y-5">
-                  <div>
-                    <a
-                      onClick={() => verfiyOTP()}
-                      className="flex flex-row cursor-pointer items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
-                    >
-                      Verify Account
-                    </a>
-                  </div>
-
-                  <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                    <p>Didn't recieve code?</p>{" "}
-                    <a
-                      className="flex flex-row items-center"
-                      style={{
-                        color: disable ? "gray" : "blue",
-                        cursor: disable ? "none" : "pointer",
-                        textDecorationLine: disable ? "none" : "underline",
-                      }}
-                      onClick={() => resendOTP()}
-                    >
-                      {disable ? `Resend OTP in ${timerCount}s` : "Resend OTP"}
-                    </a>
-                  </div>
+                <div className="resend-section">
+                  <p>Didn't receive code?</p>
+                  <a
+                    className={`resend-link ${disable ? "disabled" : ""}`}
+                    onClick={resendOTP}
+                  >
+                    {disable ? `Resend OTP in ${timerCount}s` : "Resend OTP"}
+                  </a>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
