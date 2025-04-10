@@ -67,10 +67,12 @@ const Home = () => {
             <a href="/Home-Essentials" class="nav-link">Home Essentials</a>
             <div className="icons-container">
               <User className="icon" onClick={handleUserClick} />
-              <ShoppingBag className="icon" onClick={handlenavigate} /> {/* ✅ fixed here */}
+              <div className="cart-icon-container" >
+              <ShoppingBag className="cart-icon" onClick={handlenavigate}/>
+              <span className="cart-badge">1</span>
+              </div>
             </div>
           </nav>
-        
       </div>
     </header>
 

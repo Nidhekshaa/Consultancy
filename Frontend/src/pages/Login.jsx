@@ -20,28 +20,25 @@ const Login = () => {
     console.log("🔹 Sending login request with:", { email, password });
 
     try {
-        const response = await fetch("http://localhost:5000/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-        });
-
-        const data = await response.json();
-        console.log("🔹 Response from server:", data);
-
-        if (!response.ok) {
-            throw new Error(data.error || "Login failed");
-        }
-
-        localStorage.setItem("token", data.token);
-        alert("Login successful!");
-        navigate("/profile");
-    } catch (err) {
-        console.error("❌ Login error:", err.message);
-        setError(err.message);
-    }
+      const response = await fetch("http://localhost:5000/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json(); // ✅ Parse JSON response first
+  
+      if (!response.ok) {
+          throw new Error(data.error || "Login failed");
+      }
+      localStorage.setItem("token", data.token);
+      alert(data.message); // ✅ Show the success message
+      navigate("/profile");
+  } catch (err) {
+      console.error("❌ Login error:", err.message);
+      setError(err.message);
+  }  
 };
-
 
   return (
     <div className="login-container">

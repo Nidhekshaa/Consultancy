@@ -67,32 +67,31 @@ app.post('/auth/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-      const user = await User.findOne({ email });
-      if (!user) {
-          return res.status(400).json({ error: "Invalid credentials" });
-      }
-      // 🔹 Compare the entered password with the stored hashed password
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-          return res.status(400).json({ error: "Invalid credentials" });
-      }
-       res.status(200).json({
-    message: "Login successful",
-    user: {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ error: "Invalid credentials" });
     }
-  });
-      // Generate JWT token
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      res.json({ message: "Login successful", token });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    // ✅ Generate JWT token
+    const token = jwt.sign({ userId: user._id }, "your_jwt_secret", { expiresIn: "1h" });
+
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: { name: user.name, email: user.email }
+    });
+
   } catch (error) {
-      console.error("❌ Error during login:", error);
-      res.status(500).json({ error: "Internal server error" });
+    console.error("❌ Error during login:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 // Add resetToken & tokenExpiry to User schema
 userSchema.add({
@@ -181,17 +180,20 @@ function authenticateToken(req, res, next) {
 }
 
 // ✅ FIXED: Add profile route directly here
-app.get('/auth/profile', authenticateToken, async (req, res) => {
+app.get("/auth/profile", authenticateToken, async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId).select('-password');
-    if (!user) return res.status(404).json({ message: 'User not found' });
+      const user = await User.findById(req.user.userId).select("-password");
+      if (!user) {
+          return res.status(404).json({ error: "User not found" });
+      }
 
-    res.json({ user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
+      res.status(200).json({ user });
+  } catch (error) {
+      console.error("❌ Error fetching profile:", error);
+      res.status(500).json({ error: "Server error" });
   }
 });
+
 
 
 // Get User Data
