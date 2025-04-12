@@ -65,65 +65,65 @@ function Seating() {
   
       <div className="container">
           <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Wooden Chair</h3>
-            <p>Price: $100</p>
+            <img src="https://img.freepik.com/free-photo/table-setting-dinner_74190-2126.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Relaxation Set</h3>
+            <p>Price: ₹5,000</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
           </div>
           <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Unique Wooden Chair</h3>
-            <p>Price: $17,999</p>
+            <img src="https://img.freepik.com/premium-photo/furniture-set_981168-1852.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Living Room Set</h3>
+            <p>Price: ₹8,000</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
           </div>
           <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Classic Wooden Sofa</h3>
-            <p>Price: $100</p>
+            <img src="https://img.freepik.com/premium-photo/room-with-couch-chairs-it_861622-343.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Outdoor Seating Set</h3>
+            <p>Price: ₹9,000</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
           </div>
           <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Modern Wooden Bench</h3>
-            <p>Price: $100</p>
+            <img src="https://img.freepik.com/free-photo/empty-sofa-chair_1203-3499.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Armchair Set</h3>
+            <p>Price: ₹3,000</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
           </div>
           <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Handcrafted Wooden Cabinet</h3>
-            <p>Price: $100</p>
+            <img src="https://img.freepik.com/premium-photo/high-angle-view-empty-chairs-table_1048944-19229876.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Wooden Sofa Set</h3>
+            <p>Price: ₹7,500</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
           </div>
           <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Luxury Wooden Bed</h3>
-            <p>Price: $40,00</p>
+            <img src="https://img.freepik.com/premium-photo/isolated-wooden-bench-with-storage-functional-furniture-piece_1118550-3568.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Wooden Bench</h3>
+            <p>Price: ₹3,500</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
           </div>
           <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Luxury Wooden Bed</h3>
-            <p>Price: $100</p>
+            <img src="https://img.freepik.com/premium-photo/empty-chairs-table-against-wall_1048944-10094300.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Sofa Set</h3>
+            <p>Price: ₹9,500</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
           </div>
           <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Elegant Wooden temple</h3>
-            <p>Price: $100</p>
+            <img src="https://img.freepik.com/premium-photo/close-up-empty-chair_1048944-11408983.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Wooden Bench</h3>
+            <p>Price: ₹3,700</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
           </div>
           <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Godrej Wooden Wardrobe</h3>
-            <p>Price: $100</p>
+            <img src="https://img.freepik.com/premium-photo/empty-chairs-tables-against-wall-home_1048944-12313784.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Hall set</h3>
+            <p>Price: ₹7,600</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
           </div>
         </div>
