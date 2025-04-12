@@ -1,8 +1,52 @@
-import React from "react";
 import "../styles/Styles.css";
 import { Search, User, ShoppingBag } from "lucide-react";
+import {  useNavigate  } from "react-router-dom";
+import { useEffect , useState } from "react";
 
 function DiningAndKitchen() {
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const handleUserClick = () => {
+    const token = localStorage.getItem("token"); // or however you're tracking auth
+
+    if (token) {
+      navigate("/profile"); // user is logged in
+    } else {
+      navigate("/register"); // user not logged in
+    }
+  };
+  const handlenavigate = () => {
+    navigate("/cart"); // user not logged in
+  };
+  useEffect(() => {
+    fetch("http://localhost:5000/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error("Error fetching products:", error));
+  }, []);
+
+  const addToCart = async (productId) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login first!");
+      
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, productId, quantity: 1 }),
+      });
+
+      if (response.ok) alert("Added to cart!");
+      else alert("Error adding to cart");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <div className="App">
       <header className="header">
@@ -10,17 +54,20 @@ function DiningAndKitchen() {
         <h2>Timber Mart</h2>
         <p>Making Your Home Into What You Want.</p>
         <nav className="navbar">
-        <Search className="icon" onclick="" />
-          <div className="icons-container">
-            <User className="icon" onclick="" />
-            <ShoppingBag className="icon" onclick="" />
-          </div>
+          <a href="/" >Home</a>
           <a href="/Living-Room">Living Room</a>
           <a href="/Bedroom">Bedroom</a>
           <a href="/Cabinetry">Cabinetry</a>
-          <a href="/DiningAndKitchen">Dining & Kitchen</a>
+          <a href="/DiningAndKitchen" class="nav-link active">Dining & Kitchen</a>
           <a href="/Seating">Seating</a>
           <a href="/Home-Essentials">Home Essentials</a>
+          <div className="icons-container">
+          <User className="icon" onClick={handleUserClick} />
+            <div className="cart-icon-container" >
+            <ShoppingBag className="cart-icon" onClick={handlenavigate}/>
+            <span className="cart-badge">0</span>
+          </div>
+          </div>
         </nav>
       </div>
     </header>

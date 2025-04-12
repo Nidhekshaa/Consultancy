@@ -6,6 +6,18 @@ import { useEffect , useState } from "react";
 function Bedroom() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const handleUserClick = () => {
+    const token = localStorage.getItem("token"); // or however you're tracking auth
+
+    if (token) {
+      navigate("/profile"); // user is logged in
+    } else {
+      navigate("/register"); // user not logged in
+    }
+  };
+  const handlenavigate = () => {
+    navigate("/cart"); // user not logged in
+  };
   useEffect(() => {
     fetch("http://localhost:5000/products")
       .then((res) => res.json())
@@ -53,8 +65,11 @@ function Bedroom() {
             <a href="/Seating" class="nav-link">Seating</a>
             <a href="/Home-Essentials" class="nav-link">Home Essentials</a>
             <div className="icons-container">
-            <User className="icon" onClick={() => navigate("/register")} /> 
-            <ShoppingBag className="icon" onclick="" />
+            <User className="icon" onClick={handleUserClick} />
+            <div className="cart-icon-container" >
+            <ShoppingBag className="cart-icon" onClick={handlenavigate}/>
+            <span className="cart-badge">0</span>
+            </div>
           </div>
           </nav>
           </nav>

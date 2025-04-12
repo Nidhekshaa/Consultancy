@@ -1,39 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { User, ShoppingBag } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import '../styles/Profile.css';
-
+import { useNavigate } from 'react-router-dom';
 function Profile() {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                const res = await fetch("http://localhost:5000/auth/profile", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-
-                if (res.ok) {
-                    const data = await res.json();
-                    setUser(data.user);
-                } else {
-                    navigate("/login");
-                }
-            } catch (err) {
-                console.error("Failed to fetch profile", err);
-                navigate("/login");
-            }
-        };
-
-        fetchUser();
-    }, [navigate]);
-
+    const handlechangepassword = () => {
+        navigate("/forgot-password");
+    }
+    const handleUserClick = () => {
+        const token = localStorage.getItem("token"); // or however you're tracking auth
+    
+        if (token) {
+          navigate("/profile"); // user is logged in
+        } else {
+          navigate("/register"); // user not logged in
+        }
+      };
+      const handlenavigate = () => {
+        navigate("/cart"); // user not logged in
+      };
     return (
         <div className="App">
             <header className="header">
@@ -49,40 +34,32 @@ function Profile() {
                         <a href="/Seating" className="nav-link">Seating</a>
                         <a href="/Home-Essentials" className="nav-link">Home Essentials</a>
                         <div className="icons-container">
-                            <User
-                                className="icon"
-                                onClick={() => {
-                                    const token = localStorage.getItem("token");
-                                    navigate(token ? "/profile" : "/register");
-                                }}
-                            />
-                            <ShoppingBag className="icon" />
+                            <User className="icon" onClick={handleUserClick}/>
+                            <div className="cart-icon-container" >
+                            <ShoppingBag className="cart-icon" onClick={handlenavigate}/>
+                            <span className="cart-badge">0</span>
+                            </div>
                         </div>
                     </nav>
                 </div>
             </header>
 
             <div className="profile-container">
-                {user ? (
+
                     <div className="profile-info">
-                        <h2>Welcome, {user.name}</h2>
-                        <p>Email: {user.email}</p>
-                        <p>Order History: {user.orders?.length || 0} Orders</p>
+                        <h2>Welcome, Nidhekshaa</h2>
+                        <p>Email:nidhekshaank.22csd@kongu.edu</p>
+                        <p>Order History: 0 Orders</p>
                     </div>
-                ) : (
-                    <p>Loading user information...</p>
-                )}
 
                 <div className="profile-actions">
                     <button className="edit-profile-button">Edit Profile</button>
-                    <button className="change-password-button">Change Password</button>
+                    <button className="change-password-button" onClick={handlechangepassword}>Change Password</button>
                 </div>
 
                 <div className="profile-orders">
                     <ul>
-                        {user?.orders?.map((order, index) => (
-                            <li key={index}>Order #{index + 1}: {order.details}</li>
-                        )) || <li>No orders found.</li>}
+                            <li >Order #</li>
                     </ul>
                 </div>
 
@@ -97,15 +74,55 @@ function Profile() {
 
                 <div className="profile-logout">
                     <button className="logout-button" onClick={() => {
-                        localStorage.removeItem("token");
                         navigate("/login");
                     }}>Logout</button>
                 </div>
             </div>
 
             <footer className="footer">
-                {/* footer content */}
-            </footer>
+      <div className="footer-content">
+        <div className="footer-section">
+          <h3>Connect With Us</h3>
+          <p>For inboxes with impeccable taste.</p>
+          <input type="email" placeholder="Email" className="email-input" />
+        </div>
+        <div className="footer-section">
+          <h3>Information</h3>
+          <ul>
+            <a href="/Our-story">Our Story</a>
+            <a href="/Sustainability">Sustainability</a>
+            <a href="/Gift-Card">Gift Card</a>
+          </ul>
+        </div>
+        <div className="footer-section">
+          <h3>Navigation</h3>
+          <ul>
+            <a href="/About-Us">About Us</a>
+            <a href="/Contact-Us">Contact Us</a>
+            <a href="/Franchisee">Franchisee</a>
+            <a href="/Customise-Order-Policy">Customise Order Policy</a>
+          </ul>
+        </div>
+        <div className="footer-section">
+          <h3>Disclaimer</h3>
+          <ul>
+            <a href="/FAQs">FAQs</a>
+            <a href="/Shipping-Policy">Shipping Policy</a>
+            <a href="/Return/Refund-Policy">Return/Refund Policy</a>
+            <a href="/International-Shipping">International Shipping</a>
+          </ul>
+        </div>
+        <div className="footer-section">
+          <h3>Policies</h3>
+          <ul>
+            <a href="/Privacy-Policy">Privacy Policy</a>
+            <a href="/Terms-of-Use">Terms of Use</a>
+            <a href="/Care-&-Instructions">Care & Instructions</a>
+            <a href="/Maintain-Your-Furniture<">Maintain Your Furniture</a>
+          </ul>
+        </div>
+      </div>
+    </footer>
         </div>
     );
 }
