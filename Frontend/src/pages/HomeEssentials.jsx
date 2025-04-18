@@ -81,8 +81,8 @@ function DiningAndKitchen() {
       <div className="container">
         <div className="product-card">
             <img src="" alt="product" />
-            <h3>Wooden Chair</h3>
-            <p>Price: $100</p>
+            <h3>Roof Sheets</h3>
+            <p>Price: $1,355</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
         </div>

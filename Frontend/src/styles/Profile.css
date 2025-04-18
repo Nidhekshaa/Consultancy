@@ -1,211 +1,214 @@
+/* General App Styling */
+.App {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
 
 /* Header */
 .header {
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  background-color: #ffffff;
+  padding: 20px 40px;
+  color: rgb(0, 0, 0);
 }
 
 .header-content h2 {
   margin: 0;
-  font-size: 2rem;
-  font-weight: 700;
-
+  font-size: 28px;
 }
 
 .header-content p {
-  margin: 0.25rem 0 1rem;
-  font-size: 1rem;
-  color: #666;
+  margin: 5px 0 15px;
+  font-style: italic;
 }
 
-/* NavBar */
 .navbar {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
 }
 
 .nav-link {
+  color: white;
   text-decoration: none;
-  color: #222;
   font-weight: 500;
-  position: relative;
-  transition: color 0.3s;
 }
 
-.nav-link:hover,
-.nav-link.active {
-  color: #6200ea;
+.nav-link:hover {
+  text-decoration: underline;
 }
 
-/* Icons */
 .icons-container {
+  margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  position: relative;
+  gap: 20px;
 }
 
-/* Cart Badge */
-.cart-icon-container {
-  position: relative;
-}
-
-.cart-icon {
-  font-size: 24px;
-  color: #222;
+.icon, .cart-icon {
   cursor: pointer;
+  color: rgb(0, 0, 0);
 }
 
 .cart-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
   background-color: #6200ea;
-  color: white;
-  font-size: 10px;
-  width: 16px;
-  height: 16px;
+  color: rgb(0, 0, 0);
+  font-size: 12px;
+  padding: 2px 6px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
+  position: absolute;
+  top: -8px;
+  right: -8px;
 }
 
 /* Profile Section */
 .profile-container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 10px;
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: auto;
 }
 
-/* Profile Info */
-.profile-info h2 {
-  font-size: 1.7rem;
-  margin-bottom: 0.5rem;
-  color:#6200ea;
+.profile-section {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.profile-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-label {
+  margin-bottom: 5px;
   font-weight: 600;
 }
 
-.profile-info p {
-  font-size: 1rem;
-  margin: 0.3rem 0;
+.profile-input {
+  padding: 10px;
+  border: 1px solid #000000;
+  background-color: white;
+  color:#000000;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
-/* Profile Actions */
 .profile-actions {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin: 1.5rem 0;
+  gap: 20px; /* Space between buttons */
+  margin-top: 20px;
+  flex-wrap: wrap;
 }
 
-.edit-profile-button,
-.change-password-button,
-.logout-button {
-  padding: 0.6rem 1.2rem;
-  font-size: 0.95rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #6200ea;
+.profile-button {
+  background-color: #1f2f3d;
   color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.edit-profile-button:hover,
-.change-password-button:hover,
+.profile-button:hover {
+  background-color: #324a5e;
+}
+
+/* Messages */
+.error-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Logout */
+.profile-logout {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
 .logout-button:hover {
-  background-color: #333;
-}
-
-/* Orders & Settings */
-.profile-settings h2{
-  color: #6200ea;
-}
-.profile-orders ul,
-.profile-settings ul {
-  list-style-type: none;
-  padding: 0;
-  
-}
-
-.profile-orders li,
-.profile-settings li {
-  font-size: 1rem;
-  padding: 0.5rem 0;
-  text-align: left;
-  
+  background-color: #c0392b;
 }
 
 /* Footer */
 .footer {
-  background-color: #333;
+  background-color: #000000;
   color: white;
-  padding: 2rem;
-  width: 100%;
-  margin-top: 2rem;
+  padding: 40px 20px;
+  margin-top: 50px;
 }
 
 .footer-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 20px;
 }
 
 .footer-section {
-  flex: 1;
-  min-width: 200px;
-  margin: 1rem;
+  flex: 1 1 200px;
 }
 
 .footer-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  color: #fff;
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 
-.footer-section p {
-  font-size: 0.9rem;
-  color: #ccc;
-  margin-bottom: 1rem;
-}
-
-.footer-section ul {
+.footer-section ul,
+.footer-section a {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-.footer-section ul a {
-  color: #ccc;
+  color: white;
   text-decoration: none;
-  font-size: 0.9rem;
   display: block;
-  margin: 0.5rem 0;
-  transition: color 0.3s ease;
+  margin-bottom: 8px;
 }
 
-.footer-section ul a:hover {
-  color: #6200ea;
+.footer-section a:hover {
+  text-decoration: underline;
 }
 
 .email-input {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 1rem;
+  padding: 8px;
   border: none;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 80%;
 }

@@ -14,30 +14,38 @@ const Register = () => {
     e.preventDefault();
     setError("");
     setSuccess("");
-
+  
     if (!name || !email || !password) {
       setError("All fields are required");
       return;
     }
-
+  
     try {
       const response = await fetch("http://localhost:5000/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
-
+  
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || "Registration failed");
       }
-
-      setSuccess("Registration successful! Redirecting...");
-      setTimeout(() => navigate("/login"), 2000);
+  
+      // ✅ Store token in localStorage if returned
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        setSuccess("Registration successful! Redirecting to your profile...");
+        setTimeout(() => navigate("/profile"), 2000); // Redirect to profile
+      } else {
+        setSuccess("Registration successful! Please login.");
+        setTimeout(() => navigate("/login"), 2000); // Fallback to login
+      }
+  
     } catch (err) {
       setError(err.message);
     }
-  };
+  };  
 
   return (
     <div className="register-contianer">

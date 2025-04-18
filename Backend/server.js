@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const nodemailer = require("nodemailer");
 const crypto = require('crypto');
 const recoveryRoutes = require('./recovery');
+const Product = require('./model/Product');
 
 require('dotenv').config();
 
@@ -47,6 +48,24 @@ app.use('/', recoveryRoutes);
 // User Registration
 app.post('/auth/register', async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
+  if (password.length < 8) {
+    return res.status(400).json({ error: "Password must be at least 8 characters" });
+  }
+  if (!/\d/.test(password)) {
+    return res.status(400).json({ error: "Password must contain at least one number" });
+  }
+  if (!/[!@#$%^&*]/.test(password)) {
+    return res.status(400).json({ error: "Password must contain at least one special character" });
+  }
+  if (!/[A-Z]/.test(password)) {
+    return res.status(400).json({ error: "Password must contain at least one uppercase letter" });
+  }
+  if (!/[a-z]/.test(password)) {
+    return res.status(400).json({ error: "Password must contain at least one lowercase letter" });
+  }
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ error: 'User already exists' });
@@ -65,6 +84,24 @@ app.post('/auth/register', async (req, res) => {
 // User Login
 app.post('/auth/login', async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" }); 
+  }
+  if (password.length < 8) {
+    return res.status(400).json({ error: "Password must be at least 8 characters" });
+  }
+  if (!/\d/.test(password)) {
+    return res.status(400).json({ error: "Password must contain at least one number" });
+  }
+  if (!/[!@#$%^&*]/.test(password)) {
+    return res.status(400).json({ error: "Password must contain at least one special character" });
+  }
+  if (!/[A-Z]/.test(password)) {
+    return res.status(400).json({ error: "Password must contain at least one uppercase letter" });
+  }
+  if (!/[a-z]/.test(password)) {
+    return res.status(400).json({ error: "Password must contain at least one lowercase letter" });
+  }
 
   try {
     const user = await User.findOne({ email });
@@ -78,7 +115,7 @@ app.post('/auth/login', async (req, res) => {
     }
 
     // ✅ Generate JWT token
-    const token = jwt.sign({ userId: user._id }, "your_jwt_secret", { expiresIn: "1h" });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     res.status(200).json({
       message: "Login successful",
@@ -179,22 +216,25 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// ✅ FIXED: Add profile route directly here
-app.get("/auth/profile", authenticateToken, async (req, res) => {
+app.get('/products', async (req, res) => {
   try {
-      const user = await User.findById(req.user.userId).select("-password");
-      if (!user) {
-          return res.status(404).json({ error: "User not found" });
-      }
-
-      res.status(200).json({ user });
-  } catch (error) {
-      console.error("❌ Error fetching profile:", error);
-      res.status(500).json({ error: "Server error" });
+    const products = await Product.find(); // Assuming you're using MongoDB
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
+app.get('/profile', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
+    res.json({ user });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 // Get User Data
 app.get('/auth/user', async (req, res) => {
@@ -208,19 +248,9 @@ app.get('/auth/user', async (req, res) => {
   });
 });
 
-// Product Model
-const productSchema = new mongoose.Schema({
-  name: String,
-  price: Number,
-  description: String
-});
-const Product = mongoose.model('Product', productSchema);
+const productRoutes = require('./router/productRoutes');
+app.use("/api", productRoutes); 
 
-// Get Products
-app.get('/products', async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
-});
 
 app.get('/cart', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];

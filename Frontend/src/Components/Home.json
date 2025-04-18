@@ -1,0 +1,16 @@
+[
+    {
+      "id": 1,
+      "title": "Wooden Chair",
+      "price": "6,000",
+      "image": "",
+      "alt": "product"
+    },
+    {
+        "id": 2,
+        "title": "Unique Wooden Chair",
+        "price": "17,999",
+        "image": "",
+        "alt": "product"
+    }
+]

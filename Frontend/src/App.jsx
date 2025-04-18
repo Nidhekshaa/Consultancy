@@ -12,6 +12,8 @@ import DiningAndKitchen from "./pages/DiningAndKitchen.jsx"
 import Seating from "./pages/Seating.jsx"
 import HomeEssentials from "./pages/HomeEssentials.jsx"
 
+import Details from './Components/Details.jsx';
+
 import Profile from './pages/Profile.jsx';
 import AboutUs from "./pages/About-Us";
 import ContactUs from "./pages/Contact-Us";
@@ -36,6 +38,8 @@ function App() {
         <Route path="/Seating" element={<Seating />} />
         <Route path="/Home-Essentials" element={<HomeEssentials />} />
         
+        <Route path="/Details" element={<Details />} />
+
         <Route path="/profile" element={<Profile />} />
         {/* <Route path="/payment" element={<PaymentPage />} /> */}
 

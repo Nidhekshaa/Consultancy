@@ -1,14 +1,40 @@
-import React, { useContext } from "react";
-import "../styles/ResetPassword.css";
+import { useContext, useState } from "react";
 import { RecoveryContext } from "../App1";
+import "../styles/resetpassword.css";
 
 export default function ResetPassword() {
+  const { token, setPage } = useContext(RecoveryContext);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-const { setPage } = useContext(RecoveryContext);
-  function changePassword() {
-    setPage("login");
-    alert("Password changed successfully!");
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/auth/reset-password/${token}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.ok) {
+        alert("Password reset successful");
+        setPage("login");
+      } else {
+        alert("Failed to reset password");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred while resetting the password");
+    }
+  };
 
   return (
     <div className="reset-container">
@@ -16,7 +42,7 @@ const { setPage } = useContext(RecoveryContext);
         <div className="reset-wrapper">
           <div className="reset-card">
             <h2 className="reset-title">Change Password</h2>
-            <form className="reset-form">
+            <form className="reset-form" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="password" className="reset-label">
                   New Password
@@ -27,6 +53,8 @@ const { setPage } = useContext(RecoveryContext);
                   id="password"
                   placeholder="••••••••"
                   className="reset-input"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
@@ -40,26 +68,15 @@ const { setPage } = useContext(RecoveryContext);
                   id="confirm-password"
                   placeholder="••••••••"
                   className="reset-input"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
               </div>
-              <div className="reset-checkbox-wrapper">
-                
-                <input
-                  id="newsletter"
-                  aria-describedby="newsletter"
-                  type="checkbox"
-                  className="reset-checkbox"
-                  required 
-                />
-                <label className="remember">
-                  Remember me
-                </label>
-              </div>
+              <button type="submit" className="reset-button">
+                Reset password
+              </button>
             </form>
-            <button onClick={changePassword} className="reset-button">
-              Reset password
-            </button>
           </div>
         </div>
       </section>
