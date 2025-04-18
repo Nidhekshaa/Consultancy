@@ -80,65 +80,71 @@ function DiningAndKitchen() {
   
       <div className="container">
         <div className="product-card">
+<<<<<<< HEAD
             <img src="" alt="product" />
             <h3>Roof Sheets</h3>
             <p>Price: $1,355</p>
+=======
+            <img src="https://img.freepik.com/premium-photo/wooden-chest-drawers-with-floral-branches-vase_93675-52181.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Wooden Storage Unit</h3>
+            <p>Price: ₹4,000</p>
+>>>>>>> a49cbadf39bdc22c73b5d5f67935aa774ae012cf
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
         </div>
         <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Unique Wooden Chair</h3>
-            <p>Price: $17,999</p>
+            <img src="https://img.freepik.com/free-photo/vintage-trunks-lamp_1122-674.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Stacked Wooden Trunks</h3>
+            <p>Price: ₹6,000</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
         </div>
         <div className="product-card">
-            <img src="" alt="product" />
-            <h3>Classic Wooden Sofa</h3>
-            <p>Price: $100</p>
+            <img src="https://img.freepik.com/free-photo/spa-still-life_23-2147821138.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Wooden Shelves</h3>
+            <p>Price: ₹3,000</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
         </div>
         <div className="product-card">
-        <img src="" alt="product" />
-            <h3>Modern Wooden Bench</h3>
-            <p>Price: $100</p>
+        <img src="https://img.freepik.com/premium-photo/shelf-kitchen-utensils-ancient-russian-kitchen_372197-1439.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Wooden Storage Unit</h3>
+            <p>Price: ₹4,000</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
         </div>
         <div className="product-card">
-        <img src="" alt="product" />
-            <h3>Handcrafted Wooden Cabinet</h3>
-            <p>Price: $100</p>
+        <img src="https://img.freepik.com/premium-photo/pen-holder-shaped-like-miniature-desk-organizer_974629-213425.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Stacked Wooden Stand</h3>
+            <p>Price: ₹3,000</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
         </div>
         <div className="product-card">
-        <img src="" alt="product" />
-            <h3>Luxury Wooden Bed</h3>
-            <p>Price: $40,00</p>
+        <img src="https://img.freepik.com/free-photo/handcrafted-wooden-decorative-vase_23-2151003070.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Wooden Shelves</h3>
+            <p>Price: ₹3,000</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
         </div>
         <div className="product-card">
-        <img src="" alt="product" />
-            <h3>Luxury Wooden Bed</h3>
-            <p>Price: $100</p>
+        <img src="https://img.freepik.com/free-photo/view-modern-entryway-with-interior-designed-furniture_23-2150790920.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Wooden Table</h3>
+            <p>Price:  ₹3,500</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
         </div>
         <div className="product-card">
-        <img src="" alt="product" />
-            <h3>Elegant Wooden temple</h3>
-            <p>Price: $100</p>
+        <img src="https://img.freepik.com/premium-photo/flower-vase-table-against-orange-wall_1048944-7798355.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Kitchen Rack </h3>
+            <p>Price: ₹2,800</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
   
         </div>
         <div className="product-card">
-        <img src="" alt="product" />
-            <h3>Godrej Wooden Wardrobe</h3>
-            <p>Price: $100</p>
+        <img src="https://img.freepik.com/free-photo/wooden-piece-furniture-interior_23-2148848665.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
+            <h3>Wooden Cabinet</h3>
+            <p>Price: ₹4,500</p>
             <button onClick={() => addToCart('productId')}>Add to Cart</button>
         </div>
         </div>
