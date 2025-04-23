@@ -1,0 +1,138 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  /* Header Styling */
+  .header {
+    background-color: rgba(255, 255, 255, 0.9); /* semi-transparent */
+    /* backdrop-filter: blur(10px); subtle blur behind header */
+    padding: 1rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .header h2 {
+    font-size: 2rem;
+    margin: 0;
+    color: #333;
+  }
+  
+  .header p {
+    font-size: 1rem;
+    color: #666;
+    margin: 0.5rem 0 1.5rem 0;
+  }
+  
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    padding: 0.3rem 0; /* reduced padding for tighter layout */
+    margin-bottom: 0.3rem; /* slight spacing below navbar */
+  }
+  
+  
+  .navbar a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.3rem 0.8rem;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+  }
+  
+  .navbar a:hover {
+    color: #6200ea;
+  }
+  
+  .nav-link {
+    position: relative;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #6200ea;
+  }
+  
+  .nav-link.active {
+    font-weight: bold;
+    color: #6200ea;
+  }
+  
+  .nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #6200ea;
+    border-radius: 2px;
+  }
+  
+  /* Icons */
+  .icons-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, color 0.3s ease;
+  }
+  
+  .icon:hover {
+    transform: scale(1.1);
+    color: #6200ea;
+  }
+  
+  .cart-icon-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .cart-icon {
+    font-size: 24px; /* optional if icon is too small */
+  }
+  
+  .cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background-color: #6200ea; /* red */
+    color: white;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    line-height: 1;
+    z-index: 10;
+  }

@@ -8,6 +8,8 @@ const nodemailer = require("nodemailer");
 const crypto = require('crypto');
 const recoveryRoutes = require('./recovery');
 const Product = require('./model/Product');
+const cartRoutes = require("./router/cart");
+const shippingRoutes = require("./router/shipping");
 
 require('dotenv').config();
 
@@ -251,22 +253,8 @@ app.get('/auth/user', async (req, res) => {
 const productRoutes = require('./router/productRoutes');
 app.use("/api", productRoutes); 
 
-
-app.get('/cart', async (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'No token provided' });
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const cart = await Cart.findOne({ userId: decoded.userId });
-    if (!cart) return res.json({ products: [] });
-
-    res.json(cart);
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
+app.use("/cart", cartRoutes);
+app.use("/shipping", shippingRoutes);
 
 
 // Start Server

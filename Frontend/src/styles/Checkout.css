@@ -1,0 +1,197 @@
+.checkout-wrapper {
+    padding: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+  }
+  
+  .checkout-container {
+    display: flex;
+    max-width: 1000px;
+    margin: auto;
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  /* Left: Order Summary */
+  .order-summary {
+    flex: 1;
+    padding: 30px;
+    background-color: #fcfcfc;
+    border-right: 1px solid #eee;
+  }
+  
+  .order-summary h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .order-summary h1 {
+    margin: 0 0 30px;
+    font-size: 28px;
+    color: #222;
+  }
+  
+  .item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 8px;
+  }
+  
+  .item-details {
+    flex: 1;
+  }
+  
+  .item-details p {
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  .item-details span {
+    font-size: 12px;
+    color: #777;
+  }
+  
+  .price {
+    font-weight: 600;
+    color: #444;
+  }
+  
+  .summary-breakdown {
+    margin-top: 30px;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+  
+  .total {
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  .powered-by {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 40px;
+  }
+  
+  /* Right: Payment Form */
+  .payment-form {
+    flex: 1;
+    padding: 30px;
+  }
+  
+  .gpay-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+    color: #888;
+    font-size: 14px;
+  }
+  
+  .divider::before,
+  .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ccc;
+    margin: 0 10px;
+  }
+  
+  /* Inputs and Labels */
+  .payment-form input,
+  .payment-form select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  .payment-form h4 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .card-info-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .card-info-row input {
+    flex: 1;
+  }
+  
+  .add-info-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .add-info-row input {
+    flex: 1;
+  }
+  /* Checkbox row */
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 15px 0;
+  }
+  
+  .checkbox-row input {
+    margin-right: 0px;
+  }
+  
+  /* Pay Button */
+  .submit-button {
+    background-color: #2d2a3d;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .pay-button:hover {
+    background-color: #3f3b56;
+  }
+  

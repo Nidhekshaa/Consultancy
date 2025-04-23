@@ -1,23 +1,19 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 const cartItemSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
-  },
-  productId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-    required: true
-  },
-  name: String,
+  id: String,
+  title: String,
+  price: String,
+  quantity: Number,
   image: String,
-  price: Number,
-  quantity: {
-    type: Number,
-    default: 1,
-  }
-}, { timestamps: true });
+});
 
-export default mongoose.model('CartItem', cartItemSchema);
+const cartSchema = new mongoose.Schema({
+  items: [cartItemSchema],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+module.exports = mongoose.model("Cart", cartSchema);

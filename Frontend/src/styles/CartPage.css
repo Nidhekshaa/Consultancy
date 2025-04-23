@@ -1,161 +1,78 @@
-/* General */
-.cart-page {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #111;
+.cart-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 2rem;
 }
 
-a {
-  text-decoration: none;
-  color: #333;
-}
-
-/* Header */
 .cart-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1.2rem 2rem;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-  flex-wrap: wrap;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #f4a300;
-}
-
-.cart-nav {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin: 1rem 0;
-}
-
-.cart-nav a {
-  font-size: 1rem;
-  position: relative;
-}
-
-.icons {
-  display: flex;
-  gap: 1rem;
-  font-size: 1.4rem;
-}
-
-.cart-count {
-  background: #111;
-  color: #fff;
-  font-size: 0.75rem;
-  padding: 2px 6px;
-  border-radius: 50%;
-  margin-left: 2px;
-}
-
-/* Cart Section */
-.cart-container {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
-.cart-container h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.continue-shopping {
-  color: #222;
-  text-decoration: underline;
-  font-size: 1rem;
-  display: inline-block;
-  margin-bottom: 2rem;
-}
-
-/* Table Headers */
-.cart-table {
-  width: 100%;
-}
-
-.cart-header-row {
-  display: flex;
-  justify-content: space-between;
+  margin-top: 2rem;
   font-weight: 600;
-  color: gray;
-  padding: 0.5rem 0;
+  color: #777;
   border-bottom: 1px solid #ddd;
-  text-transform: uppercase;
+  padding-bottom: 0.5rem;
 }
 
-/* Cart Item Row */
 .cart-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 0;
+  margin: 1rem 0;
+  padding: 1rem 0;
   border-bottom: 1px solid #eee;
-  flex-wrap: wrap;
 }
 
 .product-info {
   display: flex;
-  gap: 1rem;
   align-items: center;
-  flex: 2;
+  gap: 1rem;
 }
 
 .product-info img {
-  width: 120px;
-  height: auto;
-  border-radius: 5px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 
-.product-info h3 {
-  margin: 0;
-  font-size: 1.2rem;
-}
-
-.quantity-control {
+.quantity-controls {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex: 1;
 }
 
-.quantity-control button {
-  width: 40px;
-  height: 40px;
+.quantity-controls button {
+  padding: 0.3rem 0.7rem;
   font-size: 1.2rem;
-  border: 1px solid #aaa;
-  background: #fff;
-  cursor: pointer;
-  color: black;
-}
-.qtyBtn{
-  align-items: center;
-  text-align: center;
-}
-.quantity-control .delete {
-  border: none;
-  background: none;
-  color: #444;
-  font-size: 1.2rem;
-  cursor: pointer;
 }
 
 .delete-icon {
-  color: #b30000;
+  color: red;
   cursor: pointer;
-  margin-left: 0.5rem;
 }
 
 .total-price {
-  flex: 1;
-  font-weight: 600;
-  font-size: 1rem;
-  text-align: left;
+  font-weight: bold;
+}
+
+.cart-summary {
+  text-align: right;
+  margin-top: 2rem;
+}
+
+.checkout-btn {
+  margin-top: 1rem;
+  padding: 0.8rem 2rem;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.continue-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #333;
+  text-decoration: underline;
 }
