@@ -1,31 +1,24 @@
+// backend/router/product.js
 const express = require('express');
 const router = express.Router();
-const Product = require('../model/Product'); // Make sure this path is correct
+const Product = require('../model/Product'); // adjust if path is different
 
-// Updated product route using MongoDB
-const mongoose = require('mongoose');
+// Fetch products by category
+router.get('/products', async (req, res) => {
+  try {
+    const { category } = req.query;
+    let query = {};
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+    if (category) {
+      query.category = { $regex: new RegExp('^' + category + '$', 'i') }; // case insensitive match
+    }
+
+    const products = await Product.find(query);
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Server Error' });
+  }
 });
-
-const seedProducts = async () => {
-
-
-  const sampleProducts = [
-    { name: "Wooden Chair", price: 6000, image: "/images/image4.jpeg" },
-    { name: "Classic Wooden Sofa", price: 15000, image: "/images/image4.jpeg" },
-    { name: "Luxury Wooden Bed", price: 20000, image: "/images/image4.jpeg" },
-    { name: "Wooden Chair", price: 6000, image: "/images/image4.jpeg" },
-    { name: "Classic Wooden Sofa", price: 15000, image: "/images/image4.jpeg" },
-    { name: "Luxury Wooden Bed", price: 20000, image: "/images/image4.jpeg" }
-  ];
-  
-  await Product.insertMany(sampleProducts);
-  console.log('✅ Sample products inserted!');
-};
-
-seedProducts();
 
 module.exports = router;

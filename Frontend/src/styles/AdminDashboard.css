@@ -1,0 +1,36 @@
+/* Container */
+.admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+
+  
+  /* Layout */
+  .admin-dashboard-body {
+    display: flex;
+    flex: 1;
+  }
+  
+  /* Sidebar */
+  .sidebar ul li {
+    padding: 12px 30px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    font-size: 1.3rem;
+    color: #374151;
+  }
+  
+  .sidebar ul li:hover {
+    background-color: #f0f5ff;
+    color: #2563eb;
+    border-left: 4px solid #3b82f6;
+  }
+  
+  .sidebar ul li.active-link {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+    font-weight: bold;
+    border-left: 4px solid #2563eb;
+  }

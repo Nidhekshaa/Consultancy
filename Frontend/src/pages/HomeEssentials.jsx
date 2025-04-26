@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../styles/Styles.css';
 import { Search, User, ShoppingBag } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import Footer from './Footer'
 function HomeEssentials() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -56,7 +56,7 @@ function HomeEssentials() {
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
           <nav className="navbar">
-            <a href="/" className="nav-link">Home</a>
+            <a href="/home" className="nav-link">Home</a>
             <a href="/Living-Room" className="nav-link">Living Room</a>
             <a href="/Bedroom" className="nav-link">Bedroom</a>
             <a href="/Cabinetry" className="nav-link">Cabinetry</a>
@@ -130,51 +130,7 @@ function HomeEssentials() {
           <button onClick={() => addToCart('wooden-cabinet')}>Add to Cart</button>
         </div>
       </div>
-
-      <footer className="footer">
-        <div className="footer-content">
-          <div className="footer-section">
-            <h3>Connect With Us</h3>
-            <p>For inboxes with impeccable taste.</p>
-            <input type="email" placeholder="Email" className="email-input" />
-          </div>
-          <div className="footer-section">
-            <h3>Information</h3>
-            <ul>
-              <a href="/Our-story">Our Story</a>
-              <a href="/Sustainability">Sustainability</a>
-              <a href="/Gift-Card">Gift Card</a>
-            </ul>
-          </div>
-          <div className="footer-section">
-            <h3>Navigation</h3>
-            <ul>
-              <a href="/About-Us">About Us</a>
-              <a href="/Contact-Us">Contact Us</a>
-              <a href="/Franchisee">Franchisee</a>
-              <a href="/Customise-Order-Policy">Customise Order Policy</a>
-            </ul>
-          </div>
-          <div className="footer-section">
-            <h3>Disclaimer</h3>
-            <ul>
-              <a href="/FAQs">FAQs</a>
-              <a href="/Shipping-Policy">Shipping Policy</a>
-              <a href="/Return/Refund-Policy">Return/Refund Policy</a>
-              <a href="/International-Shipping">International Shipping</a>
-            </ul>
-          </div>
-          <div className="footer-section">
-            <h3>Policies</h3>
-            <ul>
-              <a href="/Privacy-Policy">Privacy Policy</a>
-              <a href="/Terms-of-Use">Terms of Use</a>
-              <a href="/Care-&-Instructions">Care & Instructions</a>
-              <a href="/Maintain-Your-Furniture">Maintain Your Furniture</a>
-            </ul>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

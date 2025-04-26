@@ -1,8 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Welcome from './pages/Welcome.jsx';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
+import AdminLogin from "./Admin/AdminLogin.jsx";
+import AdminDashborad from "./Admin/AdminDashborad.jsx";
+import Category from "./Admin/Category.jsx";
+import Orders from "./Admin/Orders.jsx";
+import AddProduct from "./Admin/AddProduct.jsx";
+
 import CartPage from './pages/CartPage.jsx';
 
 import LivingRoom from "./pages/Living-Room.jsx"
@@ -27,11 +35,18 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+      <Route path="/" element={<Welcome />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/forgot-password" element={<App1 />} />
+        {/* Admin Pages */}
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path ="/admin-dashboard" element={<AdminDashborad />} />
+        <Route path="/add-product-dashboard" element={<AddProduct />} />
+        <Route path="/select-category" element={<Category />} />
+        <Route path="/orders-received" element={<Orders />} />
         {/* Product Pages */}
         <Route path="/Living-Room" element={<LivingRoom />} />
         <Route path="/Bedroom" element={<Bedroom />} />

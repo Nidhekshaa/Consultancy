@@ -6,7 +6,7 @@ const CheckoutPage = () => {
   const naigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
-  const shippingCost = 300.0;
+  const shippingCost = 4.0;
   const [shippingInfo, setShippingInfo] = useState({
     email: "",
     name: "",

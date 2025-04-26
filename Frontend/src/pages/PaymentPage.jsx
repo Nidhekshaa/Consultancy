@@ -5,7 +5,59 @@ const PaymentPage = () => {
   const [shippingInfo, setShippingInfo] = useState({});
   const [subtotal, setSubtotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-  const shippingCost = 300.0;
+  const shippingCost = 4.0;
+  const handlePay = async () => {
+    const res = await fetch("http://localhost:5000/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: grandTotal }) // if backend expects it
+    });
+    const data = await res.json();
+  
+    const options = {
+      key: "YOUR_KEY",
+      amount: data.amount,
+      currency: data.currency,
+      order_id: data.id,
+      name: "Your Store",
+      description: "Order Payment",
+      handler: async function (response) {
+        alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+      
+        // Save the order to your backend
+        try {
+          await fetch("http://localhost:5000/save-order", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              shippingInfo,
+              cartItems,
+              grandTotal,
+              paymentId: response.razorpay_payment_id,
+            }),
+          });
+      
+          alert("Order saved successfully!");
+        } catch (error) {
+          console.error("Failed to save order:", error);
+          alert("Order saving failed");
+        }
+      },      
+      prefill: {
+        name: shippingInfo.name,
+        email: shippingInfo.email,
+        contact: shippingInfo.phone
+      },
+      theme: { color: "#3399cc" }
+    };
+  
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+  
+
   useEffect(() => {
     // Fetch shipping info from backend
     fetch("http://localhost:5000/shipping/latest")
@@ -37,15 +89,21 @@ const PaymentPage = () => {
         {/* Left: Order Summary */}
         <div className="order-summary">
           <h2>Billing Details</h2>
-          <p><strong>Email:</strong> {shippingInfo.email}</p>
-          <p><strong>Name:</strong> {shippingInfo.name}</p>
+          <p>
+            <strong>Email:</strong> {shippingInfo.email}
+          </p>
+          <p>
+            <strong>Name:</strong> {shippingInfo.name}
+          </p>
           <p>
             <strong>Address:</strong>{" "}
             {`${shippingInfo.address || ""}, ${shippingInfo.city || ""}, ${
               shippingInfo.postalCode || ""
             }, ${shippingInfo.country || ""}`}
           </p>
-          <p><strong>Phone:</strong> {shippingInfo.phone}</p>
+          <p>
+            <strong>Phone:</strong> {shippingInfo.phone}
+          </p>
 
           <div className="summary-breakdown">
             <div className="row">
@@ -80,7 +138,9 @@ const PaymentPage = () => {
             <input type="checkbox" defaultChecked />
             <label>Billing address is same as shipping</label>
           </div>
-          <button className="pay-button">Pay ₹{grandTotal.toFixed(2)}</button>
+          <button className="pay-button" onClick={handlePay}>
+            Pay ₹{grandTotal.toFixed(2)}
+          </button>
         </div>
       </div>
     </div>

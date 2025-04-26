@@ -57,7 +57,7 @@ function Cabinetry() {
         {/* <Search className="icon" onclick="" /> */}
           
           <nav className="navbar">
-          <a href="/" class="nav-link">Home</a>
+          <a href="/home" class="nav-link">Home</a>
             <a href="/Living-Room" class="nav-link">Living Room</a>
             <a href="/Bedroom" class="nav-link">Bedroom</a>
             <a href="/Cabinetry"class="nav-link active">Cabinetry</a>

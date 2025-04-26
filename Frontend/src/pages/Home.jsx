@@ -1,49 +1,74 @@
 import "../styles/Home.css";
-import { Search } from "lucide-react";
-import Header from "./Header";
+import { Search, User, ShoppingBag } from "lucide-react";
 import Footer from "./Footer";
 import productsData from "../Components/Home.json";
 import { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 const Home = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState(() => {
+    const storedCart = localStorage.getItem("cart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
   const [searchQuery, setSearchQuery] = useState("");
-  const [products, setProducts] = useState(productsData);
+  const [products] = useState(productsData);
   const [filteredProducts, setFilteredProducts] = useState(productsData);
-  
+  const [cartCount, setCartCount] = useState(cartItems.length);
+
+  const handleUserClick = () => {
+    const token = localStorage.getItem("token");
+    navigate(token ? "/profile" : "/register");
+  };
+
+  const handlenavigate = () => {
+    const token = localStorage.getItem("token");
+    navigate(token ? "/cart" : "/login");
+  };
+
   useEffect(() => {
     const result = products.filter((product) =>
       product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredProducts(result);
   }, [searchQuery, products]);
-  
+
   const handleAddToCart = (product) => {
-    alert("Product added to cart!");
     const updatedCart = [...cartItems, product];
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCartCount(updatedCart.length);
+    alert("Product added to cart!");
   };
-
-  // Filter products whenever searchQuery changes
-  useEffect(() => {
-    const result = products.filter((product) =>
-      product.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredProducts(result);
-  }, [searchQuery]);
 
   return (
     <div className="App">
-      <Header cartCount={cartItems.length} />
+      <header className="header">
+        <div className="header-content">
+          <h2>Timber Mart</h2>
+          <p>Making Your Home Into What You Want.</p>
+          <nav className="navbar">
+            <a href="/home" className="nav-link active">Home</a>
+            <a href="/Living-Room" className="nav-link">Living Room</a>
+            <a href="/Bedroom" className="nav-link">Bedroom</a>
+            <a href="/Cabinetry" className="nav-link">Cabinetry</a>
+            <a href="/Dining-&-Kitchen" className="nav-link">Dining & Kitchen</a>
+            <a href="/Seating" className="nav-link">Seating</a>
+            <a href="/Home-Essentials" className="nav-link">Home Essentials</a>
+            <div className="icons-container">
+              <User className="icon" onClick={handleUserClick} />
+              <div className="cart-icon-container">
+                <FaShoppingCart className="cart-icon" onClick={handlenavigate} />
+                <span className="cart-badge">{cartCount}</span>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
 
       <div className="container">
         <div className="hero-container">
-          <img
-            src="/heroImage.jpeg"
-            alt="Handcrafted Luxury"
-            className="hero-image"
-          />
+          <img src="/heroImage.jpeg" alt="Handcrafted Luxury" className="hero-image" />
           <div className="hero-text">
             <h1>HANDCRAFTED LUXURY</h1>
             <p>TIMELESS PIECES THAT COMPLEMENT DAILY ROUTINES AND LAST GENERATIONS.</p>
@@ -69,9 +94,7 @@ const Home = () => {
                 <img src={product.image} alt={product.alt} />
                 <h3>{product.title}</h3>
                 <p>₹{product.price}</p>
-                <div>
-                  <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
-                </div>
+                <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
               </div>
             ))
           ) : (
