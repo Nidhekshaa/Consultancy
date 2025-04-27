@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // e.g., 123456.jpg
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
@@ -19,7 +19,7 @@ const upload = multer({ storage });
 // Add Product Route
 router.post("/api/admin/add-product", upload.single("image"), async (req, res) => {
   const { name, price, category } = req.body;
-  const imagePath = req.file?.path; // use .path instead of .filename for full path
+  const imagePath = req.file?.path;
 
   if (!name || !price || !category || !imagePath) {
     return res.status(400).json({ message: "All fields are required" });

@@ -1,12 +1,13 @@
 import "../styles/Styles.css";
-import { Search, User, ShoppingBag } from "lucide-react";
+import { Search, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
+import { FaShoppingCart } from "react-icons/fa";
 
 function Bedroom() {
   const navigate = useNavigate();
-  
+
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState(() => {
     const storedCart = localStorage.getItem("cart");
@@ -47,7 +48,15 @@ function Bedroom() {
   }, [searchQuery, products]);
 
   const handleAddToCart = (product) => {
-    const updatedCart = [...cartItems, product];
+    const productForCart = {
+      id: product._id,
+      title: product.name,
+      image: `http://localhost:5000${product.image}`,
+      price: product.price,
+      quantity: 1,
+    };
+
+    const updatedCart = [...cartItems, productForCart];
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     setCartCount(updatedCart.length);
@@ -61,17 +70,34 @@ function Bedroom() {
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
           <nav className="navbar">
-            <a href="/home" className="nav-link">Home</a>
-            <a href="/Living-Room" className="nav-link">Living Room</a>
-            <a href="/Bedroom" className="nav-link active">Bedroom</a>
-            <a href="/Cabinetry" className="nav-link">Cabinetry</a>
-            <a href="/Dining-&-Kitchen" className="nav-link">Dining & Kitchen</a>
-            <a href="/Seating" className="nav-link">Seating</a>
-            <a href="/Home-Essentials" className="nav-link">Home Essentials</a>
+            <a href="/home" className="nav-link">
+              Home
+            </a>
+            <a href="/Living-Room" className="nav-link">
+              Living Room
+            </a>
+            <a href="/Bedroom" className="nav-link active">
+              Bedroom
+            </a>
+            <a href="/Cabinetry" className="nav-link">
+              Cabinetry
+            </a>
+            <a href="/Dining-and-Kitchen" className="nav-link">
+              Dining & Kitchen
+            </a>
+            <a href="/Seating" className="nav-link">
+              Seating
+            </a>
+            <a href="/Home-Essentials" className="nav-link">
+              Home Essentials
+            </a>
             <div className="icons-container">
               <User className="icon" onClick={handleUserClick} />
               <div className="cart-icon-container">
-                <ShoppingBag className="cart-icon" onClick={handlenavigate} />
+                <FaShoppingCart
+                  className="cart-icon"
+                  onClick={handlenavigate}
+                />
                 <span className="cart-badge">{cartCount}</span>
               </div>
             </div>
@@ -95,12 +121,17 @@ function Bedroom() {
           filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <img
-                src={`http://localhost:5000/${product.image.replace(/\\/g, "/")}`}
+                src={`http://localhost:5000/${product.image.replace(
+                  /\\/g,
+                  "/"
+                )}`}
                 alt={product.name}
               />
               <h3>{product.name}</h3>
               <p>Price: ₹{product.price}</p>
-              <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
+              <button onClick={() => handleAddToCart(product)}>
+                Add to Cart
+              </button>
             </div>
           ))
         ) : (

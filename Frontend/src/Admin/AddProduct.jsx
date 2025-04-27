@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../styles/AddProduct.css";
-import {  useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  FaTachometerAlt,
+  FaPlus,
+  FaTags,
+  FaShoppingCart,
+} from "react-icons/fa";
 
 const AddProduct = () => {
   const [name, setName] = useState("");
@@ -30,6 +36,7 @@ const AddProduct = () => {
         body: formData,
       });
       const data = await res.json();
+      alert("Product added Successfully");
       console.log(data);
     } catch (err) {
       console.error("Error:", err);
@@ -52,33 +59,36 @@ const AddProduct = () => {
     navigate("/orders-received");
   };
   return (
-
     <div className="add-product-dashboard">
       <div className="add-product-dashboard-body">
-      <aside className="sidebar">
+        <aside className="sidebar">
           <ul>
             <li
               className={path === "/admin-dashboard" ? "active-link" : ""}
               onClick={handledashboard}
             >
+              <FaTachometerAlt className="sidebar-icon" />
               Dashboard
             </li>
             <li
               className={path === "/add-product-dashboard" ? "active-link" : ""}
               onClick={handleproduct}
             >
-              + Add Product
+              <FaPlus className="sidebar-icon" />
+              Add Product
             </li>
             <li
               className={path === "/select-category" ? "active-link" : ""}
               onClick={handlecategory}
             >
+              <FaTags className="sidebar-icon" />
               Category
             </li>
             <li
               className={path === "/orders-received" ? "active-link" : ""}
               onClick={handleorders}
             >
+              <FaShoppingCart className="sidebar-icon" />
               Orders
             </li>
           </ul>
@@ -109,9 +119,10 @@ const AddProduct = () => {
               <option value="">-- Select Category --</option>
               <option value="bedroom">Bedroom</option>
               <option value="cabinetry">Cabinetry</option>
-              <option value="dining&kitchen">Dining and Kitchen</option>
-              <option value="HomeEssentials">HomeEssentials</option>
+              <option value="Dining-and-Kitchen">Dining and Kitchen</option>
+              <option value="Seating">Seating</option>
               <option value="Living-Room">Living Room</option>
+              <option value="HomeEssentials">HomeEssentials</option>
             </select>
 
             <input

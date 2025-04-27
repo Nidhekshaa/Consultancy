@@ -3,10 +3,10 @@ import "../styles/Checkout.css";
 import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
-  const naigate = useNavigate();
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
-  const shippingCost = 4.0;
+  const shippingCost = 300.0;
   const [shippingInfo, setShippingInfo] = useState({
     email: "",
     name: "",
@@ -31,7 +31,7 @@ const CheckoutPage = () => {
       const data = await res.json();
       if (res.ok) {
         alert("Shipping info saved! Proceeding to payment.");
-        naigate("/payment"); // navigate to payment page
+        navigate("/payment"); // navigate to payment page
         // optionally navigate to success page
       } else {
         alert(data.error || "Failed to save shipping info");
@@ -58,6 +58,11 @@ const CheckoutPage = () => {
 
   const grandTotal = subtotal + shippingCost;
 
+  const fixImageUrl = (url) => {
+    if (!url) return "https://placehold.co/40x40";
+    return url.replace(/\\/g, "/").replace("5000uploads", "5000/uploads");
+  };
+
   return (
     <div className="checkout-wrapper">
       <div className="checkout-container">
@@ -68,10 +73,7 @@ const CheckoutPage = () => {
 
           {cartItems.map((item, index) => (
             <div className="item" key={index}>
-              <img
-                src={item.image || "https://placehold.co/40x40"}
-                alt={item.title}
-              />
+              <img src={fixImageUrl(item.image)} alt={item.title} />
               <div className="item-details">
                 <p>{item.title}</p>
                 <span>Qty {item.quantity}</span>

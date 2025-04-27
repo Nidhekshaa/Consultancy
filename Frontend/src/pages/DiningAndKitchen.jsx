@@ -1,179 +1,147 @@
 import "../styles/Styles.css";
-import { Search, User, ShoppingBag } from "lucide-react";
-import {  useNavigate  } from "react-router-dom";
-import { useEffect , useState } from "react";
+import { Search, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Footer from "./Footer";
+import { FaShoppingCart } from "react-icons/fa";
 
 function DiningAndKitchen() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const handleUserClick = () => {
-    const token = localStorage.getItem("token"); // or however you're tracking auth
 
-    if (token) {
-      navigate("/profile"); // user is logged in
-    } else {
-      navigate("/register"); // user not logged in
-    }
+  const [products, setProducts] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const storedCart = localStorage.getItem("cart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [cartCount, setCartCount] = useState(cartItems.length);
+
+  const handleUserClick = () => {
+    const token = localStorage.getItem("token");
+    navigate(token ? "/profile" : "/register");
   };
+
   const handlenavigate = () => {
-    navigate("/cart"); // user not logged in
+    const token = localStorage.getItem("token");
+    navigate(token ? "/cart" : "/login");
   };
+
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    // Fetch products initially
+    fetch("http://localhost:5000/products?category=Dining-and-Kitchen")
       .then((res) => res.json())
-      .then((data) => setProducts(data))
+      .then((data) => {
+        console.log("Fetched products:", data);
+        setProducts(data);
+        setFilteredProducts(data); // initialize filteredProducts also
+      })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
-  const addToCart = async (productId) => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      alert("Please login first!");
-      
-      navigate("/login");
-      return;
-    }
+  useEffect(() => {
+    // Update filtered products when searchQuery changes
+    const result = products.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(result);
+  }, [searchQuery, products]);
 
-    try {
-      const response = await fetch("http://localhost:5000/cart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, productId, quantity: 1 }),
-      });
+  const handleAddToCart = (product) => {
+    const productForCart = {
+      id: product._id,
+      title: product.name,
+      image: `http://localhost:5000${product.image}`,
+      price: product.price,
+      quantity: 1,
+    };
 
-      if (response.ok) alert("Added to cart!");
-      else alert("Error adding to cart");
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    const updatedCart = [...cartItems, productForCart];
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCartCount(updatedCart.length);
+    alert("Product added to cart!");
   };
+
   return (
     <div className="App">
       <header className="header">
-      <div className="header-content">
-        <h2>Timber Mart</h2>
-        <p>Making Your Home Into What You Want.</p>
-        <nav className="navbar">
-          <a href="/home" >Home</a>
-          <a href="/Living-Room">Living Room</a>
-          <a href="/Bedroom">Bedroom</a>
-          <a href="/Cabinetry">Cabinetry</a>
-          <a href="/DiningAndKitchen" class="nav-link active">Dining & Kitchen</a>
-          <a href="/Seating">Seating</a>
-          <a href="/Home-Essentials">Home Essentials</a>
-          <div className="icons-container">
-          <User className="icon" onClick={handleUserClick} />
-            <div className="cart-icon-container" >
-            <ShoppingBag className="cart-icon" onClick={handlenavigate}/>
-            <span className="cart-badge">0</span>
-          </div>
-          </div>
-        </nav>
+        <div className="header-content">
+          <h2>Timber Mart</h2>
+          <p>Making Your Home Into What You Want.</p>
+          <nav className="navbar">
+            <a href="/home" className="nav-link">
+              Home
+            </a>
+            <a href="/Living-Room" className="nav-link">
+              Living Room
+            </a>
+            <a href="/Bedroom" className="nav-link">
+              Bedroom
+            </a>
+            <a href="/Cabinetry" className="nav-link">
+              Cabinetry
+            </a>
+            <a href="/Dining-and-Kitchen" className="nav-link active">
+              Dining & Kitchen
+            </a>
+            <a href="/Seating" className="nav-link">
+              Seating
+            </a>
+            <a href="/Home-Essentials" className="nav-link">
+              Home Essentials
+            </a>
+            <div className="icons-container">
+              <User className="icon" onClick={handleUserClick} />
+              <div className="cart-icon-container">
+                <FaShoppingCart
+                  className="cart-icon"
+                  onClick={handlenavigate}
+                />
+                <span className="cart-badge">{cartCount}</span>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search for products..."
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <Search className="search-icon" />
       </div>
-    </header>
-    <body>
+
       <div className="container">
-        <div className="product-card">
-          <img src="https://img.freepik.com/free-photo/restaurant-table-with-wooden-chairs-placed-hall-decorated-classical-style_140725-8460.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
-          <h3>Wood Dining</h3>
-          <p>Price: ₹10,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://img.freepik.com/free-photo/room-interior-design_23-2148899463.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
-          <h3>Modern Dining</h3>
-          <p>Price: ₹10,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://img.freepik.com/premium-photo/dining-set-table-chairs_933597-117.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
-          <h3>Kitchen Storage with Dining</h3>
-          <p>Price: ₹20,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://img.freepik.com/free-vector/modern-luxury-kitchen-dark-brown-cabinets-with-built-microwave-oven-realistic-side-view-image-vec_1284-15165.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
-          <h3>Kitchen Unit</h3>
-          <p>Price:  ₹25,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://img.freepik.com/premium-photo/table-chairs-front-modern-red-kitchen-furniture-with-kitchenware-interior-extreme-closeup-3d-rendering_476612-12956.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
-          <h3>Table Set</h3>
-          <p>Price: ₹8,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://img.freepik.com/premium-photo/photo-farmhouse-dining-room-furniture_933496-45976.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
-          <h3>Wood Shelf</h3>
-          <p>Price: ₹25,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://img.freepik.com/premium-photo/dining-room-table-with-chairs-table-with-chairs-window-background_1239820-18948.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
-          <h3>Dining Set</h3>
-          <p>Price: ₹12,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://img.freepik.com/free-photo/kitchen-interior-design-with-wooden-table_23-2148848661.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
-          <h3>Kitchen Table</h3>
-          <p>Price: ₹15,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://img.freepik.com/free-photo/interior-design-house-modern-wooden-table-chair_657883-324.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid&w=740" alt="product" />
-          <h3>Wood Cabinet</h3>
-          <p>Price:  ₹18,000</p>
-          <button onclick="">Add to Cart</button>
-        </div>
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <div className="product-card" key={product._id}>
+              <img
+                src={`http://localhost:5000/${product.image.replace(
+                  /\\/g,
+                  "/"
+                )}`}
+                alt={product.name}
+              />
+              <h3>{product.name}</h3>
+              <p>Price: ₹{product.price}</p>
+              <button onClick={() => handleAddToCart(product)}>
+                Add to Cart
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No matching products found.</p>
+        )}
       </div>
-    </body>
-      <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-section">
-          <h3>Connect With Us</h3>
-          <p>For inboxes with impeccable taste.</p>
-          <input type="email" placeholder="Email" className="email-input" />
-        </div>
-        <div className="footer-section">
-          <h3>Information</h3>
-          <ul>
-            <a href="/Our-story">Our Story</a>
-            <a href="/Sustainability">Sustainability</a>
-            <a href="/Gift-Card">Gift Card</a>
-          </ul>
-        </div>
-        <div className="footer-section">
-          <h3>Navigation</h3>
-          <ul>
-            <a href="/About-Us">About Us</a>
-            <a href="/Contact-Us">Contact Us</a>
-            <a href="/Franchisee">Franchisee</a>
-            <a href="/Customise-Order-Policy">Customise Order Policy</a>
-          </ul>
-        </div>
-        <div className="footer-section">
-          <h3>Disclaimer</h3>
-          <ul>
-            <a href="/FAQs">FAQs</a>
-            <a href="/Shipping-Policy">Shipping Policy</a>
-            <a href="/Return/Refund-Policy">Return/Refund Policy</a>
-            <a href="/International-Shipping">International Shipping</a>
-          </ul>
-        </div>
-        <div className="footer-section">
-          <h3>Policies</h3>
-          <ul>
-            <a href="/Privacy-Policy">Privacy Policy</a>
-            <a href="/Terms-of-Use">Terms of Use</a>
-            <a href="/Care-&-Instructions">Care & Instructions</a>
-            <a href="/Maintain-Your-Furniture<">Maintain Your Furniture</a>
-          </ul>
-        </div>
-      </div>
-    </footer>
+
+      <Footer />
     </div>
   );
 }
+
 export default DiningAndKitchen;

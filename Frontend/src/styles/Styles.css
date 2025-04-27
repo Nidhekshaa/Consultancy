@@ -119,20 +119,19 @@ body {
 
 .cart-badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #6200ea;
+  bottom: -10px; /* move it below */
+  right: 0; /* align it horizontally */
+  background-color: black;
   color: white;
-  width: 20px;
-  height: 20px;
-  font-size: 12px;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
   font-weight: bold;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  animation: pop 0.3s ease;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 }
 /* Hero Section */
 .hero-container {

@@ -5,7 +5,7 @@ const PaymentPage = () => {
   const [shippingInfo, setShippingInfo] = useState({});
   const [subtotal, setSubtotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-  const shippingCost = 4.0;
+  const shippingCost = 300.0;
   const handlePay = async () => {
     const res = await fetch("http://localhost:5000/create-order", {
       method: "POST",
@@ -15,7 +15,7 @@ const PaymentPage = () => {
     const data = await res.json();
   
     const options = {
-      key: "YOUR_KEY",
+      key: "YOUR_RAZORPAY_KEY", // Enter the Key ID generated from the Dashboard
       amount: data.amount,
       currency: data.currency,
       order_id: data.id,
@@ -23,7 +23,6 @@ const PaymentPage = () => {
       description: "Order Payment",
       handler: async function (response) {
         alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
-      
         // Save the order to your backend
         try {
           await fetch("http://localhost:5000/save-order", {

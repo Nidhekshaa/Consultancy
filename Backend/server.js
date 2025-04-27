@@ -8,6 +8,8 @@ const nodemailer = require("nodemailer");
 const crypto = require('crypto');
 const dotenv = require("dotenv");
 const Razorpay = require("razorpay");
+const path = require('path');
+
 dotenv.config();
 
 // Routers
@@ -42,8 +44,9 @@ app.use('/shipping', shippingRoutes);
 app.use('/', recoveryRoutes);
 app.use("/api/admin", adminRoutes);
 app.use(addProductRoute);
-app.use("/uploads", express.static("uploads")); // Serve image files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));// Serve image files
 let orders = []; // memory storage for now
+
 
 app.post('/save-order', (req, res) => {
   orders.push(req.body);
@@ -123,7 +126,7 @@ app.post('/auth/forgot-password', async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
 
-    const resetURL = `http://localhost:3000/reset-password/${token}`;
+    const resetURL = `http://localhost:5000/reset-password/${token}`;
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {

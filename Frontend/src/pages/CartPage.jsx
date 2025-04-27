@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ShoppingBag, Trash2, User } from "lucide-react";
+import { Trash2, User } from "lucide-react";
+import { FaShoppingCart } from "react-icons/fa";
 import Footer from "./Footer";
 import "../styles/CartPage.css";
 
@@ -11,6 +12,7 @@ const CartPage = () => {
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    console.log(storedCart);
     const withQuantities = storedCart.map((item) => ({
       ...item,
       quantity: item.quantity || 1,
@@ -36,9 +38,9 @@ const CartPage = () => {
     setCartCount(updated.reduce((sum, item) => sum + item.quantity, 0));
   };
 
-  const handleQuantityChange = (id, delta) => {
+  const handleQuantityChange = (_id, delta) => {
     const updated = cartItems.map((item) => {
-      if (item.id === id) {
+      if (item.id === _id) {
         const newQty = item.quantity + delta;
         return { ...item, quantity: newQty > 0 ? newQty : 1 };
       }
@@ -77,6 +79,9 @@ const CartPage = () => {
       console.error("Error saving cart:", error);
     }
   };
+  const fixImageUrl = (url) => {
+    return url.replace(/\\/g, "/").replace("5000uploads", "5000/uploads");
+  };  
 
   return (
     <div className="cart-page">
@@ -95,7 +100,10 @@ const CartPage = () => {
             <div className="icons-container">
               <User className="icon" onClick={handleUserClick} />
               <div className="cart-icon-container">
-                <ShoppingBag className="cart-icon" onClick={handlenavigate} />
+              <FaShoppingCart
+                  className="cart-icon"
+                  onClick={handlenavigate}
+                />
                 <span className="cart-badge">{cartCount}</span>
               </div>
             </div>
@@ -118,7 +126,7 @@ const CartPage = () => {
           cartItems.map((item) => (
             <div className="cart-item" key={item.id}>
               <div className="product-info">
-                <img src={item.image} alt={item.title} />
+              <img src={fixImageUrl(item.image)} alt={item.title} />
                 <div>
                   <h4>{item.title}</h4>
                   <p>Rs. {item.price}</p>

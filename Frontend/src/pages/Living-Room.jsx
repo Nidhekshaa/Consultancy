@@ -1,139 +1,147 @@
 import "../styles/Styles.css";
-import { Search, User, ShoppingBag } from "lucide-react";
-import {  useNavigate  } from "react-router-dom";
-import { useEffect , useState } from "react";
-import Footer from './Footer'
+import { Search, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Footer from "./Footer";
+import { FaShoppingCart } from "react-icons/fa";
+
 function LivingRoom() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const handleUserClick = () => {
-    const token = localStorage.getItem("token"); // or however you're tracking auth
 
-    if (token) {
-      navigate("/profile"); // user is logged in
-    } else {
-      navigate("/register"); // user not logged in
-    }
+  const [products, setProducts] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const storedCart = localStorage.getItem("cart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [cartCount, setCartCount] = useState(cartItems.length);
+
+  const handleUserClick = () => {
+    const token = localStorage.getItem("token");
+    navigate(token ? "/profile" : "/register");
   };
+
   const handlenavigate = () => {
-    navigate("/cart"); // user not logged in
+    const token = localStorage.getItem("token");
+    navigate(token ? "/cart" : "/login");
   };
+
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    // Fetch products initially
+    fetch("http://localhost:5000/products?category=Living-Room")
       .then((res) => res.json())
-      .then((data) => setProducts(data))
+      .then((data) => {
+        console.log("Fetched products:", data);
+        setProducts(data);
+        setFilteredProducts(data); // initialize filteredProducts also
+      })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
-  const addToCart = async (productId) => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      alert("Please login first!");
-      
-      navigate("/login");
-      return;
-    }
+  useEffect(() => {
+    // Update filtered products when searchQuery changes
+    const result = products.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(result);
+  }, [searchQuery, products]);
 
-    try {
-      const response = await fetch("http://localhost:5000/cart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, productId, quantity: 1 }),
-      });
+  const handleAddToCart = (product) => {
+    const productForCart = {
+      id: product._id,
+      title: product.name,
+      image: `http://localhost:5000${product.image}`,
+      price: product.price,
+      quantity: 1,
+    };
 
-      if (response.ok) alert("Added to cart!");
-      else alert("Error adding to cart");
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    const updatedCart = [...cartItems, productForCart];
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCartCount(updatedCart.length);
+    alert("Product added to cart!");
   };
+
   return (
     <div className="App">
       <header className="header">
-      <div className="header-content">
-        <h2>Timber Mart</h2>
-        <p>Making Your Home Into What You Want.</p>
-        <nav className="navbar">
-        {/* <Search className="icon" onclick="" /> */}
-          
+        <div className="header-content">
+          <h2>Timber Mart</h2>
+          <p>Making Your Home Into What You Want.</p>
           <nav className="navbar">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/Living-Room" class="nav-link active">Living Room</a>
-            <a href="/Bedroom" class="nav-link">Bedroom</a>
-            <a href="/Cabinetry"class="nav-link">Cabinetry</a>
-            <a href="/Dining-&-Kitchen" class="nav-link">Dining & Kitchen</a>
-            <a href="/Seating" class="nav-link">Seating</a>
-            <a href="/Home-Essentials" class="nav-link">Home Essentials</a>
+            <a href="/home" className="nav-link">
+              Home
+            </a>
+            <a href="/Living-Room" className="nav-link active">
+              Living Room
+            </a>
+            <a href="/Bedroom" className="nav-link">
+              Bedroom
+            </a>
+            <a href="/Cabinetry" className="nav-link">
+              Cabinetry
+            </a>
+            <a href="/Dining-and-Kitchen" className="nav-link">
+              Dining & Kitchen
+            </a>
+            <a href="/Seating" className="nav-link">
+              Seating
+            </a>
+            <a href="/Home-Essentials" className="nav-link">
+              Home Essentials
+            </a>
+            <div className="icons-container">
+              <User className="icon" onClick={handleUserClick} />
+              <div className="cart-icon-container">
+                <FaShoppingCart
+                  className="cart-icon"
+                  onClick={handlenavigate}
+                />
+                <span className="cart-badge">{cartCount}</span>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
 
-          <div className="icons-container">
-          <User className="icon" onClick={handleUserClick} />
-            <div className="cart-icon-container" >
-            <ShoppingBag className="cart-icon" onClick={handlenavigate}/>
-            <span className="cart-badge">0</span>
-          </div>
-          </div>
-          </nav>
-          </nav>
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search for products..."
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <Search className="search-icon" />
       </div>
-    </header>
+
       <div className="container">
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/447592/pexels-photo-447592.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Dining Set</h3>
-          <p>Price: ₹10,000</p>
-          <button onClick={() => addToCart('productId')}>Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/17219549/pexels-photo-17219549/free-photo-of-a-dining-room-in-modern-design.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Dining Set</h3>
-          <p>Price: ₹20,000</p>
-          <button onClick={() => addToCart('productId')}>Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/7303672/pexels-photo-7303672.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Storage Unit</h3>
-          <p>Price: ₹20,000</p>
-          <button onClick={() => addToCart('productId')}>Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://img.freepik.com/premium-photo/minsk-belarus-august-2020-interior-modern-luxure-guest-room-studio-apartments-with-sofa-tv_97694-10830.jpg?ga=GA1.1.946617581.1714549414&semt=ais_hybrid" alt="product" />
-          <h3>Hall set</h3>
-          <p>Price:  ₹35,000</p>
-          <button onClick={() => addToCart('productId')}>Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/11262212/pexels-photo-11262212.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Table Set</h3>
-          <p>Price: ₹30,000</p>
-          <button onClick={() => addToCart('productId')}>Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/10507487/pexels-photo-10507487.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Wall Shelf</h3>
-          <p>Price: ₹15,000</p>
-          <button onClick={() => addToCart('productId')}>Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/4050318/pexels-photo-4050318.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Chest Set</h3>
-          <p>Price: ₹25,000</p>
-          <button onClick={() => addToCart('productId')}>Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/7563521/pexels-photo-7563521.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Working Table</h3>
-          <p>Price: ₹30,000</p>
-          <button onClick={() => addToCart('productId')}>Add to Cart</button>
-        </div>
-        <div className="product-card">
-          <img src="https://images.pexels.com/photos/7486484/pexels-photo-7486484.jpeg?auto=compress&cs=tinysrgb&w=600" alt="product" />
-          <h3>Storage Unit</h3>
-          <p>Price:  ₹35,000</p>
-          <button onClick={() => addToCart('productId')}>Add to Cart</button>
-        </div>
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <div className="product-card" key={product._id}>
+              <img
+                src={`http://localhost:5000/${product.image.replace(
+                  /\\/g,
+                  "/"
+                )}`}
+                alt={product.name}
+              />
+              <h3>{product.name}</h3>
+              <p>Price: ₹{product.price}</p>
+              <button onClick={() => handleAddToCart(product)}>
+                Add to Cart
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No matching products found.</p>
+        )}
       </div>
+
       <Footer />
     </div>
   );
 }
+
 export default LivingRoom;

@@ -63,13 +63,27 @@ function Profile() {
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
           <nav className="navbar">
-            <a href="/home" className="nav-link active">Home</a>
-            <a href="/Living-Room" className="nav-link">Living Room</a>
-            <a href="/Bedroom" className="nav-link">Bedroom</a>
-            <a href="/Cabinetry" className="nav-link">Cabinetry</a>
-            <a href="/Dining-&-Kitchen" className="nav-link">Dining & Kitchen</a>
-            <a href="/Seating" className="nav-link">Seating</a>
-            <a href="/Home-Essentials" className="nav-link">Home Essentials</a>
+            <a href="/home" className="nav-link active">
+              Home
+            </a>
+            <a href="/Living-Room" className="nav-link">
+              Living Room
+            </a>
+            <a href="/Bedroom" className="nav-link">
+              Bedroom
+            </a>
+            <a href="/Cabinetry" className="nav-link">
+              Cabinetry
+            </a>
+            <a href="/Dining-&-Kitchen" className="nav-link">
+              Dining & Kitchen
+            </a>
+            <a href="/Seating" className="nav-link">
+              Seating
+            </a>
+            <a href="/Home-Essentials" className="nav-link">
+              Home Essentials
+            </a>
             <div className="icons-container">
               <User className="icon" onClick={handleUserClick} />
               <div className="cart-icon-container">
@@ -90,14 +104,49 @@ function Profile() {
 
               {user ? (
                 <div className="profile-details">
-                  <p><strong>Name:</strong> {user.user?.name}</p>
-                  <p><strong>Email:</strong> {user.user?.email}</p>
-                  <p><strong>Order Placed:</strong> 0</p>
+                  <p>
+                    <strong>Name:</strong> {user.user?.name}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {user.user?.email}
+                  </p>
+                  <p>
+                  <p><strong>Order Placed:</strong> {user?.orders?.length || 0}</p>
+                  </p>
                 </div>
               ) : (
                 <p>Loading profile...</p>
               )}
             </div>
+            <div className="profile-orders">
+                <h2>Orders</h2>
+                <p>Total Orders Placed: {user?.orders?.length || 0}</p>
+
+                {user?.orders?.length > 0 ? (
+                  <ul>
+                    {user.orders.map((order, index) => (
+                      <li key={index} className="order-item">
+                        <p>
+                          <strong>Order #{index + 1}</strong>
+                        </p>
+                        <p>
+                          <strong>Items:</strong>{" "}
+                          {order.items?.map((item) => item.name).join(", ")}
+                        </p>
+                        <p>
+                          <strong>Total:</strong> ₹{order.totalAmount}
+                        </p>
+                        <p>
+                          <strong>Placed on:</strong>{" "}
+                          {new Date(order.createdAt).toLocaleDateString()}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No orders placed yet.</p>
+                )}
+              </div>
           </div>
         </section>
 
