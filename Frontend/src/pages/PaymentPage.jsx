@@ -15,7 +15,7 @@ const PaymentPage = () => {
     const data = await res.json();
   
     const options = {
-      key: "YOUR_RAZORPAY_KEY", // Enter the Key ID generated from the Dashboard
+      key: "", // Enter the Key ID generated from the Dashboard
       amount: data.amount,
       currency: data.currency,
       order_id: data.id,
