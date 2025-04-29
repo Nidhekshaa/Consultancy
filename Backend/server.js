@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const nodemailer = require("nodemailer");
 const crypto = require('crypto');
 const dotenv = require("dotenv");
-const Razorpay = require("razorpay");
+// const Razorpay = require("razorpay");
 const path = require('path');
 
 dotenv.config();
@@ -208,8 +208,8 @@ app.get('/auth/user', authenticateToken, async (req, res) => {
   }
 });
 
-const paymentRoutes = require("./router/payment");
-app.use("/", paymentRoutes);
+// const paymentRoutes = require("./router/payment");
+// app.use("/", paymentRoutes);
 
 // 🟢 Start Server
 const PORT = process.env.PORT || 5000;
