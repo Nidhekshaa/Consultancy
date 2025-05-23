@@ -62,7 +62,7 @@ const CartPage = () => {
 
   const handleNavigate = async () => {
     try {
-      const res = await fetch("http://localhost:5000/cart", {
+      const res = await fetch("https://consultancy-4drr.onrender.com/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

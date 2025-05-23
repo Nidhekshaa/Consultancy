@@ -11,7 +11,7 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const shippingCost = 300.0;
   const handlePay = async () => {
-    const res = await fetch("http://localhost:5000/create-order", {
+    const res = await fetch("https://consultancy-4drr.onrender.com/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: grandTotal }), // if backend expects it
@@ -31,7 +31,7 @@ const PaymentPage = () => {
         );
         // Save the order to your backend
         try {
-          await fetch("http://localhost:5000/save-order", {
+          await fetch("https://consultancy-4drr.onrender.com/save-order", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -73,7 +73,7 @@ const PaymentPage = () => {
 
   useEffect(() => {
     // Fetch shipping info from backend
-    fetch("http://localhost:5000/shipping/latest")
+    fetch("https://consultancy-4drr.onrender.com/shipping/latest")
       .then((res) => res.json())
       .then((data) => {
         setShippingInfo(data || {});
@@ -81,7 +81,7 @@ const PaymentPage = () => {
       .catch((err) => console.error("Failed to load shipping info:", err));
 
     // Fetch cart subtotal
-    fetch("http://localhost:5000/cart/latest")
+    fetch("https://consultancy-4drr.onrender.com/cart/latest")
       .then((res) => res.json())
       .then((data) => {
         setCartItems(data.items || []);

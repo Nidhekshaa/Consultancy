@@ -23,7 +23,7 @@ const CheckoutPage = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch("http://localhost:5000/shipping", {
+      const res = await fetch("https://consultancy-4drr.onrender.com/shipping", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(shippingInfo),
@@ -43,7 +43,7 @@ const CheckoutPage = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/cart/latest")
+    fetch("https://consultancy-4drr.onrender.com/cart/latest")
       .then((res) => res.json())
       .then((data) => {
         setCartItems(data.items || []);

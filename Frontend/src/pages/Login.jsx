@@ -20,7 +20,7 @@ const Login = () => {
     console.log("🔹 Sending login request with:", { email, password });
 
     try {
-      const response = await fetch("http://localhost:5000/auth/login", {
+      const response = await fetch("https://consultancy-4drr.onrender.com/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),

@@ -55,12 +55,12 @@ const AdminDashboard = () => {
   const [categoryStats, setCategoryStats] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:5000/orders")
+    fetch("https://consultancy-4drr.onrender.com/orders")
       .then((res) => res.json())
       .then((data) => setOrders(data))
       .catch((err) => console.error("Failed to fetch orders:", err));
 
-    fetch("http://localhost:5000/category-stats")
+    fetch("https://consultancy-4drr.onrender.com/category-stats")
       .then((res) => res.json())
       .then((data) => setCategoryStats(data))
       .catch((err) => console.error("Failed to fetch category stats:", err));

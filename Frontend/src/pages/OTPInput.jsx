@@ -14,7 +14,7 @@ export default function OTPInput() {
     if (disable) return;
 
     axios
-      .post("http://localhost:5000/send_recovery_email", {
+      .post("https://consultancy-4drr.onrender.com/send_recovery_email", {
         OTP: otp,
         recipient_email: email,
       })

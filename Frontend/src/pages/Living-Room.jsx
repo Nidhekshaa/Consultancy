@@ -47,7 +47,7 @@ function LivingRoom() {
 
   useEffect(() => {
     // Fetch products initially
-    fetch("http://localhost:5000/products?category=Living-Room")
+    fetch("https://consultancy-4drr.onrender.com/products?category=Living-Room")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched products:", data);
@@ -69,7 +69,7 @@ function LivingRoom() {
     const productForCart = {
       id: product._id,
       title: product.name,
-      image: `http://localhost:5000${product.image}`,
+      image: `https://consultancy-4drr.onrender.com${product.image}`,
       price: product.price,
       quantity: 1,
     };
@@ -158,7 +158,7 @@ function LivingRoom() {
           filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <img
-                src={`http://localhost:5000/${product.image.replace(
+                src={`https://consultancy-4drr.onrender.com/${product.image.replace(
                   /\\/g,
                   "/"
                 )}`}
