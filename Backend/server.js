@@ -178,6 +178,9 @@ app.get('/auth/user', authenticateToken, async (req, res) => {
 const paymentRoutes = require("./router/payment");
 app.use("/", paymentRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the Timber Mart');
+});
 // 🟢 Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
