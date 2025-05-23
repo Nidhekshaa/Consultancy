@@ -47,8 +47,8 @@ const ForgotPassword = () => {
           required
         />
 
-        <button type="submit" className="forgot-password-button">
-          Submit
+        <button type="submit" onClick={handleSubmit} className="forgot-password-button">
+          Submit 
         </button>
 
         <p className="forgot-password-link">

@@ -19,7 +19,7 @@ const cartRoutes = require("./router/cart");
 const shippingRoutes = require("./router/shipping");
 const adminRoutes = require("./router/Admin");
 const addProductRoute = require("./router/addproduct");
-
+const OrderRoutes = require("./router/order");
 // App & Middleware
 const app = express();
 app.use(cors());
@@ -42,7 +42,7 @@ app.use('/', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/shipping', shippingRoutes);
 app.use('/', recoveryRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/admin", adminRoutes);
 app.use(addProductRoute);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));// Serve image files
 let orders = []; // memory storage for now
@@ -56,6 +56,8 @@ app.post('/save-order', (req, res) => {
 app.get('/orders', (req, res) => {
   res.json(orders);
 });
+
+app.use("/api/status", OrderRoutes);
 
 // 🟢 Register
 app.post('/auth/register', async (req, res) => {
@@ -105,7 +107,7 @@ app.post('/auth/login', async (req, res) => {
       return res.status(400).json({ error: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
     res.status(200).json({ message: "Login successful", token, user: { name: user.name, email: user.email } });
   } catch (error) {
     console.error("❌ Login error:", error);
@@ -113,65 +115,30 @@ app.post('/auth/login', async (req, res) => {
   }
 });
 
-// 🟢 Forgot Password
-app.post('/auth/forgot-password', async (req, res) => {
-  const { email } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ error: 'User not found' });
-
-    const token = crypto.randomBytes(20).toString('hex');
-    user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000;
-    await user.save();
-
-    const resetURL = `http://localhost:5000/reset-password/${token}`;
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
-
-    const mailOptions = {
-      to: user.email,
-      subject: 'Password Reset Request',
-      html: `<p>You requested a password reset.</p>
-             <p>Click <a href="${resetURL}">here</a> to reset your password.</p>`,
-    };
-
-    await transporter.sendMail(mailOptions);
-    res.json({ message: 'Password reset email sent' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// 🟢 Reset Password
-app.post('/auth/reset-password/:token', async (req, res) => {
-  const { password } = req.body;
-  const { token } = req.params;
+app.post('/auth/reset-password', async (req, res) => {
+  const { token, newPassword } = req.body;
 
   try {
     const user = await User.findOne({
       resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }
+      resetPasswordExpires: { $gt: Date.now() },
     });
 
-    if (!user) return res.status(400).json({ error: 'Invalid or expired token' });
+    if (!user) return res.status(400).json({ error: 'Token invalid or expired' });
 
-    user.password = password;
+    // Hash and save new password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+
+    // Clear the reset token
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
     await user.save();
 
-    res.json({ message: 'Password reset successful' });
+    res.status(200).json({ message: 'Password updated successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Reset error:', error);
+    res.status(500).json({ error: 'Something went wrong' });
   }
 });
 
@@ -208,8 +175,8 @@ app.get('/auth/user', authenticateToken, async (req, res) => {
   }
 });
 
-// const paymentRoutes = require("./router/payment");
-// app.use("/", paymentRoutes);
+const paymentRoutes = require("./router/payment");
+app.use("/", paymentRoutes);
 
 // 🟢 Start Server
 const PORT = process.env.PORT || 5000;

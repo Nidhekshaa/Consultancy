@@ -1,0 +1,424 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  /* Header Styling */
+  .header {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .header h2 {
+    font-size: 2rem;
+    margin: 0;
+    color: #333;
+  }
+  
+  .header p {
+    font-size: 1rem;
+    color: #666;
+    margin: 0.5rem 0 1.5rem 0;
+  }
+  
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    padding: 0.3rem 0; /* reduced padding for tighter layout */
+    margin-bottom: 0.3rem;
+    margin-block: 0;
+    padding-block: 0px;
+  }
+  
+  .header.hide {
+    transform: translateY(-100%);
+  }
+  
+  .navbar a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.3rem 0.8rem;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+  }
+  
+  .navbar a:hover {
+    color: #6200ea;
+  }
+  
+  .nav-link {
+    position: relative;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #6200ea;
+  }
+  
+  .nav-link.active {
+    font-weight: bold;
+    color: #6200ea;
+  }
+  
+  .nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #6200ea;
+    border-radius: 2px;
+  }
+  
+  /* Icons */
+  .icons-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, color 0.3s ease;
+  }
+  
+  .icon:hover {
+    transform: scale(1.1);
+    color: #6200ea;
+  }
+  
+  .cart-icon-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .cart-icon {
+    font-size: 24px; /* optional if icon is too small */
+  }
+  
+  .cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background-color: #6200ea;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 12px;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Centered Search Bar Styling */
+.shop-search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60px auto 40px;
+    width: 60%;
+    position: relative;
+  }
+  
+  .shop-search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 50px;
+  }
+  
+  .shop-search-icon {
+    position: absolute;
+    right: calc(50% - 200px + 65px); /* aligns icon inside input */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000000;
+    font-size: 20px;
+    pointer-events: none;
+  }
+  /* Product Container */
+  .container {
+    background-color: #ffffff;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .shop-product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding-bottom: 2rem;
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .shop-product-card {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .shop-product-card:hover {
+    transform: scale(1.03);
+  }
+  
+  .shop-product-card img {
+    width: 80%;
+    height: 220px;
+    border-radius: 6px;
+    transition: transform 0.3s ease;
+  }
+  
+  .shop-product-card img:hover {
+    transform: scale(1.05);
+  }
+  
+  .shop-product-card h3 {
+    font-size: 1.2rem;
+    margin: 0.8rem 0;
+  }
+  
+  .shop-product-card p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .shop-product-card button {
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-size: 1rem;
+    transition: background 0.3s ease, transform 0.2s ease-in-out;
+  }
+  
+  .shop-product-card button:hover {
+    background-color: #4500c8;
+    transform: scale(1.05);
+  }
+  
+  /* WhatsApp button styling */
+  .whatsapp-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #128c7e;
+    color: white;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .whatsapp-button:hover {
+    background-color: #25d366;
+  }
+  
+  .whatsapp-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+  }
+  
+  /* Footer */
+  .footer {
+    background-color: #333;
+    color: white;
+    padding: 2rem;
+    width: 100%;
+    margin-top: 2rem;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 1rem;
+  }
+  
+  .footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  
+  .footer-section p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-section ul a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: block;
+    margin: 0.5rem 0;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-section ul a:hover {
+    color: #6200ea;
+  }
+  
+  .email-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .icons-container {
+      justify-content: center;
+    }
+  
+    .footer-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .footer-section {
+      margin: 1rem 0;
+    }
+  
+    .container {
+      padding: 1rem;
+    }
+  
+    .product-card {
+      width: 90%;
+    }
+  }
+  
+  /* Dark Mode Styles */
+  body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  .search-filter-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  
+  .price-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .price-filter label {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .price-filter input {
+    padding: 8px;
+    width: 100px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-input {
+    padding: 10px 40px 10px 12px; /* Right padding gives space for the icon */
+    width: 250px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    pointer-events: none; /* Makes sure typing still works under the icon */
+  }
+  

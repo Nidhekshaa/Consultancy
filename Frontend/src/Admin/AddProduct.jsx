@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "../styles/AddProduct.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaPlus,
-  FaTags,
-  FaShoppingCart,
+  FaClipboardList,
+  FaSignOutAlt,
 } from "react-icons/fa";
 
 const AddProduct = () => {
@@ -51,13 +50,15 @@ const AddProduct = () => {
     navigate("/add-product-dashboard");
   };
 
-  const handlecategory = () => {
-    navigate("/select-category");
-  };
-
   const handleorders = () => {
     navigate("/orders-received");
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/admin-login");
+  };
+
   return (
     <div className="add-product-dashboard">
       <div className="add-product-dashboard-body">
@@ -78,18 +79,15 @@ const AddProduct = () => {
               Add Product
             </li>
             <li
-              className={path === "/select-category" ? "active-link" : ""}
-              onClick={handlecategory}
-            >
-              <FaTags className="sidebar-icon" />
-              Category
-            </li>
-            <li
               className={path === "/orders-received" ? "active-link" : ""}
               onClick={handleorders}
             >
-              <FaShoppingCart className="sidebar-icon" />
+              <FaClipboardList className="sidebar-icon" />
               Orders
+            </li>
+            <li onClick={handleLogout}>
+              <FaSignOutAlt className="sidebar-icon" />
+              Logout
             </li>
           </ul>
         </aside>

@@ -1,41 +1,69 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Order.css";
-import { FaTachometerAlt,FaPlus,FaTags,FaShoppingCart,} from "react-icons/fa";
+import {
+  FaTachometerAlt,
+  FaPlus,
+  FaClipboardList,
+  FaSignOutAlt,
+} from "react-icons/fa";
 
 const Orders = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
   const [orders, setOrders] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handledashboard = () => navigate("/admin-dashboard");
   const handleproduct = () => navigate("/add-product-dashboard");
-  const handlecategory = () => navigate("/select-category");
   const handleorders = () => navigate("/orders-received");
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   useEffect(() => {
-    // Fetch orders from backend
     fetch("http://localhost:5000/orders")
       .then((res) => res.json())
-      .then((data) => {
-        setOrders(data);
-      })
+      .then((data) => setOrders(data))
       .catch((err) => console.error("Failed to load orders:", err));
   }, []);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleImageClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const handleImageClick = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const fixImageUrl = (url) => {
     if (!url) return "https://placehold.co/40x40";
     return url.replace(/\\/g, "/").replace("5000uploads", "5000/uploads");
+  };
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/status/update-status",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ orderId, status: newStatus }),
+        }
+      );
+
+      const data = await res.json();
+      if (data.success) {
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order._id === orderId ? { ...order, status: newStatus } : order
+          )
+        );
+      } else {
+        console.error("Failed to update status:", data.message);
+      }
+    } catch (error) {
+      console.error("Error while updating order status:", error);
+    }
   };
 
   return (
@@ -58,18 +86,13 @@ const Orders = () => {
               Add Product
             </li>
             <li
-              className={path === "/select-category" ? "active-link" : ""}
-              onClick={handlecategory}
-            >
-              <FaTags className="sidebar-icon" />
-              Category
-            </li>
-            <li
               className={path === "/orders-received" ? "active-link" : ""}
               onClick={handleorders}
             >
-              <FaShoppingCart className="sidebar-icon" />
-              Orders
+              <FaClipboardList className="sidebar-icon" /> Orders
+            </li>
+            <li onClick={handleLogout}>
+              <FaSignOutAlt className="sidebar-icon" /> Logout
             </li>
           </ul>
         </aside>
@@ -82,7 +105,7 @@ const Orders = () => {
           ) : (
             <div className="orders-list">
               {orders.map((order, index) => (
-                <div className="order-card" key={index}>
+                <div className="order-card" key={order._id}>
                   <h4>Order #{index + 1}</h4>
                   <p>
                     <strong>Name:</strong> {order.shippingInfo.name}
@@ -100,6 +123,7 @@ const Orders = () => {
                   <p>
                     <strong>Payment ID:</strong> {order.paymentId}
                   </p>
+
                   <div className="order-items">
                     <ul className="order-items-list">
                       {order.cartItems.map((item, idx) => (
@@ -135,9 +159,26 @@ const Orders = () => {
                       ))}
                     </ul>
                   </div>
+
                   <p>
                     <strong>Total:</strong> ₹{order.grandTotal}
                   </p>
+
+                  <label>
+                    <strong>Status: </strong>
+                  </label>
+                  <select
+                    value={order.status}
+                    className={`status-dropdown ${
+                      order.status ? order.status.toLowerCase() : ""
+                    }`}
+                    onChange={(e) =>
+                      handleStatusChange(order._id, e.target.value)
+                    }
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Completed">Completed</option>
+                  </select>
                 </div>
               ))}
             </div>

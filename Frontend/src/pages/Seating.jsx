@@ -7,6 +7,8 @@ import { FaShoppingCart } from "react-icons/fa";
 
 function Seating() {
   const navigate = useNavigate();
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState(() => {
@@ -17,6 +19,22 @@ function Seating() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [cartCount, setCartCount] = useState(cartItems.length);
 
+  useEffect(() => {
+    let result = products.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    if (minPrice !== "" && maxPrice !== "") {
+      result = result.filter(
+        (product) =>
+          product.price >= parseFloat(minPrice) &&
+          product.price <= parseFloat(maxPrice)
+      );
+    }
+
+    setFilteredProducts(result);
+  }, [searchQuery, minPrice, maxPrice, products]);
+  
   const handleUserClick = () => {
     const token = localStorage.getItem("token");
     navigate(token ? "/profile" : "/register");
@@ -105,15 +123,34 @@ function Seating() {
         </div>
       </header>
 
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search for products..."
-          className="search-input"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <Search className="search-icon" />
+      <div className="search-filter-wrapper">
+        <div className="price-filter">
+          <label>Min Price:</label>
+          <input
+            type="number"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+            placeholder="0"
+          />
+          <label>Max Price:</label>
+          <input
+            type="number"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            placeholder="1,00,000"
+          />
+        </div>
+
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search for products..."
+            className="search-input"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <Search className="search-icon" />
+        </div>
       </div>
 
       <div className="container">

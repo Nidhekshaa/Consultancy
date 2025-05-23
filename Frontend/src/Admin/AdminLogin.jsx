@@ -1,30 +1,48 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "../styles/AdminAuth.css";
 import { useNavigate } from "react-router-dom";
+
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [adminInfo, setAdminInfo] = useState(null);
-  let navigate=useNavigate()
+  let navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/admin/login", {
-        email,
-        password,
+      const res = await fetch("http://localhost:5000/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       });
 
-      setAdminInfo(res.data);
-      alert("Login successful!");
-      navigate('/admin-dashboard');
-      // You can redirect or store info in context/localStorage here
+      // First check if it's actually JSON before parsing
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Expected JSON but received something else");
+      }
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Login failed");
+        return;
+      }
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        navigate("/orders-received");
+      } else {
+        setError("Token not received from server.");
+      }
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      console.error("Login error:", err);
+      setError("Network error or server issue. Please try again later.");
     }
   };
 
@@ -48,12 +66,6 @@ const AdminLogin = () => {
           required
         />
         <button type="submit">Login</button>
-
-        {adminInfo && (
-          <div style={{ marginTop: "20px", color: "green" }}>
-            <p>Welcome, {adminInfo.name}</p>
-          </div>
-        )}
       </form>
     </div>
   );

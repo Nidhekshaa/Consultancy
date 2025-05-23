@@ -1,0 +1,108 @@
+
+[
+    {
+      "id": 1,
+      "title": "Wooden Chair",
+      "price": "6,000",
+      "image": "images/h1.jpeg",
+      "alt": "product"
+    },
+    {
+      "id": 2,
+      "title": "Unique Wooden Chair",
+      "price": "17,999",
+      "image": "images/h2.jpeg",
+      "alt": "product"
+    },
+    {
+        "id": 3,
+        "title": "Classic Wooden Sofa",
+        "price": "15,000",
+        "image": "images/h3.jpeg",
+        "alt": "product"
+    },
+    {
+      "id": 4,
+      "title": "Modern Wooden Bench",
+      "price": "5,000",
+      "image": "images/h4.jpeg",
+      "alt": "product"
+    },
+    {
+      "id": 5,
+      "title": "Handcrafted Wooden Cabinet",
+      "price": "7,000",
+      "image": "images/h5.jpeg",
+      "alt": "product"
+    },
+    {
+      "id": 6,
+      "title": "Luxury Wooden Bed",
+      "price": "20,000",
+      "image": "images/h6.jpeg",
+      "alt": "product"
+    },
+    {
+      "id": 7,
+      "title": "Luxury Wooden Bed",
+      "price": "7,000",
+      "image": "images/c1.jpeg",
+      "alt": "product"
+    },
+    {
+      "id": 8,
+      "title": "Elegant Wooden temple",
+      "price": "10,000",
+      "image": "images/c2.webp",
+      "alt": "product"
+    },
+    {
+      "id": 9,
+      "title": "Godrej Wooden Wardrobe",
+      "price": "6,000",
+      "image": "images/c3.jpeg",
+      "alt": "product"
+    },
+    {
+      "id": 10,
+      "title": "Wooden Dining Table",
+      "price": "8,000",
+      "image": "images/c4.jpg",
+      "alt": "product"
+    },
+    {
+      "id": 11,
+      "title": "Wooden TV Unit",
+      "price": "5,000",
+      "image": "images/c5.webp",
+      "alt": "product"
+    },
+    {
+      "id": 12,
+      "title": "Wooden Dressing Table",
+      "price": "4,000",
+      "image": "images/c6.avif",
+      "alt": "product"
+    },
+    {
+      "id": 13,
+      "title": "Wooden Study Table",
+      "price": "3,000",
+      "image": "images/c7.avif",
+      "alt": "product"
+    },
+    {
+      "id": 14,
+      "title": "Wooden Bookshelf",
+      "price": "2,000",
+      "image": "images/c8.avif",
+      "alt": "product"
+    },
+    {
+      "id": 15,
+      "title": "Wooden Coffee Table",
+      "price": "1,500",
+      "image": "images/c9.jpg",
+      "alt": "product"
+    }
+]

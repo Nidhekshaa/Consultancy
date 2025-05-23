@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Search, User, ShoppingBag } from "lucide-react";
+import { User } from "lucide-react";
+import { FaShoppingCart } from "react-icons/fa";
 import Footer from "../pages/Footer";
 import "../styles/Profile.css";
 
 function Profile() {
   const navigate = useNavigate();
-
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
@@ -19,7 +19,7 @@ function Profile() {
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    setCartCount(cartItems.length); // Initialize cart count
+    setCartCount(cartItems.length);
   }, [cartItems]);
 
   const handleUserClick = () => {
@@ -32,22 +32,22 @@ function Profile() {
     navigate(token ? "/cart" : "/login");
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(response.data);
-      } catch (err) {
-        console.error("Error fetching user profile:", err);
-        setError("Failed to load profile information.");
-      }
-    };
+  const fetchUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:5000/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data);
+    } catch (err) {
+      console.error("Error fetching user profile:", err);
+      setError("Failed to load profile information.");
+    }
+  };
 
+  useEffect(() => {
     fetchUser();
   }, []);
 
@@ -75,7 +75,7 @@ function Profile() {
             <a href="/Cabinetry" className="nav-link">
               Cabinetry
             </a>
-            <a href="/Dining-&-Kitchen" className="nav-link">
+            <a href="/Dining-and-Kitchen" className="nav-link">
               Dining & Kitchen
             </a>
             <a href="/Seating" className="nav-link">
@@ -87,7 +87,7 @@ function Profile() {
             <div className="icons-container">
               <User className="icon" onClick={handleUserClick} />
               <div className="cart-icon-container">
-                <ShoppingBag className="cart-icon" onClick={handlenavigate} />
+                <FaShoppingCart className="cart-icon" onClick={handlenavigate} />
                 <span className="cart-badge">{cartCount}</span>
               </div>
             </div>
@@ -111,42 +111,43 @@ function Profile() {
                     <strong>Email:</strong> {user.user?.email}
                   </p>
                   <p>
-                  <p><strong>Order Placed:</strong> {user?.orders?.length || 0}</p>
+                    <strong>Order Placed:</strong> {user?.orders?.length || 0}
                   </p>
                 </div>
               ) : (
                 <p>Loading profile...</p>
               )}
             </div>
-            <div className="profile-orders">
-                <h2>Orders</h2>
-                <p>Total Orders Placed: {user?.orders?.length || 0}</p>
 
-                {user?.orders?.length > 0 ? (
-                  <ul>
-                    {user.orders.map((order, index) => (
-                      <li key={index} className="order-item">
-                        <p>
-                          <strong>Order #{index + 1}</strong>
-                        </p>
-                        <p>
-                          <strong>Items:</strong>{" "}
-                          {order.items?.map((item) => item.name).join(", ")}
-                        </p>
-                        <p>
-                          <strong>Total:</strong> ₹{order.totalAmount}
-                        </p>
-                        <p>
-                          <strong>Placed on:</strong>{" "}
-                          {new Date(order.createdAt).toLocaleDateString()}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No orders placed yet.</p>
-                )}
-              </div>
+            <div className="profile-orders">
+              <h2>Orders</h2>
+              <p>Total Orders Placed: {user?.orders?.length || 0}</p>
+
+              {user?.orders?.length > 0 ? (
+                <ul>
+                  {user.orders.map((order, index) => (
+                    <li key={index} className="order-item">
+                      <p>
+                        <strong>Order #{index + 1}</strong>
+                      </p>
+                      <p>
+                        <strong>Items:</strong>{" "}
+                        {order.items?.map((item) => item.name).join(", ")}
+                      </p>
+                      <p>
+                        <strong>Total:</strong> ₹{order.totalAmount}
+                      </p>
+                      <p>
+                        <strong>Placed on:</strong>{" "}
+                        {new Date(order.createdAt).toLocaleDateString()}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No orders placed yet.</p>
+              )}
+            </div>
           </div>
         </section>
 

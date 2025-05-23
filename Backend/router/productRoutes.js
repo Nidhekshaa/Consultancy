@@ -21,4 +21,29 @@ router.get('/products', async (req, res) => {
   }
 });
 
+router.get("/category-stats", async (req, res) => {
+  try {
+    const stats = await Product.aggregate([
+      {
+        $group: {
+          _id: "$category", // Assuming `category` field exists in your schema
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    // Convert result to { categoryName: count }
+    const result = {};
+    stats.forEach((item) => {
+      result[item._id] = item.count;
+    });
+
+    res.json(result);
+  } catch (err) {
+    console.error("Error fetching category stats:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 module.exports = router;

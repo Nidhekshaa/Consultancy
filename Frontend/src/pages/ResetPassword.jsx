@@ -1,38 +1,57 @@
-import { useContext, useState } from "react";
-import { RecoveryContext } from "../App1";
+import { useState } from "react";
 import "../styles/resetpassword.css";
 
 export default function ResetPassword() {
-  const { token, setPage } = useContext(RecoveryContext);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Extract token from URL query string
+  const searchParams = new URLSearchParams(window.location.search);
+  const token = searchParams.get("token");
+
+  // Debug: Show full URL and token
+  console.log("Full URL:", window.location.href);
+  console.log("Token:", token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if token is present
+    if (!token) {
+      alert("❌ Missing or invalid token in URL.");
+      return;
+    }
+
+    if (!password) {
+      alert("❌ Password cannot be empty.");
+      return;
+    }
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      alert("❌ Passwords do not match.");
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/auth/reset-password/${token}`, {
+      const response = await fetch("http://localhost:5000/auth/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ token, newPassword: password }),
       });
 
-      if (response.ok) {
-        alert("Password reset successful");
-        setPage("login");
-      } else {
-        alert("Failed to reset password");
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong");
       }
-    } catch (err) {
-      console.error(err);
-      alert("An error occurred while resetting the password");
+
+      alert("✅ Password reset successfully");
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("❌ Password reset error:", error.message);
+      alert(`❌ Error: ${error.message}`);
     }
   };
 
@@ -60,7 +79,7 @@ export default function ResetPassword() {
               </div>
               <div>
                 <label htmlFor="confirm-password" className="reset-label">
-                  Confirm password
+                  Confirm Password
                 </label>
                 <input
                   type="password"
@@ -74,7 +93,7 @@ export default function ResetPassword() {
                 />
               </div>
               <button type="submit" className="reset-button">
-                Reset password
+                Reset Password
               </button>
             </form>
           </div>

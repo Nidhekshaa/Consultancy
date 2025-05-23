@@ -1,28 +1,34 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/PaymentPage.css";
 
 const PaymentPage = () => {
   const [shippingInfo, setShippingInfo] = useState({});
   const [subtotal, setSubtotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState("card"); // or "gpay"
+  
+  const navigate = useNavigate();
   const shippingCost = 300.0;
   const handlePay = async () => {
     const res = await fetch("http://localhost:5000/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: grandTotal }) // if backend expects it
+      body: JSON.stringify({ amount: grandTotal }), // if backend expects it
     });
     const data = await res.json();
-  
+
     const options = {
-      key: "", // Enter the Key ID generated from the Dashboard
+      key: "rzp_test_yy480cNXaBQsZO", // Enter the Key ID generated from the Dashboard
       amount: data.amount,
       currency: data.currency,
       order_id: data.id,
       name: "Your Store",
       description: "Order Payment",
       handler: async function (response) {
-        alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+        alert(
+          "Payment successful! Payment ID: " + response.razorpay_payment_id
+        );
         // Save the order to your backend
         try {
           await fetch("http://localhost:5000/save-order", {
@@ -37,25 +43,33 @@ const PaymentPage = () => {
               paymentId: response.razorpay_payment_id,
             }),
           });
-      
+
           alert("Order saved successfully!");
+          navigate("/thank-you");
         } catch (error) {
           console.error("Failed to save order:", error);
           alert("Order saving failed");
         }
-      },      
+      },
       prefill: {
         name: shippingInfo.name,
         email: shippingInfo.email,
-        contact: shippingInfo.phone
+        contact: shippingInfo.phone,
       },
-      theme: { color: "#3399cc" }
+      theme: { color: "#3399cc" },
     };
-  
+
+    if (paymentMethod === "gpay") {
+      options.method = {
+        upi: true,
+        card: false,
+        netbanking: false,
+        wallet: false,
+      };
+    }
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
-  
 
   useEffect(() => {
     // Fetch shipping info from backend
@@ -124,7 +138,20 @@ const PaymentPage = () => {
         {/* Right: Payment Form */}
         <div className="payment-form">
           <h4>Payment details</h4>
-          <button className="gpay-btn">GPay</button>
+          <button
+            className="gpay-btn"
+            onClick={() => {
+              setPaymentMethod("gpay");
+              handlePay();
+            }}
+          >
+            <img
+              src="https://logos-world.net/wp-content/uploads/2020/09/Google-Symbol.png"
+              alt="Google Pay"
+              className="gpay-logo"
+            />
+            Pay
+          </button>
           <div className="divider">
             <span>Or pay with card</span>
           </div>
@@ -134,10 +161,18 @@ const PaymentPage = () => {
             <input type="text" placeholder="CVV" />
           </div>
           <div className="checkbox-row">
-            <input type="checkbox" defaultChecked />
-            <label>Billing address is same as shipping</label>
+            <input type="checkbox" id="sameAsShipping" defaultChecked />
+            <label htmlFor="sameAsShipping">
+              My billing address is the same as my shipping address
+            </label>
           </div>
-          <button className="pay-button" onClick={handlePay}>
+          <button
+            className="pay-button"
+            onClick={() => {
+              setPaymentMethod("card");
+              handlePay();
+            }}
+          >
             Pay ₹{grandTotal.toFixed(2)}
           </button>
         </div>

@@ -35,15 +35,6 @@ return (
               <a href="/International-Shipping">International Shipping</a>
             </ul>
           </div>
-          <div className="footer-section">
-            <h3>Policies</h3>
-            <ul>
-              <a href="/Privacy-Policy">Privacy Policy</a>
-              <a href="/Terms-of-Use">Terms of Use</a>
-              <a href="/Care-&-Instructions">Care & Instructions</a>
-              <a href="/Maintain-Your-Furniture">Maintain Your Furniture</a>
-            </ul>
-          </div>
         </div>
       </footer>
 );

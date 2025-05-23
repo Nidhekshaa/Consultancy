@@ -23,6 +23,21 @@
   border-bottom: 1px solid #eee;
 }
 
+.cart-icon-container.active {
+  font-weight: bold;
+  color: #6200ea;
+}
+
+.cart-icon-container.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #6200ea;
+  border-radius: 2px;
+}
 .product-info {
   display: flex;
   align-items: center;

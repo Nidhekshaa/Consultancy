@@ -13,12 +13,29 @@
 }
 
 /* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  padding-top: 30px;
+}
+
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 .sidebar ul li {
-  padding: 12px 30px;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 30px;
+  font-size: 1.1rem;
   color: #374151;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
 }
 
 .sidebar ul li:hover {
@@ -30,8 +47,13 @@
 .sidebar ul li.active-link {
   background-color: #dbeafe;
   color: #1d4ed8;
-  font-weight: bold;
+  font-weight: 600;
   border-left: 4px solid #2563eb;
+}
+
+/* Sidebar Icons */
+.sidebar-icon {
+  font-size: 1.3rem;
 }
 
 /* Form Container */

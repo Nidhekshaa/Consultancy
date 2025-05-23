@@ -90,16 +90,16 @@ const CartPage = () => {
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
           <nav className="navbar">
-            <a href="/home" className="nav-link active">Home</a>
+            <a href="/home" className="nav-link">Home</a>
             <a href="/Living-Room" className="nav-link">Living Room</a>
             <a href="/Bedroom" className="nav-link">Bedroom</a>
             <a href="/Cabinetry" className="nav-link">Cabinetry</a>
-            <a href="/Dining-&-Kitchen" className="nav-link">Dining & Kitchen</a>
+            <a href="/Dining-and-Kitchen" className="nav-link">Dining & Kitchen</a>
             <a href="/Seating" className="nav-link">Seating</a>
             <a href="/Home-Essentials" className="nav-link">Home Essentials</a>
             <div className="icons-container">
               <User className="icon" onClick={handleUserClick} />
-              <div className="cart-icon-container">
+              <div className="cart-icon-container active">
               <FaShoppingCart
                   className="cart-icon"
                   onClick={handlenavigate}

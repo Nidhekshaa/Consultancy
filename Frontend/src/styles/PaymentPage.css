@@ -53,16 +53,26 @@
 }
 
 .gpay-btn {
-  background-color: black;
-  color: white;
-  border: none;
-  padding: 14px;
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #000;
+  color: #fff;
   font-weight: 500;
-  width: 100%;
+  border: none;
+  padding: 12px 20px;
   border-radius: 6px;
   cursor: pointer;
-  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.gpay-btn:hover {
+  background-color: #333;
+}
+
+.gpay-logo {
+  height: 20px;
 }
 
 /* Divider */
@@ -124,12 +134,29 @@
 .checkbox-row {
   display: flex;
   align-items: center;
+  margin-top: 16px;
   font-size: 14px;
-  margin: 15px 0;
+  color: #333;
 }
 
-.checkbox-row input {
-  margin-right: 0px;
+.checkbox-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  accent-color: #4f46e5; /* Indigo-like accent (tailwind-inspired) */
+  cursor: pointer;
+}
+
+.checkbox-row label {
+  cursor: pointer;
+  line-height: 2;
+  user-select: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.checkbox-row label:hover {
+  color: #1f2937; /* Slightly darker hover color */
 }
 
 /* Pay Button */

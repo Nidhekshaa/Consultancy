@@ -1,25 +1,24 @@
+// backend/routes/adminAuth.js or similar file
+
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 
-// Dummy admin credentials (you can later replace this with MongoDB check)
-const adminCredentials = {
-  email: "admin@example.com",
-  password: "Admin123",
-  name: "Admin User"
-};
-
+// Admin login route
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  if (email === adminCredentials.email && password === adminCredentials.password) {
-    return res.json({
-      success: true,
-      name: adminCredentials.name,
-      email: adminCredentials.email
-    });
-  } else {
-    return res.status(401).json({ success: false, message: "Invalid credentials" });
+  // Hardcoded admin credentials (for demo)
+  if (email === "admin@example.com" && password === "Admin123") {
+    const token = jwt.sign(
+      { email, role: "admin" },
+      process.env.Admin_JWT_SECRET || "default_secret",
+      { expiresIn: "1h" }
+    );
+    return res.json({ token });
   }
+
+  return res.status(401).json({ error: "Invalid credentials" });
 });
 
 module.exports = router;
