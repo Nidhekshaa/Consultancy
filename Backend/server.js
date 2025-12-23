@@ -187,8 +187,3 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
 });
 
-// app.get("/api/test", (req, res) => {
-//   res.json({ message: "API working" });
-// });
-
-// module.exports = app;
