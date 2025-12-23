@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { RecoveryContext } from "../App1";
-import "../styles/Forgotpassword.css";
+import "../styles/ForgotPassword.css";
 
 const ForgotPassword = () => {
   const { setEmail, setPage, email, setOTP } = useContext(RecoveryContext);
