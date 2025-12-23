@@ -47,7 +47,7 @@ function Cabinetry() {
 
   useEffect(() => {
     // Fetch products initially
-    fetch("https://consultancy-4drr.onrender.com/products?category=Cabinetry")
+    fetch("http://localhost:5000/products?category=Cabinetry")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched products:", data);
@@ -69,7 +69,7 @@ function Cabinetry() {
     const productForCart = {
       id: product._id,
       title: product.name,
-      image: `https://consultancy-4drr.onrender.com${product.image}`,
+      image: `http://localhost:5000${product.image}`,
       price: product.price,
       quantity: 1,
     };
@@ -158,7 +158,7 @@ function Cabinetry() {
           filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <img
-                src={`https://consultancy-4drr.onrender.com/${product.image.replace(
+                src={`http://localhost:5000/${product.image.replace(
                   /\\/g,
                   "/"
                 )}`}

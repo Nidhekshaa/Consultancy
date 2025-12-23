@@ -47,7 +47,7 @@ function DiningAndKitchen() {
 
   useEffect(() => {
     // Fetch products initially
-    fetch("https://consultancy-4drr.onrender.com/products?category=Dining-and-Kitchen")
+    fetch("http://localhost:5000/products?category=Dining-and-Kitchen")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched products:", data);
@@ -69,7 +69,7 @@ function DiningAndKitchen() {
     const productForCart = {
       id: product._id,
       title: product.name,
-      image: `https://consultancy-4drr.onrender.com${product.image}`,
+      image: `http://localhost:5000${product.image}`,
       price: product.price,
       quantity: 1,
     };
@@ -158,7 +158,7 @@ function DiningAndKitchen() {
           filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <img
-                src={`https://consultancy-4drr.onrender.com/${product.image.replace(
+                src={`http://localhost:5000/${product.image.replace(
                   /\\/g,
                   "/"
                 )}`}

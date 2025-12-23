@@ -30,7 +30,7 @@ const AddProduct = () => {
     formData.append("image", imageFile);
 
     try {
-      const res = await fetch("https://consultancy-4drr.onrender.com/api/admin/add-product", {
+      const res = await fetch("http://localhost:5000/api/admin/add-product", {
         method: "POST",
         body: formData,
       });

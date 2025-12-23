@@ -24,7 +24,7 @@ const Orders = () => {
   };
 
   useEffect(() => {
-    fetch("https://consultancy-4drr.onrender.com/orders")
+    fetch("http://localhost:5000/orders")
       .then((res) => res.json())
       .then((data) => setOrders(data))
       .catch((err) => console.error("Failed to load orders:", err));
@@ -41,7 +41,7 @@ const Orders = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       const res = await fetch(
-        "https://consultancy-4drr.onrender.com/api/status/update-status",
+        "http://localhost:5000/api/status/update-status",
         {
           method: "POST",
           headers: {
@@ -106,6 +106,7 @@ const Orders = () => {
             <div className="orders-list">
               {orders.map((order, index) => (
                 <div className="order-card" key={order._id}>
+
                   <h4>Order #{index + 1}</h4>
                   <p>
                     <strong>Name:</strong> {order.shippingInfo.name}

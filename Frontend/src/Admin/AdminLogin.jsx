@@ -13,7 +13,7 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const res = await fetch("https://consultancy-4drr.onrender.com/admin/login", {
+      const res = await fetch("http://localhost:5000/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
