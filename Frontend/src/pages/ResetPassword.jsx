@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/resetpassword.css";
+import "../styles/Resetpassword.css";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
