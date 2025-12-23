@@ -53,14 +53,15 @@ const AdminDashboard = () => {
 
   const [orders, setOrders] = useState([]);
   const [categoryStats, setCategoryStats] = useState({});
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch("http://localhost:5000/orders")
+    fetch(`${API_URL}/orders`)
       .then((res) => res.json())
       .then((data) => setOrders(data))
       .catch((err) => console.error("Failed to fetch orders:", err));
 
-    fetch("http://localhost:5000/category-stats")
+    fetch(`${API_URL}/category-stats`)
       .then((res) => res.json())
       .then((data) => setCategoryStats(data))
       .catch((err) => console.error("Failed to fetch category stats:", err));

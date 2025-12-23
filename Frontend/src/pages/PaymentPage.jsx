@@ -7,11 +7,12 @@ const PaymentPage = () => {
   const [subtotal, setSubtotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState("card"); // or "gpay"
-  
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const navigate = useNavigate();
   const shippingCost = 300.0;
   const handlePay = async () => {
-    const res = await fetch("http://localhost:5000/create-order", {
+    const res = await fetch(`${API_URL}/create-order`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: grandTotal }), // if backend expects it
@@ -31,7 +32,7 @@ const PaymentPage = () => {
         );
         // Save the order to your backend
         try {
-          await fetch("http://localhost:5000/save-order", {
+          await fetch(`${API_URL}/save-order`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -73,7 +74,7 @@ const PaymentPage = () => {
 
   useEffect(() => {
     // Fetch shipping info from backend
-    fetch("http://localhost:5000/shipping/latest")
+    fetch(`${API_URL}/shipping/latest`)
       .then((res) => res.json())
       .then((data) => {
         setShippingInfo(data || {});
@@ -81,7 +82,7 @@ const PaymentPage = () => {
       .catch((err) => console.error("Failed to load shipping info:", err));
 
     // Fetch cart subtotal
-    fetch("http://localhost:5000/cart/latest")
+    fetch(`${API_URL}/cart/latest`)
       .then((res) => res.json())
       .then((data) => {
         setCartItems(data.items || []);

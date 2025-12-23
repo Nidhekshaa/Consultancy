@@ -32,10 +32,12 @@ function Profile() {
     navigate(token ? "/cart" : "/login");
   };
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/profile", {
+      const response = await axios.get(`${API_URL}/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

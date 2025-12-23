@@ -45,9 +45,11 @@ function LivingRoom() {
     navigate(token ? "/cart" : "/login");
   };
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     // Fetch products initially
-    fetch("http://localhost:5000/products?category=Living-Room")
+    fetch(`${API_URL}/products?category=Living-Room`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched products:", data);
@@ -69,7 +71,7 @@ function LivingRoom() {
     const productForCart = {
       id: product._id,
       title: product.name,
-      image: `http://localhost:5000${product.image}`,
+      image: `${API_URL}${product.image}`,
       price: product.price,
       quantity: 1,
     };
@@ -158,10 +160,7 @@ function LivingRoom() {
           filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <img
-                src={`http://localhost:5000/${product.image.replace(
-                  /\\/g,
-                  "/"
-                )}`}
+                src={`${API_URL}/${product.image.replace(/\\/g, "/")}`}
                 alt={product.name}
               />
               <h3>{product.name}</h3>

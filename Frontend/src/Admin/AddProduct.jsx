@@ -16,6 +16,7 @@ const AddProduct = () => {
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const path = location.pathname; // default active
 
@@ -30,7 +31,7 @@ const AddProduct = () => {
     formData.append("image", imageFile);
 
     try {
-      const res = await fetch("http://localhost:5000/api/admin/add-product", {
+      const res = await fetch(`${API_URL}/api/admin/add-product`, {
         method: "POST",
         body: formData,
       });

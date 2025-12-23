@@ -22,7 +22,9 @@ const addProductRoute = require("./router/addproduct");
 const OrderRoutes = require("./router/order");
 // App & Middleware
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());

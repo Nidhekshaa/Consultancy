@@ -7,7 +7,7 @@ const ForgotPassword = () => {
   const { setEmail, setPage, email, setOTP } = useContext(RecoveryContext);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
+  const API_URL = process.env.REACT_APP_API_URL;
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -19,7 +19,7 @@ const ForgotPassword = () => {
       setOTP(OTP);
 
       axios
-        .post("http://localhost:5000/send_recovery_email", {
+        .post(`${API_URL}/send_recovery_email`, {
           OTP,
           recipient_email: email,
         })

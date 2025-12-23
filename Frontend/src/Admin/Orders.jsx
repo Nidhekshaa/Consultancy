@@ -23,8 +23,10 @@ const Orders = () => {
     navigate("/");
   };
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
-    fetch("http://localhost:5000/orders")
+    fetch(`${API_URL}/orders`)
       .then((res) => res.json())
       .then((data) => setOrders(data))
       .catch((err) => console.error("Failed to load orders:", err));
@@ -41,7 +43,7 @@ const Orders = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       const res = await fetch(
-        "http://localhost:5000/api/status/update-status",
+        `${API_URL}/api/status/update-status`,
         {
           method: "POST",
           headers: {

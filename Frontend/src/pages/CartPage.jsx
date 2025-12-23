@@ -59,10 +59,11 @@ const CartPage = () => {
   const getGrandTotal = () => {
     return cartItems.reduce((acc, item) => acc + getTotal(item), 0);
   };
-
+  
+  const API_URL = process.env.REACT_APP_API_URL;
   const handleNavigate = async () => {
     try {
-      const res = await fetch("http://localhost:5000/cart", {
+      const res = await fetch(`${API_URL}/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
