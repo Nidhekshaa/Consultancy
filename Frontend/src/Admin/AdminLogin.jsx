@@ -14,7 +14,7 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const res = await fetch(`${API_URL}/admin/login`, {
+      const res = await fetch(`https://consultancy-2-eavm.onrender.com/admin/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
