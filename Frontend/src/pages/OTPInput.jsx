@@ -9,13 +9,12 @@ export default function OTPInput() {
   const [OTPinput, setOTPinput] = useState(["", "", "", ""]);
   const [disable, setDisable] = useState(true);
   const inputRefs = useRef([]);
-  const API_URL = process.env.REACT_APP_API_URL;
   
   function resendOTP() {
     if (disable) return;
 
     axios
-      .post(`${API_URL}/send_recovery_email`, {
+      .post(`https://consultancy-2-eavm.onrender.com/send_recovery_email`, {
         OTP: otp,
         recipient_email: email,
       })

@@ -4,7 +4,6 @@ import "../styles/ResetPassword.css";
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const API_URL = process.env.REACT_APP_API_URL;
   // Extract token from URL query string
   const searchParams = new URLSearchParams(window.location.search);
   const token = searchParams.get("token");
@@ -33,7 +32,7 @@ export default function ResetPassword() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/auth/reset-password`, {
+      const response = await fetch(`https://consultancy-2-eavm.onrender.com/auth/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

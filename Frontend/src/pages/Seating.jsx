@@ -45,11 +45,9 @@ function Seating() {
     navigate(token ? "/cart" : "/login");
   };
 
-  const API_URL = process.env.REACT_APP_API_URL;
-
   useEffect(() => {
     // Fetch products initially
-    fetch(`${API_URL}/products?category=Seating`)
+    fetch(`https://consultancy-2-eavm.onrender.com/products?category=Seating`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched products:", data);
@@ -71,7 +69,7 @@ function Seating() {
     const productForCart = {
       id: product._id,
       title: product.name,
-      image: `${API_URL}${product.image}`,
+      image: `https://consultancy-2-eavm.onrender.com/${product.image}`,
       price: product.price,
       quantity: 1,
     };
@@ -160,7 +158,7 @@ function Seating() {
           filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <img
-                src={`${API_URL}/${product.image.replace(/\\/g, "/")}`}
+                src={`https://consultancy-2-eavm.onrender.com/${product.image.replace(/\\/g, "/")}`}
                 alt={product.name}
               />
               <h3>{product.name}</h3>

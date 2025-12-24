@@ -9,9 +9,7 @@ const Register = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-  const API_URL = process.env.REACT_APP_API_URL;
-  console.log("API_URL =", API_URL);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -23,7 +21,7 @@ const Register = () => {
     }
   
     try {
-      const response = await fetch(`${API_URL}/auth/register`, {
+      const response = await fetch(`https://consultancy-2-eavm.onrender.com/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),

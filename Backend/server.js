@@ -4,10 +4,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
-const nodemailer = require("nodemailer");
-const crypto = require('crypto');
 const dotenv = require("dotenv");
-// const Razorpay = require("razorpay");
 const path = require('path');
 
 dotenv.config();
@@ -58,6 +55,8 @@ app.post('/save-order', (req, res) => {
 app.get('/orders', (req, res) => {
   res.json(orders);
 });
+
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 app.use("/api/status", OrderRoutes);
 
@@ -190,3 +189,6 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
 });
 
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});

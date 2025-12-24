@@ -7,12 +7,11 @@ const PaymentPage = () => {
   const [subtotal, setSubtotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState("card"); // or "gpay"
-  const API_URL = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
   const shippingCost = 300.0;
   const handlePay = async () => {
-    const res = await fetch(`${API_URL}/create-order`, {
+    const res = await fetch(`https://consultancy-2-eavm.onrender.com/create-order`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: grandTotal }), // if backend expects it
@@ -32,7 +31,7 @@ const PaymentPage = () => {
         );
         // Save the order to your backend
         try {
-          await fetch(`${API_URL}/save-order`, {
+          await fetch(`https://consultancy-2-eavm.onrender.com/save-order`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

@@ -60,10 +60,9 @@ const CartPage = () => {
     return cartItems.reduce((acc, item) => acc + getTotal(item), 0);
   };
   
-  const API_URL = process.env.REACT_APP_API_URL;
   const handleNavigate = async () => {
     try {
-      const res = await fetch(`${API_URL}/cart`, {
+      const res = await fetch(`https://consultancy-2-eavm.onrender.com/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
