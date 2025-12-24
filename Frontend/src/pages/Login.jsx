@@ -26,13 +26,23 @@ const Login = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
       });
-  
+
+      const contentType = response.headers.get("content-type");
+
+      if (!response.ok) {
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await response.json();
+        setError(errorData.error || "Login failed");
+      } else {
+        setError("Server error. Please try again later.");
+      }
+      return;
+    }
+
       const data = await response.json(); // ✅ Parse JSON response first
   
-      if (!response.ok) {
-          throw new Error(data.error || "Login failed");
-      }
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       alert(data.message); // ✅ Show the success message
       navigate("/profile");
   } catch (err) {
