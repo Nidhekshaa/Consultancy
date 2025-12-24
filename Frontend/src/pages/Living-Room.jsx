@@ -90,27 +90,13 @@ function LivingRoom() {
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
           <nav className="navbar">
-            <a href="/home" className="nav-link">
-              Home
-            </a>
-            <a href="/Living-Room" className="nav-link active">
-              Living Room
-            </a>
-            <a href="/Bedroom" className="nav-link">
-              Bedroom
-            </a>
-            <a href="/Cabinetry" className="nav-link">
-              Cabinetry
-            </a>
-            <a href="/Dining-and-Kitchen" className="nav-link">
-              Dining & Kitchen
-            </a>
-            <a href="/Seating" className="nav-link">
-              Seating
-            </a>
-            <a href="/Home-Essentials" className="nav-link">
-              Home Essentials
-            </a>
+              <Link to="/home" className="nav-link">Home</Link>
+              <Link to="/Living-Room" className="nav-link active">Living Room</Link>
+              <Link to="/Bedroom" className="nav-link">Bedroom</Link>
+              <Link to="/Cabinetry" className="nav-link">Cabinetry</Link>
+              <Link to="/Dining-and-Kitchen" className="nav-link">Dining & Kitchen</Link>
+              <Link to="/Seating" className="nav-link">Seating</Link>
+              <Link to="/Home-Essentials" className="nav-link">Home Essentials</Link>
             <div className="icons-container">
               <User className="icon" onClick={handleUserClick} />
               <div className="cart-icon-container">
