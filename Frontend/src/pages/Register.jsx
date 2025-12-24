@@ -10,7 +10,8 @@ const Register = () => {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
-
+  console.log("API_URL =", API_URL);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
