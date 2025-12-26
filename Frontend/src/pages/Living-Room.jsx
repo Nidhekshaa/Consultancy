@@ -1,6 +1,6 @@
 import "../styles/Styles.css";
 import { Search, User } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import { FaShoppingCart } from "react-icons/fa";
