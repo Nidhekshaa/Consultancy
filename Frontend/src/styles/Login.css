@@ -3,7 +3,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 100vh;
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    padding: 20px;
+    width: 100%;
   }
   
   .login-form {
@@ -16,7 +20,6 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 380px;
     margin:0 400px;
-    animation: fadeIn 0.5s ease-in-out;
   }
   
   .login-title {
@@ -105,4 +108,32 @@
       transform: translateY(0);
     }
   }
-  
+
+@media (max-width: 768px) {
+  .login-container {
+    padding: 20px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .login-form {
+    width: 100%;
+    max-width: 360px;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .login-title {
+    font-size: 1.5rem;
+  }
+
+  .login-input {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .forgot-password {
+    text-align: right;
+    font-size: 0.85rem;
+  }
+}

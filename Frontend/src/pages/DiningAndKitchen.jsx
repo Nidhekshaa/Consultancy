@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import { FaShoppingCart } from "react-icons/fa";
+import config from "../config";
 
 function DiningAndKitchen() {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ function DiningAndKitchen() {
 
   useEffect(() => {
     // Fetch products initially
-    fetch(`https://consultancy-2-eavm.onrender.com/products?category=Dining-and-Kitchen`)
+    fetch(`${config.API_BASE_URL}/products?category=Dining-and-Kitchen`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched products:", data);
@@ -69,7 +70,7 @@ function DiningAndKitchen() {
     const productForCart = {
       id: product._id,
       title: product.name,
-      image: `https://consultancy-2-eavm.onrender.com/${product.image}`,
+      image: `${config.API_BASE_URL}/${product.image}`,
       price: product.price,
       quantity: 1,
     };
@@ -87,7 +88,13 @@ function DiningAndKitchen() {
         <div className="header-content">
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
-          <nav className="navbar">
+          <div className="hamburger" onClick={toggleMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          {/* Navbar */}
+          <nav className={`navbar ${isMenuOpen ? "open" : ""}`}>
             <a href="/home" className="nav-link">
               Home
             </a>
@@ -158,7 +165,7 @@ function DiningAndKitchen() {
           filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <img
-                src={`https://consultancy-2-eavm.onrender.com/${product.image.replace(/\\/g, "/")}`}
+                src={`${config.API_BASE_URL}/${product.image.replace(/\\/g, "/")}`}
                 alt={product.name}
               />
               <h3>{product.name}</h3>

@@ -4,6 +4,7 @@ import { Trash2, User } from "lucide-react";
 import { FaShoppingCart } from "react-icons/fa";
 import Footer from "./Footer";
 import "../styles/CartPage.css";
+import config from "../config";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -62,7 +63,7 @@ const CartPage = () => {
   
   const handleNavigate = async () => {
     try {
-      const res = await fetch(`https://consultancy-2-eavm.onrender.com/cart`, {
+      const res = await fetch(`${config.API_BASE_URL}/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +90,13 @@ const CartPage = () => {
         <div className="header-content">
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
-          <nav className="navbar">
+          <div className="hamburger" onClick={toggleMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          {/* Navbar */}
+          <nav className={`navbar ${isMenuOpen ? "open" : ""}`}>
             <a href="/home" className="nav-link">Home</a>
             <a href="/Living-Room" className="nav-link">Living Room</a>
             <a href="/Bedroom" className="nav-link">Bedroom</a>

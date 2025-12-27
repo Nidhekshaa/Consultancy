@@ -69,7 +69,13 @@ function Shop() {
         <div className="header-content">
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
-          <nav className="navbar">
+          <div className="hamburger" onClick={toggleMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          {/* Navbar */}
+          <nav className={`navbar ${isMenuOpen ? "open" : ""}`}>
             <a href="/home" className="nav-link active">
               Home
             </a>

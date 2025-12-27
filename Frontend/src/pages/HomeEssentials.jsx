@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import { FaShoppingCart } from "react-icons/fa";
+import config from "../config";
 
 function HomeEssentials() {
   const navigate = useNavigate();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState(() => {
     const storedCart = localStorage.getItem("cart");
@@ -18,6 +18,7 @@ function HomeEssentials() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [cartCount, setCartCount] = useState(cartItems.length);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Hamburger menu state
 
   useEffect(() => {
     let result = products.filter((product) =>
@@ -45,33 +46,24 @@ function HomeEssentials() {
     navigate(token ? "/cart" : "/login");
   };
 
-  const API_URL = process.env.REACT_APP_API_URL;
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen); 
 
   useEffect(() => {
     // Fetch products initially
-    fetch(`https://consultancy-2-eavm.onrender.com/products?category=HomeEssentials`)
+    fetch(`${config.API_BASE_URL}/products?category=HomeEssentials`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Fetched products:", data);
         setProducts(data);
-        setFilteredProducts(data); // initialize filteredProducts also
+        setFilteredProducts(data);
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
-
-  useEffect(() => {
-    // Update filtered products when searchQuery changes
-    const result = products.filter((product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredProducts(result);
-  }, [searchQuery, products]);
 
   const handleAddToCart = (product) => {
     const productForCart = {
       id: product._id,
       title: product.name,
-      image: `https://consultancy-2-eavm.onrender.com/${product.image}`,
+      image: `${config.API_BASE_URL}/${product.image}`,
       price: product.price,
       quantity: 1,
     };
@@ -89,7 +81,14 @@ function HomeEssentials() {
         <div className="header-content">
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
-          <nav className="navbar">
+          {/* Hamburger Icon */}
+          <div className="hamburger" onClick={toggleMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          {/* Navbar */}
+          <nav className={`navbar ${isMenuOpen ? "open" : ""}`}>
             <a href="/home" className="nav-link">
               Home
             </a>
@@ -160,7 +159,10 @@ function HomeEssentials() {
           filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <img
-                src={`https://consultancy-2-eavm.onrender.com/${product.image.replace(/\\/g, "/")}`}
+                src={`${config.API_BASE_URL}/${product.image.replace(
+                  /\\/g,
+                  "/"
+                )}`}
                 alt={product.name}
               />
               <h3>{product.name}</h3>

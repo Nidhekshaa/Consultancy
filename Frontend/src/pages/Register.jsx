@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Register.css";
+import config from "../config";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -21,7 +22,7 @@ const Register = () => {
     }
   
     try {
-      const response = await fetch(`https://consultancy-2-eavm.onrender.com/auth/register`, {
+      const response = await fetch(`${config.API_BASE_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),

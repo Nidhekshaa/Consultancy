@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
+import config from "../config";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const Login = () => {
     console.log("🔹 Sending login request with:", { email, password });
 
     try {
-      const response = await fetch(`https://consultancy-2-eavm.onrender.com/auth/login`, {
+      const response = await fetch(`${config.API_BASE_URL}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),

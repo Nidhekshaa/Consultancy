@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/ResetPassword.css";
+import config from "../config";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -32,7 +33,7 @@ export default function ResetPassword() {
     }
 
     try {
-      const response = await fetch(`https://consultancy-2-eavm.onrender.com/auth/reset-password`, {
+      const response = await fetch(`${config.API_BASE_URL}/auth/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

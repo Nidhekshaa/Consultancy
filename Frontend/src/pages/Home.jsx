@@ -110,27 +110,41 @@ const Home = () => {
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
           <nav className="navbar">
-            <a href="/home" className="nav-link active">
-              Home
-            </a>
-            <a href="/Living-Room" className="nav-link">
-              Living Room
-            </a>
-            <a href="/Bedroom" className="nav-link">
-              Bedroom
-            </a>
-            <a href="/Cabinetry" className="nav-link">
-              Cabinetry
-            </a>
-            <a href="/Dining-and-Kitchen" className="nav-link">
-              Dining & Kitchen
-            </a>
-            <a href="/Seating" className="nav-link">
-              Seating
-            </a>
-            <a href="/Home-Essentials" className="nav-link">
-              Home Essentials
-            </a>
+            <div
+              className="hamburger"
+              onClick={() => {
+                document.querySelector(".nav-links").classList.toggle("open");
+              }}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div className="nav-links">
+              <a href="/home" className="nav-link active">
+                Home
+              </a>
+              <a href="/Living-Room" className="nav-link">
+                Living Room
+              </a>
+              <a href="/Bedroom" className="nav-link">
+                Bedroom
+              </a>
+              <a href="/Cabinetry" className="nav-link">
+                Cabinetry
+              </a>
+              <a href="/Dining-and-Kitchen" className="nav-link">
+                Dining & Kitchen
+              </a>
+              <a href="/Seating" className="nav-link">
+                Seating
+              </a>
+              <a href="/Home-Essentials" className="nav-link">
+                Home Essentials
+              </a>
+            </div>
+
             <div className="icons-container">
               <User className="icon" onClick={handleUserClick} />
               <div className="cart-icon-container">
@@ -185,18 +199,18 @@ const Home = () => {
       </div>
 
       <div className="made-to-order-text">
-          <h2 className="made-to-order-title">Made In India</h2>
-          <p className="made-to-order-description">
-          Dedicated to Solid Wood Furniture. We create quality products that embody craftsmanship,
-          enrich lives, and connect generations.
-          </p>
-        </div>
+        <h2 className="made-to-order-title">Made In India</h2>
+        <p className="made-to-order-description">
+          Dedicated to Solid Wood Furniture. We create quality products that
+          embody craftsmanship, enrich lives, and connect generations.
+        </p>
+      </div>
 
       <div>
         <div class="collection-section">
           <h2>New Arrivals</h2>
         </div>
-        <div className="special-products">         
+        <div className="special-products">
           <div className="product-card">
             <img src="images/new1.jpeg" alt="Product 3" />
             <h4>Wooden chair</h4>
@@ -224,10 +238,7 @@ const Home = () => {
       <div className="made-to-order-container">
         {/* Left: Image */}
         <div className="made-to-order-image">
-          <img
-            src="/Carpenter.jpeg"
-            alt="Made To Order"
-          />
+          <img src="/Carpenter.jpeg" alt="Made To Order" />
         </div>
 
         {/* Right: Text Content */}

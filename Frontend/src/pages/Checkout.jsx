@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Checkout.css";
 import { useNavigate } from "react-router-dom";
+import config from "../config";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const CheckoutPage = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch(`https://consultancy-2-eavm.onrender.com/shipping`, {
+      const res = await fetch(`${config.API_BASE_URL}/shipping`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(shippingInfo),
@@ -43,7 +44,7 @@ const CheckoutPage = () => {
   };
 
   useEffect(() => {
-    fetch(`https://consultancy-2-eavm.onrender.com/cart/latest`)
+    fetch(`${config.API_BASE_URL}/cart/latest`)
       .then((res) => res.json())
       .then((data) => {
         setCartItems(data.items || []);

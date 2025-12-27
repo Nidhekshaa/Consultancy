@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { RecoveryContext } from "../App1";
 import "../styles/ForgotPassword.css";
+import config from "../config";
 
 const ForgotPassword = () => {
   const { setEmail, setPage, email, setOTP } = useContext(RecoveryContext);
@@ -19,7 +20,7 @@ const ForgotPassword = () => {
       setOTP(OTP);
 
       axios
-        .post(`https://consultancy-2-eavm.onrender.com/send_recovery_email`, {
+        .post(`${config.API_BASE_URL}/send_recovery_email`, {
           OTP,
           recipient_email: email,
         })

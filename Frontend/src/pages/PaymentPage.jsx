@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/PaymentPage.css";
+import config from "../config";
 
 const PaymentPage = () => {
   const [shippingInfo, setShippingInfo] = useState({});
@@ -11,7 +12,7 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const shippingCost = 300.0;
   const handlePay = async () => {
-    const res = await fetch(`https://consultancy-2-eavm.onrender.com/create-order`, {
+    const res = await fetch(`${config.API_BASE_URL}/create-order`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: grandTotal }), // if backend expects it
@@ -31,7 +32,7 @@ const PaymentPage = () => {
         );
         // Save the order to your backend
         try {
-          await fetch(`https://consultancy-2-eavm.onrender.com/save-order`, {
+          await fetch(`${config.API_BASE_URL}/save-order`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

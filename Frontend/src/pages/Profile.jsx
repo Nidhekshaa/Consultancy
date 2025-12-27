@@ -5,6 +5,7 @@ import { User } from "lucide-react";
 import { FaShoppingCart } from "react-icons/fa";
 import Footer from "../pages/Footer";
 import "../styles/Profile.css";
+import config from "../config";
 
 function Profile() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function Profile() {
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(`https://consultancy-2-eavm.onrender.com/profile`, {
+      const response = await axios.get(`${config.API_BASE_URL}/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -62,8 +63,14 @@ function Profile() {
         <div className="header-content">
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
-          <nav className="navbar">
-            <a href="/home" className="nav-link active">
+          <div className="hamburger" onClick={toggleMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          {/* Navbar */}
+          <nav className={`navbar ${isMenuOpen ? "open" : ""}`}>
+            <a href="/home" className="nav-link">
               Home
             </a>
             <a href="/Living-Room" className="nav-link">
@@ -85,7 +92,7 @@ function Profile() {
               Home Essentials
             </a>
             <div className="icons-container">
-              <User className="icon" onClick={handleUserClick} />
+              <User className="icon active" onClick={handleUserClick} />
               <div className="cart-icon-container">
                 <FaShoppingCart className="cart-icon" onClick={handlenavigate} />
                 <span className="cart-badge">{cartCount}</span>

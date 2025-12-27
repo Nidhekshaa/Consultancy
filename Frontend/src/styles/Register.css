@@ -5,10 +5,9 @@
     align-items: center;
     flex-direction: column;
     height: 100vh;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    background: linear-gradient(135deg, #e3f2fd, #e6f0f9);
     padding: 20px;
-    width: 100%;
-    
+    width: 100%;    
 }
 
 /* Form Styling */
@@ -22,7 +21,6 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 380px;
     margin:0 400px;
-    animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Heading */
@@ -90,4 +88,28 @@
     font-size: 0.9rem;
     margin-bottom: 10px;
     text-align: center;
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    padding: 20px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .register-form {
+    width: 100%;
+    max-width: 360px;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .register-title {
+    font-size: 1.6rem;
+  }
+
+  .register-input {
+    width: 100%;
+    font-size: 16px;
+  }
 }

@@ -2,6 +2,7 @@ import React, { useState, useContext, useRef, useEffect } from "react";
 import { RecoveryContext } from "../App1";
 import axios from "axios";
 import "../styles/OTPInput.css";
+import config from "../config";
 
 export default function OTPInput() {
   const { email, otp, setPage } = useContext(RecoveryContext);
@@ -14,7 +15,7 @@ export default function OTPInput() {
     if (disable) return;
 
     axios
-      .post(`https://consultancy-2-eavm.onrender.com/send_recovery_email`, {
+      .post(`${config.API_BASE_URL}/send_recovery_email`, {
         OTP: otp,
         recipient_email: email,
       })
