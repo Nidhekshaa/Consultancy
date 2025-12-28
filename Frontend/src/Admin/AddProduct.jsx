@@ -7,6 +7,7 @@ import {
   FaClipboardList,
   FaSignOutAlt,
 } from "react-icons/fa";
+import config from "../config";
 
 const AddProduct = () => {
   const [name, setName] = useState("");
@@ -16,7 +17,6 @@ const AddProduct = () => {
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const API_URL = process.env.REACT_APP_API_URL;
 
   const path = location.pathname; // default active
 
@@ -31,7 +31,7 @@ const AddProduct = () => {
     formData.append("image", imageFile);
 
     try {
-      const res = await fetch(`${API_URL}/api/admin/add-product`, {
+      const res = await fetch(`${config.API_BASE_URL}/api/admin/add-product`, {
         method: "POST",
         body: formData,
       });

@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import "../styles/AdminAuth.css";
 import { useNavigate } from "react-router-dom";
+import config from "../config";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   let navigate = useNavigate();
-  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await fetch(`https://consultancy-2-eavm.onrender.com/admin/login`, {
+      const res = await fetch(`${config.API_BASE_URL}/admin/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -9,8 +9,12 @@ import config from "../config";
 
 function Profile() {
   const navigate = useNavigate();
+
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+
+  // ✅ Hamburger menu state
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [cartItems, setCartItems] = useState(() => {
     const storedCart = localStorage.getItem("cart");
@@ -22,6 +26,11 @@ function Profile() {
   useEffect(() => {
     setCartCount(cartItems.length);
   }, [cartItems]);
+
+  // ✅ Toggle menu
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
 
   const handleUserClick = () => {
     const token = localStorage.getItem("token");
@@ -36,11 +45,20 @@ function Profile() {
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(`${config.API_BASE_URL}/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      const response = await axios.get(
+        `${config.API_BASE_URL}/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       setUser(response.data);
     } catch (err) {
       console.error("Error fetching user profile:", err);
@@ -63,38 +81,31 @@ function Profile() {
         <div className="header-content">
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
+
+          {/* Hamburger */}
           <div className="hamburger" onClick={toggleMenu}>
             <span></span>
             <span></span>
             <span></span>
           </div>
+
           {/* Navbar */}
           <nav className={`navbar ${isMenuOpen ? "open" : ""}`}>
-            <a href="/home" className="nav-link">
-              Home
-            </a>
-            <a href="/Living-Room" className="nav-link">
-              Living Room
-            </a>
-            <a href="/Bedroom" className="nav-link">
-              Bedroom
-            </a>
-            <a href="/Cabinetry" className="nav-link">
-              Cabinetry
-            </a>
-            <a href="/Dining-and-Kitchen" className="nav-link">
-              Dining & Kitchen
-            </a>
-            <a href="/Seating" className="nav-link">
-              Seating
-            </a>
-            <a href="/Home-Essentials" className="nav-link">
-              Home Essentials
-            </a>
+            <a href="/home" className="nav-link">Home</a>
+            <a href="/Living-Room" className="nav-link">Living Room</a>
+            <a href="/Bedroom" className="nav-link">Bedroom</a>
+            <a href="/Cabinetry" className="nav-link">Cabinetry</a>
+            <a href="/Dining-and-Kitchen" className="nav-link">Dining & Kitchen</a>
+            <a href="/Seating" className="nav-link">Seating</a>
+            <a href="/Home-Essentials" className="nav-link">Home Essentials</a>
+
             <div className="icons-container">
               <User className="icon active" onClick={handleUserClick} />
               <div className="cart-icon-container">
-                <FaShoppingCart className="cart-icon" onClick={handlenavigate} />
+                <FaShoppingCart
+                  className="cart-icon"
+                  onClick={handlenavigate}
+                />
                 <span className="cart-badge">{cartCount}</span>
               </div>
             </div>
@@ -107,19 +118,14 @@ function Profile() {
           <div className="profile-wrapper">
             <div className="profile-card">
               <h2 className="profile-title">User Profile</h2>
+
               {error && <div className="error-message">{error}</div>}
 
               {user ? (
                 <div className="profile-details">
-                  <p>
-                    <strong>Name:</strong> {user.user?.name}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {user.user?.email}
-                  </p>
-                  <p>
-                    <strong>Order Placed:</strong> {user?.orders?.length || 0}
-                  </p>
+                  <p><strong>Name:</strong> {user.user?.name}</p>
+                  <p><strong>Email:</strong> {user.user?.email}</p>
+                  <p><strong>Order Placed:</strong> {user?.orders?.length || 0}</p>
                 </div>
               ) : (
                 <p>Loading profile...</p>
@@ -134,16 +140,12 @@ function Profile() {
                 <ul>
                   {user.orders.map((order, index) => (
                     <li key={index} className="order-item">
-                      <p>
-                        <strong>Order #{index + 1}</strong>
-                      </p>
+                      <p><strong>Order #{index + 1}</strong></p>
                       <p>
                         <strong>Items:</strong>{" "}
                         {order.items?.map((item) => item.name).join(", ")}
                       </p>
-                      <p>
-                        <strong>Total:</strong> ₹{order.totalAmount}
-                      </p>
+                      <p><strong>Total:</strong> ₹{order.totalAmount}</p>
                       <p>
                         <strong>Placed on:</strong>{" "}
                         {new Date(order.createdAt).toLocaleDateString()}

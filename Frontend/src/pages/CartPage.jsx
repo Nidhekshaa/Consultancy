@@ -9,18 +9,28 @@ import config from "../config";
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+
+  // ✅ Hamburger menu state
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    console.log(storedCart);
+
     const withQuantities = storedCart.map((item) => ({
       ...item,
       quantity: item.quantity || 1,
     }));
+
     setCartItems(withQuantities);
     setCartCount(withQuantities.reduce((sum, item) => sum + item.quantity, 0));
   }, []);
+
+  // ✅ Toggle menu
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
 
   const handleUserClick = () => {
     const token = localStorage.getItem("token");
@@ -39,28 +49,25 @@ const CartPage = () => {
     setCartCount(updated.reduce((sum, item) => sum + item.quantity, 0));
   };
 
-  const handleQuantityChange = (_id, delta) => {
+  const handleQuantityChange = (id, delta) => {
     const updated = cartItems.map((item) => {
-      if (item.id === _id) {
+      if (item.id === id) {
         const newQty = item.quantity + delta;
         return { ...item, quantity: newQty > 0 ? newQty : 1 };
       }
       return item;
     });
+
     setCartItems(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
     setCartCount(updated.reduce((sum, item) => sum + item.quantity, 0));
   };
 
-  const getTotal = (item) => {
-    const price = item.price;
-    return price * item.quantity;
-  };  
+  const getTotal = (item) => item.price * item.quantity;
 
-  const getGrandTotal = () => {
-    return cartItems.reduce((acc, item) => acc + getTotal(item), 0);
-  };
-  
+  const getGrandTotal = () =>
+    cartItems.reduce((acc, item) => acc + getTotal(item), 0);
+
   const handleNavigate = async () => {
     try {
       const res = await fetch(`${config.API_BASE_URL}/cart`, {
@@ -80,9 +87,11 @@ const CartPage = () => {
       console.error("Error saving cart:", error);
     }
   };
+
   const fixImageUrl = (url) => {
+    if (!url) return "";
     return url.replace(/\\/g, "/").replace("5000uploads", "5000/uploads");
-  };  
+  };
 
   return (
     <div className="cart-page">
@@ -90,11 +99,14 @@ const CartPage = () => {
         <div className="header-content">
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
+
+          {/* Hamburger */}
           <div className="hamburger" onClick={toggleMenu}>
             <span></span>
             <span></span>
             <span></span>
           </div>
+
           {/* Navbar */}
           <nav className={`navbar ${isMenuOpen ? "open" : ""}`}>
             <a href="/home" className="nav-link">Home</a>
@@ -104,10 +116,11 @@ const CartPage = () => {
             <a href="/Dining-and-Kitchen" className="nav-link">Dining & Kitchen</a>
             <a href="/Seating" className="nav-link">Seating</a>
             <a href="/Home-Essentials" className="nav-link">Home Essentials</a>
+
             <div className="icons-container">
               <User className="icon" onClick={handleUserClick} />
               <div className="cart-icon-container active">
-              <FaShoppingCart
+                <FaShoppingCart
                   className="cart-icon"
                   onClick={handlenavigate}
                 />
@@ -117,9 +130,12 @@ const CartPage = () => {
           </nav>
         </div>
       </header>
+
       <div className="cart-container">
         <h2>Your Cart</h2>
-        <Link to="/home" className="continue-link">← Continue shopping</Link>
+        <Link to="/home" className="continue-link">
+          ← Continue shopping
+        </Link>
 
         <div className="cart-header">
           <span>PRODUCT</span>
@@ -133,7 +149,7 @@ const CartPage = () => {
           cartItems.map((item) => (
             <div className="cart-item" key={item.id}>
               <div className="product-info">
-              <img src={fixImageUrl(item.image)} alt={item.title} />
+                <img src={fixImageUrl(item.image)} alt={item.title} />
                 <div>
                   <h4>{item.title}</h4>
                   <p>Rs. {item.price}</p>
@@ -144,7 +160,10 @@ const CartPage = () => {
                 <button onClick={() => handleQuantityChange(item.id, -1)}>-</button>
                 <span>{item.quantity}</span>
                 <button onClick={() => handleQuantityChange(item.id, 1)}>+</button>
-                <Trash2 className="delete-icon" onClick={() => handleRemove(item.id)} />
+                <Trash2
+                  className="delete-icon"
+                  onClick={() => handleRemove(item.id)}
+                />
               </div>
 
               <div className="total-price">
@@ -156,7 +175,9 @@ const CartPage = () => {
 
         {cartItems.length > 0 && (
           <div className="cart-summary">
-            <h3>Grand Total: Rs. {getGrandTotal().toLocaleString("en-IN")}.00</h3>
+            <h3>
+              Grand Total: Rs. {getGrandTotal().toLocaleString("en-IN")}.00
+            </h3>
             <button className="checkout-btn" onClick={handleNavigate}>
               Checkout
             </button>

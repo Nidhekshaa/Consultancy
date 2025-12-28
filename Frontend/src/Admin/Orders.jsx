@@ -7,6 +7,7 @@ import {
   FaClipboardList,
   FaSignOutAlt,
 } from "react-icons/fa";
+import config from "../config";
 
 const Orders = () => {
   const navigate = useNavigate();
@@ -23,10 +24,8 @@ const Orders = () => {
     navigate("/");
   };
 
-  const API_URL = process.env.REACT_APP_API_URL;
-
   useEffect(() => {
-    fetch(`${API_URL}/orders`)
+    fetch(`${config.API_BASE_URL}/orders`)
       .then((res) => res.json())
       .then((data) => setOrders(data))
       .catch((err) => console.error("Failed to load orders:", err));
@@ -43,7 +42,7 @@ const Orders = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       const res = await fetch(
-        `${API_URL}/api/status/update-status`,
+        `${config.API_BASE_URL}/api/status/update-status`,
         {
           method: "POST",
           headers: {

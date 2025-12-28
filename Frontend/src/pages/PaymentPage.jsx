@@ -74,7 +74,7 @@ const PaymentPage = () => {
 
   useEffect(() => {
     // Fetch shipping info from backend
-    fetch(`${API_URL}/shipping/latest`)
+    fetch(`${config.API_BASE_URL}/shipping/latest`)
       .then((res) => res.json())
       .then((data) => {
         setShippingInfo(data || {});
@@ -82,7 +82,7 @@ const PaymentPage = () => {
       .catch((err) => console.error("Failed to load shipping info:", err));
 
     // Fetch cart subtotal
-    fetch(`${API_URL}/cart/latest`)
+    fetch(`${config.API_BASE_URL}/cart/latest`)
       .then((res) => res.json())
       .then((data) => {
         setCartItems(data.items || []);

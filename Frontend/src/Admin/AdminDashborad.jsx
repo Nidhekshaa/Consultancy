@@ -18,6 +18,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import config from "../config";
 
 ChartJS.register(
   CategoryScale,
@@ -53,15 +54,14 @@ const AdminDashboard = () => {
 
   const [orders, setOrders] = useState([]);
   const [categoryStats, setCategoryStats] = useState({});
-  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch(`${API_URL}/orders`)
+    fetch(`${config.API_BASE_URL}/orders`)
       .then((res) => res.json())
       .then((data) => setOrders(data))
       .catch((err) => console.error("Failed to fetch orders:", err));
 
-    fetch(`${API_URL}/category-stats`)
+    fetch(`${config.API_BASE_URL}/category-stats`)
       .then((res) => res.json())
       .then((data) => setCategoryStats(data))
       .catch((err) => console.error("Failed to fetch category stats:", err));

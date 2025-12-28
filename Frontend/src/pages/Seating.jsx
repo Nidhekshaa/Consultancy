@@ -10,7 +10,6 @@ function Seating() {
   const navigate = useNavigate();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState(() => {
     const storedCart = localStorage.getItem("cart");
@@ -19,6 +18,7 @@ function Seating() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [cartCount, setCartCount] = useState(cartItems.length);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Hamburger menu state
 
   useEffect(() => {
     let result = products.filter((product) =>
@@ -35,7 +35,7 @@ function Seating() {
 
     setFilteredProducts(result);
   }, [searchQuery, minPrice, maxPrice, products]);
-  
+
   const handleUserClick = () => {
     const token = localStorage.getItem("token");
     navigate(token ? "/profile" : "/register");
@@ -46,25 +46,18 @@ function Seating() {
     navigate(token ? "/cart" : "/login");
   };
 
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen); // Toggle hamburger
+
   useEffect(() => {
     // Fetch products initially
     fetch(`${config.API_BASE_URL}/products?category=Seating`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Fetched products:", data);
         setProducts(data);
-        setFilteredProducts(data); // initialize filteredProducts also
+        setFilteredProducts(data);
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
-
-  useEffect(() => {
-    // Update filtered products when searchQuery changes
-    const result = products.filter((product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredProducts(result);
-  }, [searchQuery, products]);
 
   const handleAddToCart = (product) => {
     const productForCart = {
@@ -88,6 +81,7 @@ function Seating() {
         <div className="header-content">
           <h2>Timber Mart</h2>
           <p>Making Your Home Into What You Want.</p>
+          {/* Hamburger Icon */}
           <div className="hamburger" onClick={toggleMenu}>
             <span></span>
             <span></span>
@@ -165,7 +159,10 @@ function Seating() {
           filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <img
-                src={`${config.API_BASE_URL}/${product.image.replace(/\\/g, "/")}`}
+                src={`${config.API_BASE_URL}/${product.image.replace(
+                  /\\/g,
+                  "/"
+                )}`}
                 alt={product.name}
               />
               <h3>{product.name}</h3>
