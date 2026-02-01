@@ -117,32 +117,72 @@ app.post('/auth/login', async (req, res) => {
   }
 });
 
-app.post('/auth/reset-password', async (req, res) => {
+app.post("/auth/reset-password", async (req, res) => {
   const { token, newPassword } = req.body;
 
-  try {
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() },
-    });
+  const user = await User.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: Date.now() },
+  });
 
-    if (!user) return res.status(400).json({ error: 'Token invalid or expired' });
+  if (!user) return res.status(400).json({ message: "Token invalid or expired" });
 
-    // Hash and save new password
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(newPassword, salt);
+  user.password = newPassword;
 
-    // Clear the reset token
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
-    await user.save();
+  user.resetPasswordToken = null;
+  user.resetPasswordExpires = null;
 
-    res.status(200).json({ message: 'Password updated successfully' });
-  } catch (error) {
-    console.error('Reset error:', error);
-    res.status(500).json({ error: 'Something went wrong' });
-  }
+  await user.save();
+
+  res.json({ message: "Password updated successfully" });
 });
+
+const crypto = require("crypto");
+app.post("/auth/send-otp", async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  const otp = crypto.randomInt(100000, 999999).toString();
+
+  user.otp = await bcrypt.hash(otp, 10);
+  user.otpExpiry = Date.now() + 60 * 1000; // 60 seconds
+
+  await user.save();
+
+  await transporter.sendMail({
+    to: email,
+    subject: "Password Reset OTP",
+    text: `Your OTP is ${otp}. Valid for 60 seconds.`,
+  });
+
+  res.json({ message: "OTP sent" });
+});
+
+app.post("/auth/verify-otp", async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user || !user.otpExpiry || user.otpExpiry < Date.now())
+    return res.status(400).json({ message: "OTP expired" });
+
+  const valid = await bcrypt.compare(otp, user.otp);
+  if (!valid) return res.status(400).json({ message: "Invalid OTP" });
+
+  const token = crypto.randomBytes(32).toString("hex");
+
+  user.resetPasswordToken = token;
+  user.resetPasswordExpires = Date.now() + 10 * 60 * 1000;
+
+  user.otp = null;
+  user.otpExpiry = null;
+
+  await user.save();
+
+  res.json({ token });
+});
+
 
 // 🟢 Middleware
 function authenticateToken(req, res, next) {

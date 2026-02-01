@@ -1,104 +1,111 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/ResetPassword.css";
 import config from "../config";
 
 export default function ResetPassword() {
+  const navigate = useNavigate();
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // Extract token from URL query string
-  const searchParams = new URLSearchParams(window.location.search);
-  const token = searchParams.get("token");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Debug: Show full URL and token
-  console.log("Full URL:", window.location.href);
-  console.log("Token:", token);
+  // get token only once
+  const token = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("token");
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if token is present
+    setError("");
+
     if (!token) {
-      alert("❌ Missing or invalid token in URL.");
+      setError("Invalid or expired reset link.");
       return;
     }
 
-    if (!password) {
-      alert("❌ Password cannot be empty.");
+    if (password.trim().length < 6) {
+      setError("Password must be at least 6 characters.");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("❌ Passwords do not match.");
+      setError("Passwords do not match.");
       return;
     }
 
     try {
-      const response = await fetch(`${config.API_BASE_URL}/auth/reset-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token, newPassword: password }),
-      });
+      setLoading(true);
+
+      const response = await fetch(
+        `${config.API_BASE_URL}/auth/reset-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token,
+            newPassword: password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
+        throw new Error(data.message || "Reset failed");
       }
 
-      alert("✅ Password reset successfully");
-      window.location.href = "/login";
-    } catch (error) {
-      console.error("❌ Password reset error:", error.message);
-      alert(`❌ Error: ${error.message}`);
+      alert("✅ Password reset successful");
+
+      // navigate instead of reload
+      navigate("/login");
+    } catch (err) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="reset-container">
-      <section className="reset-section">
-        <div className="reset-wrapper">
-          <div className="reset-card">
-            <h2 className="reset-title">Change Password</h2>
-            <form className="reset-form" onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="password" className="reset-label">
-                  New Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  className="reset-input"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="confirm-password" className="reset-label">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  name="confirm-password"
-                  id="confirm-password"
-                  placeholder="••••••••"
-                  className="reset-input"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit" className="reset-button">
-                Reset Password
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+      <div className="reset-card">
+        <h2 className="reset-title">Reset Password</h2>
+
+        {error && <p className="error-message">{error}</p>}
+
+        <form onSubmit={handleSubmit} className="reset-form">
+          <input
+            type="password"
+            placeholder="New password"
+            className="reset-input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Confirm password"
+            className="reset-input"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+
+          <button
+            type="submit"
+            className="reset-button"
+            disabled={loading}
+          >
+            {loading ? "Updating..." : "Reset Password"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
