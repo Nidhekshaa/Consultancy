@@ -20,7 +20,7 @@ const OrderRoutes = require("./router/order");
 // App & Middleware
 const app = express();
 app.use(cors({
-  origin: "https://consultancy-2-avko.onrender.com"
+  origin: "*"
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
