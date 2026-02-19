@@ -3,7 +3,7 @@ const config = {
   API_BASE_URL:
     process.env.NODE_ENV === "development"
       ? "http://localhost:5000"
-      : "https://consultancy-2-eavm.onrender.com"
+      : "https://consultancy-2-avko.onrender.com"
 };
 
 export default config;
